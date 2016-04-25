@@ -21,7 +21,7 @@ map = L.mapbox.map('map', '',{
 	maxZoom: 13,
 	minZoom: 9
 
-}).setView([45.5231, -122.6765], 11);
+}).setView([45.5231, -122.6765], 10);
 
 
 var basemap = L.mapbox.tileLayer("econw.0iw1bc23");	
