@@ -29,20 +29,20 @@ basemap.addTo(map);
 basemap.bringToFront();
 
 var group1990 = L.layerGroup();
-	var layer1990 = L.mapbox.tileLayer('econw.52npqkgv').addTo(group1990);
-	var grid1990 = L.mapbox.gridLayer('econw.52npqkgv').addTo(group1990);
+	var layer1990 = L.mapbox.tileLayer('econw.2uqxcquy').addTo(group1990);
+	var grid1990 = L.mapbox.gridLayer('econw.2uqxcquy').addTo(group1990);
 
 var group2000 = L.layerGroup();
-	var layer2000 = L.mapbox.tileLayer('econw.8o4p8g7s').addTo(group2000);
-	var grid2000 = L.mapbox.gridLayer('econw.8o4p8g7s').addTo(group2000);
+	var layer2000 = L.mapbox.tileLayer('econw.dpydjpbt').addTo(group2000);
+	var grid2000 = L.mapbox.gridLayer('econw.dpydjpbt').addTo(group2000);
 
 var group2009 = L.layerGroup();
-	var layer2009 = L.mapbox.tileLayer('econw.7m9tay6n').addTo(group2009);
-	var grid2009 = L.mapbox.gridLayer('econw.7m9tay6n').addTo(group2009);
+	var layer2009 = L.mapbox.tileLayer('econw.9b8k6hox').addTo(group2009);
+	var grid2009 = L.mapbox.gridLayer('econw.9b8k6hox').addTo(group2009);
 
 var group2010 = L.layerGroup();
-	var layer2010 = L.mapbox.tileLayer('econw.09d826j1').addTo(group2010);
-	var grid2010 = L.mapbox.gridLayer('econw.09d826j1').addTo(group2010);
+	var layer2010 = L.mapbox.tileLayer('econw.bmobrpl4').addTo(group2010);
+	var grid2010 = L.mapbox.gridLayer('econw.bmobrpl4').addTo(group2010);
 
 var group2011 = L.layerGroup();
 	var layer2011 = L.mapbox.tileLayer('econw.9l95weq7').addTo(group2011);
@@ -147,11 +147,13 @@ skipValues = [
 
 
 skipSlider.noUiSlider.on('update', function( values, handle ) {
-	skipValues[handle].innerHTML = values[handle];
+	
 	timestamp=Number(values[handle]);
 
 	layer='group'+timestamp;
-
+	
+	skipValues[handle].innerHTML = values[handle];
+	
 	activeLayers.clearLayers();
 	eval(layer).addTo(activeLayers);
 
@@ -161,7 +163,7 @@ skipSlider.noUiSlider.on('update', function( values, handle ) {
 
 playButton.addEventListener('click', function(){
 	$('#vcr-play').addClass('active');
-	play = setInterval(next, 1000);
+	play = setInterval(next, 5000);
 
 });
 
@@ -188,10 +190,10 @@ function next() {
 	updateTimestamp = timestamp + 10;
 	
 	activeLayers.clearLayers();	
-	skipSlider.noUiSlider.set(updateTimestamp);
 	
 	eval(layer).addTo(activeLayers);
-
+	skipSlider.noUiSlider.set(updateTimestamp);
+	
 	console.log(timestamp);
 	console.log(updateTimestamp);
 	
@@ -200,9 +202,9 @@ function next() {
  	updateTimestamp = timestamp + 9;
 	
 	activeLayers.clearLayers();	
-	skipSlider.noUiSlider.set(updateTimestamp);
 	
 	eval(layer).addTo(activeLayers);
+	skipSlider.noUiSlider.set(updateTimestamp);
 
 	console.log(timestamp);
 	console.log(updateTimestamp);
@@ -212,9 +214,9 @@ function next() {
 	
 	
 	activeLayers.clearLayers();	
-	skipSlider.noUiSlider.set(updateTimestamp);
 	
 	eval(layer).addTo(activeLayers);
+	skipSlider.noUiSlider.set(updateTimestamp);
 	
 	console.log(timestamp);
 	console.log(updateTimestamp);
