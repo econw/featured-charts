@@ -59,11 +59,11 @@
                 <li>
                     <a href="vulnerability.html">Vulnerability Index</a>
                 </li>
-                <li >
-                    <a id='current-map' href="ownership.html">Ownership</a>
+                <li>
+                    <a href="ownership.html">Ownership</a>
                 </li>
                 <li>
-                    <a href="affordability.html">Affordability</a>
+                    <a id='current-map' href="affordability.html">Affordability</a>
                 </li>
 
             </ul>
@@ -126,6 +126,7 @@
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
+    
     //load global variables
     var map,
 	activeLayers,
@@ -152,8 +153,9 @@
 
 	}).setView([45.5231, -122.6765], 10);
 
+	
     //initial map to load
-	loadOwnership();
+	loadAffordability();
 
 
 

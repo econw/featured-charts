@@ -14,18 +14,21 @@ body {
 #slider {
 	width: 400px;
 	float: right;
-	margin-right: 150px;
-	margin-top: 20px;
+	margin-right: 15px;
+	margin-top: 10px;
 }
 
 #year-label {
-	top: 45px;
-	margin-right: 155px;
+	top: 30px;
+	margin-right: 20px;
 	font-size: 30px;
 	color: #828282;
 }
 
-
+#current-map{
+	color: #fff;	
+	
+}
 /*
 	VCR CONTROLS
 */
