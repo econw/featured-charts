@@ -18,14 +18,24 @@ body {
 	margin-top: 10px;
 }
 
+#legend {
+
+	float: left;
+	width: 200px;
+	height: 166px;
+}
+
 #year-label {
+
 	top: 30px;
 	margin-right: 20px;
 	font-size: 30px;
 	color: #828282;
+
 }
 
 #current-map{
+
 	color: #fff;	
 	
 }

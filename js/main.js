@@ -237,7 +237,7 @@ map.addControl(new uiControl('#vcr-controls', { position: 'topright' }));
 map.addControl(new uiControl('#slider', { position: 'topright' }));
 map.addControl(new uiControl('#year-label', { position: 'topright' }));
 map.addControl(new uiControl('#menu-toggle', { position: 'topleft' }));
-
+map.addControl(new uiControl('#legend', { position: 'bottomleft' }));
 
 }
 
@@ -741,6 +741,7 @@ map.addControl(new uiControl('#vcr-controls', { position: 'topright' }));
 map.addControl(new uiControl('#slider', { position: 'topright' }));
 map.addControl(new uiControl('#year-label', { position: 'topright' }));
 map.addControl(new uiControl('#menu-toggle', { position: 'topleft' }));
+
 
 
 }
