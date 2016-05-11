@@ -18,7 +18,7 @@ body {
 	bottom:0;
 	margin-left: auto;
 	width:100%;
-	height:820px;
+	height:700px;
 }
 
 .leaflet-top-pane {
@@ -29,7 +29,8 @@ body {
 	z-index: 10;
 }
 .leaflet-popup-content{
-	font-size: 15px;
+	font-size: 14px;
+	white-space: nowrap;
 }
 #slider {
 	width: 200%;
@@ -38,27 +39,32 @@ body {
 	margin-top: 10px;
 }
 
-#vIndexLegend {
+#take-action{
+	margin-left: 10px;
+	margin-top: 10px;
+}
 
-	float: left;
-	width: 200px;
-	height: 166px;
+
+#vIndexLegend {
+	margin-left: 5px;
+	width: 280px;
+	height: auto;
 
 }
 
 #affordLegend {
 
-	float: left;
-	width: 200px;
-	height: 133px;
+	margin-left: 5px;
+	width: 280px;
+	height: auto;
 
 }
 
 #ownLegend {
+	margin-left: 5px;
 
-	float: left;
-	width: 200px;
-	height: 208px;
+	width: 280px;
+	height: auto;
 
 }
 
@@ -78,19 +84,21 @@ body {
 }
 
 #logo img{
-
-	position: absolute;
-	bottom: 10px;	
+	margin-top: 20px;
 }
 
 #phc-logo{
+	position: absolute;
 	margin-left: 5px;
-
+	width: auto;
+	height: 60px;
 }
 
 #eco-logo{
-	margin-left: 120px;
-
+	position: absolute;
+	margin-left: 80px;
+	width: auto;
+	height: 60px;
 }
 
 #menu-toggle {
@@ -143,7 +151,7 @@ font-family: "Avenir", "Arial";
     height: 100%;
     margin-left: -325px;
     overflow-y: auto;
-    background: #a1a5af;
+    background: rgba(208,210,215,0.5);
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;

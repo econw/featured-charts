@@ -9,7 +9,7 @@ function loadOwnership() {
 		var ownershipVar = layer.feature.properties[ownField + timestamp];
 		var percentage = ownershipVar*100
 	
-		var popupHTML = "Owner-occupied homes: "+percentage.toFixed(2)+"%"+timestamp;
+		var popupHTML = "Owner-occupied homes: "+percentage.toFixed(2)+"%";
 
 		layer.bindPopup(popupHTML);
 				
@@ -227,16 +227,27 @@ function loadAffordability() {
 	affordLayer.addTo(activeLayers);
 
 	function onEachFeature(layer) {
-		var intrstField = 'intrst_20';
-		var hudmfiField= 'hudmfi';
+		var intrstField = 'intrst_2020';
+		var hudmfiField = 'hudmfi';
+		var salesField = 'SP';
+		var incomeField = 'affd';
 		var interest = layer.feature.properties[intrstField + timestamp];
 		var intPercentage = interest*100;
 		var hudMFI = layer.feature.properties[hudmfiField + timestamp];
+		var hudMFIFormat = parseInt(hudMFI);
+		var sales = layer.feature.properties[salesField + timestamp];
+		var income = layer.feature.properties[incomeField + timestamp];
+		var incomePercentage = income*100;
 		
-		var popupHTML = "Interest rate: "+intPercentage.toFixed(2)+"%<br>HUD MFI: $"+hudMFI.toLocaleString();
+		if (timestamp==2020){
+		var popupHTML = "Interest rate: 6.59%<br>HUD Median Family Income: $"+hudMFIFormat.toLocaleString();
 
 		layer.bindPopup(popupHTML);
-				
+		} else {
+		var popupHTML = "Percent of Income spent on Housing: "+incomePercentage.toFixed(2)+"%<br>Median Sales price: $"+sales.toLocaleString()+ "<br>Interest rate: "+intPercentage.toFixed(2)+"%<br>HUD Median Family Income: $"+hudMFIFormat.toLocaleString();
+
+		layer.bindPopup(popupHTML);		
+		}
 	}
 	
 	function setStyle(){
@@ -306,28 +317,28 @@ function loadAffordability() {
 
 			}
 			
-			if (timestamp == 2020 && attr[affdField + timestamp] > 0.5){
+			if (timestamp == 2020 && attr[affdField + timestamp] > 0.5 && attr.include_fo==1){
 					layer.setStyle({
 					fillColor:"rgba(215,48,39,0.75)"
 				});
 		
-			}else if(timestamp == 2020 && attr[affdField + timestamp] > 0.4){
+			}else if(timestamp == 2020 && attr[affdField + timestamp] > 0.4&& attr.include_fo==1){
 				layer.setStyle({
 					fillColor:"rgba(252,141,89,0.75)"
 				}); 
-			}else if(timestamp == 2020 && attr[affdField + timestamp] > 0.3){
+			}else if(timestamp == 2020 && attr[affdField + timestamp] > 0.3&& attr.include_fo==1){
 				layer.setStyle({
 					fillColor:"rgba(254,224,149,0.75)"
 				}); 
-			}else if(timestamp == 2020 && attr[affdField + timestamp] > 0.25){
+			}else if(timestamp == 2020 && attr[affdField + timestamp] > 0.25&& attr.include_fo==1){
 				layer.setStyle({
 					fillColor:"rgba(217,239,149,0.75)"
 				});	
-			}else if(timestamp == 2020 && attr[affdField + timestamp] >= 0.2){
+			}else if(timestamp == 2020 && attr[affdField + timestamp] >= 0.2&& attr.include_fo==1){
 				layer.setStyle({
 					fillColor:"rgba(145,207,96,0.75)"
 				});
-			}else if(timestamp == 2020 && attr[affdField + timestamp] < 0.2){
+			}else if(timestamp == 2020 && attr[affdField + timestamp] < 0.2&& attr.include_fo==1){
 				layer.setStyle({
 					fillColor:"rgba(26,152,80,0.75)"
 				});
@@ -432,7 +443,7 @@ function loadAffordability() {
 			clearInterval(play);
 		}
 	}
-}
+	}
 
 function loadVulnerability(){
 	activeLayers.clearLayers();
@@ -444,7 +455,7 @@ function loadVulnerability(){
 		var vIndexField= 'SC_TOT_';
 		var vIndexVar = layer.feature.properties[vIndexField + timestamp];
 		
-	
+		
 		var popupHTML = "Displacement Vulnerability Score: "+vIndexVar;
 
 		layer.bindPopup(popupHTML);

@@ -62,11 +62,9 @@
     			<span class="caret"></span>
   				</button>
   				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-					<li><a id='vIndex-button' href="vulnerability.html">Displacement Vulnerability</a></li>
-					<li><a id='ownership-button' href="ownership.html">Tenure</a></li>
 					<li> <a id='afford-button' href="affordability.html">Home Ownership Affordability</a></li>
-					<li role="separator" class="divider"></li>
-					<li><a href="#">TAKE ACTION</a></li>
+					<li><a id='vIndex-button' href="vulnerability.html">Displacement Vulnerability</a></li>
+					<li><a id='ownership-button' href="ownership.html">Tenure</a></li>					
 				</ul>
 			</div>
 
@@ -75,15 +73,20 @@
     		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tincidunt, ipsum et posuere posuere, metus quam blandit sapien, ac condimentum nunc felis feugiat arcu. Pellentesque feugiat dolor diam, eget pulvinar metus luctus a. Nam blandit dolor ligula, vel ultricies lorem pharetra in. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae feugiat nunc. Sed blandit lectus non ex interdum, non elementum nunc sagittis. Morbi dignissim quam ac ligula finibus, ac ornare nisi feugiat. Pellentesque luctus tellus hendrerit elit varius vulputate. Vestibulum blandit est in sapien tristique congue. Suspendisse sit amet tellus vel urna maximus aliquam nec tempus leo. Quisque luctus sed ex nec tempor.
 			</p>
 			
+			<img id="ownLegend" src="images/legend_ownership.png" alt="ownership legend" ></img>
+			<button class="btn btn-default" id="take-action" type="button"  aria-haspopup="true" aria-expanded="true" href="http://portlandhousingcenter.org/" target="_blank" >
+    			TAKE ACTION
+  			</button>
+  			<div id="logo">
+            <a href="http://portlandhousingcenter.org/" target="_blank"><img  id="phc-logo" src="images/PHC_logo.png"  alt="link to portland housing center website" ></img></a>
+        	<a href="http://econw.com/" target="_blank"><img  id="eco-logo" src="images/ECO_logo.png" href="http://econw.com/" alt="link to econorthwest website" ></img></a>
+
+        	</div>
     		</ul>
     		
     		
 
-    		<div id="logo">
-            <a href="http://portlandhousingcenter.org/" target="_blank"><img  id="phc-logo" src="images/PHC_logo.png"  alt="link to portland housing center website" width="100px"></img></a>
-        	<a href="http://econw.com/" target="_blank"><img  id="eco-logo" src="images/ECO_logo.png" href="http://econw.com/" alt="link to econorthwest website" width="180px"></img></a>
-
-        	</div>
+    		
         </div>
         <!-- /#sidebar-wrapper -->
 
@@ -113,7 +116,7 @@
 						<div id="slider"></div>
 						<div id="year-label" class="leaflet-top leaflet-right">1990</div>
                         <a href="#menu-toggle" class="btn btn-default" id="menu-toggle"><span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span></a>
-                    	<img id="ownLegend" src="images/legend_ownership.png" alt="ownership legend" ></img>
+                    	
                     </div>
                 </div>
             </div>
@@ -168,7 +171,7 @@
 		maxZoom: 13,
 		minZoom: 9
 
-	}).setView([45.5231, -122.6765], 10);
+	}).setView([45.508, -122.707], 10);
 
 
 	var uiControl = L.Control.extend({
@@ -186,7 +189,7 @@
 	map.addControl(new uiControl('#slider', { position: 'topright' }));
 	map.addControl(new uiControl('#year-label', { position: 'topright' }));
 	map.addControl(new uiControl('#menu-toggle', { position: 'topleft' }));
-	map.addControl(new uiControl('#ownLegend', { position: 'bottomleft' }));
+
 
 	var topBasemap = map._createPane('leaflet-top-pane', map.getPanes().mapPane);
     var labels = L.mapbox.tileLayer('econw.0iw1bc23').addTo(map);
