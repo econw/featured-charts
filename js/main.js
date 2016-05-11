@@ -77,6 +77,8 @@ function loadOwnership() {
 
 			}
 			
+			/*
+			//gray overlay for projected year
 			if(timestamp==2020 && attr[ownField + timestamp] <= 0.5){
 				layer.setStyle({
 					fillColor:"rgba(239,243,255,0.75)"
@@ -109,6 +111,7 @@ function loadOwnership() {
 			}else{
 
 			}
+			*/
 		});
 	}
 
@@ -324,28 +327,28 @@ function loadAffordability() {
 			
 			if (timestamp == 2020 && attr[affdField + timestamp] > 0.5 && attr.include_fo==1){
 					layer.setStyle({
-					fillColor:"rgba(215,48,39,0.75)"
+					fillColor:"rgba(215,48,39,1)"
 				});
 		
 			}else if(timestamp == 2020 && attr[affdField + timestamp] > 0.4&& attr.include_fo==1){
 				layer.setStyle({
-					fillColor:"rgba(252,141,89,0.75)"
+					fillColor:"rgba(252,141,89,1)"
 				}); 
 			}else if(timestamp == 2020 && attr[affdField + timestamp] > 0.3&& attr.include_fo==1){
 				layer.setStyle({
-					fillColor:"rgba(254,224,149,0.75)"
+					fillColor:"rgba(254,224,149,1)"
 				}); 
 			}else if(timestamp == 2020 && attr[affdField + timestamp] > 0.25&& attr.include_fo==1){
 				layer.setStyle({
-					fillColor:"rgba(217,239,149,0.75)"
+					fillColor:"rgba(217,239,149,1)"
 				});	
 			}else if(timestamp == 2020 && attr[affdField + timestamp] >= 0.2&& attr.include_fo==1){
 				layer.setStyle({
-					fillColor:"rgba(145,207,96,0.75)"
+					fillColor:"rgba(145,207,96,1)"
 				});
 			}else if(timestamp == 2020 && attr[affdField + timestamp] < 0.2&& attr.include_fo==1){
 				layer.setStyle({
-					fillColor:"rgba(26,152,80,0.75)"
+					fillColor:"rgba(26,152,80,1)"
 				});
 			
 			} else {
@@ -526,7 +529,8 @@ function loadVulnerability(){
 			}else{
 
 			}
-			
+			/*
+			//gray overlay for projected year
 			if(timestamp==2020 && attr[vulnField + timestamp] === 0){
 				layer.setStyle({
 					fillColor:"rgba(235,235,235,0.75)"
@@ -554,6 +558,7 @@ function loadVulnerability(){
 			}else{
 
 			}
+			*/
 		});
 	}
 
