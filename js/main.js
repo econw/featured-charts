@@ -9,11 +9,13 @@ function loadOwnership() {
 		var ownershipVar = layer.feature.properties[ownField + timestamp];
 		var percentage = ownershipVar*100
 		
-		if (timestamp<2020){
-		var popupHTML = "Owner-occupied homes: "+percentage.toFixed(2)+"%";
+		if (timestamp==2020){
+			return
+		}else if (timestamp <2020){
+			var popupHTML = "Owner-occupied homes: "+percentage.toFixed(2)+"%";
 
-		layer.bindPopup(popupHTML);
-		}else{
+			layer.bindPopup(popupHTML);
+		} else {
 		}
 				
 	}
