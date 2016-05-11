@@ -38,7 +38,7 @@ function loadOwnership() {
 					layer.setStyle({"fillOpacity":"1"}); 					
 				}
 			});
-		
+					
 			if(attr[ownField + timestamp] <= 0.5){
 				layer.setStyle({
 					fillColor:"rgb(239,243,255)"
@@ -66,6 +66,39 @@ function loadOwnership() {
 			}else if(attr[ownField + timestamp] > 0.5){
 				layer.setStyle({
 					fillColor:"rgb(239,243,255)"
+				}); 
+				  
+			}else{
+
+			}
+			
+			if(timestamp==2020 && attr[ownField + timestamp] <= 0.5){
+				layer.setStyle({
+					fillColor:"rgba(239,243,255,0.75)"
+				});
+			}else if(timestamp==2020 &&attr[ownField + timestamp] > 0.9){
+				layer.setStyle({
+					fillColor:"rgba(8,81,156,0.75)"
+				});
+			
+			}else if(timestamp==2020 &&attr[ownField + timestamp] > 0.8){
+				layer.setStyle({
+					fillColor:"rgba(49,130,189,0.75)"
+				});
+			
+			}else if(timestamp==2020 &&attr[ownField + timestamp] > 0.7){
+				layer.setStyle({
+					fillColor:"rgba(107,174,214,0.75)"
+				});
+			
+			}else if(timestamp==2020 &&attr[ownField + timestamp] > 0.6){
+				layer.setStyle({
+					fillColor:"rgba(158,202,225,0.75)"
+				}); 
+				
+			}else if(timestamp==2020 &&attr[ownField + timestamp] > 0.5){
+				layer.setStyle({
+					fillColor:"rgba(239,243,255,0.75)"
 				}); 
 				  
 			}else{
@@ -118,12 +151,18 @@ function loadOwnership() {
 	
 		skipValues[handle].innerHTML = values[handle];
 		setStyle();
+		
+		if (timestamp==2020){
+			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
+		} else {
+		
+		}
 	});
 
 
 	playButton.addEventListener('click', function(){
 		$('#vcr-play').addClass('active');
-		play = setInterval(next, 5000);
+		play = setInterval(next, 1000);
 
 	});
 
@@ -173,7 +212,7 @@ function loadOwnership() {
 	
 		setStyle();
 		skipSlider.noUiSlider.set(updateTimestamp);
-
+		document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
 		
 		} else {
 		clearInterval(play);
@@ -261,9 +300,39 @@ function loadAffordability() {
 				layer.setStyle({
 					fillColor:"rgb(26,152,80)"
 				});
+			
 				  
 			}else{
 
+			}
+			
+			if (timestamp == 2020 && attr[affdField + timestamp] > 0.5){
+					layer.setStyle({
+					fillColor:"rgba(215,48,39,0.75)"
+				});
+		
+			}else if(timestamp == 2020 && attr[affdField + timestamp] > 0.4){
+				layer.setStyle({
+					fillColor:"rgba(252,141,89,0.75)"
+				}); 
+			}else if(timestamp == 2020 && attr[affdField + timestamp] > 0.3){
+				layer.setStyle({
+					fillColor:"rgba(254,224,149,0.75)"
+				}); 
+			}else if(timestamp == 2020 && attr[affdField + timestamp] > 0.25){
+				layer.setStyle({
+					fillColor:"rgba(217,239,149,0.75)"
+				});	
+			}else if(timestamp == 2020 && attr[affdField + timestamp] >= 0.2){
+				layer.setStyle({
+					fillColor:"rgba(145,207,96,0.75)"
+				});
+			}else if(timestamp == 2020 && attr[affdField + timestamp] < 0.2){
+				layer.setStyle({
+					fillColor:"rgba(26,152,80,0.75)"
+				});
+			
+			} else {
 			}
 		});
 	}
@@ -275,23 +344,24 @@ function loadAffordability() {
 
 	noUiSlider.create(skipSlider, {
 	animate: true,
-	animationDuration: 3000,
+	animationDuration: 1000,
 	range: {
 		'min': 2000,
-		'7%': 2001,
-		'14%': 2002,
-		'21%': 2003,
-		'28%': 2004,
-		'35%': 2005,
-		'42%': 2006,
-		'49%': 2007,
-		'56%': 2008,
-		'63%': 2009,
-		'70%': 2010,
-		'77%': 2011,
-		'84%': 2012,
-		'91%': 2013,
-		'max': 2014
+		'6%': 2001,
+		'12%': 2002,
+		'18%': 2003,
+		'24%': 2004,
+		'30%': 2005,
+		'36%': 2006,
+		'42%': 2007,
+		'48%': 2008,
+		'54%': 2009,
+		'60%': 2010,
+		'66%': 2011,
+		'72%': 2012,
+		'78%': 2013,
+		'84%': 2014,
+		'max': 2020
 	},
 	snap: true,
 	start: [2000],
@@ -311,13 +381,21 @@ function loadAffordability() {
 		timestamp=Number(values[handle]);
 	
 		skipValues[handle].innerHTML = values[handle];
+		
 		setStyle();
+		
+		if (timestamp==2020){
+			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
+		} else {
+		
+		}
+		
 	});
 
 
 	playButton.addEventListener('click', function(){
 		$('#vcr-play').addClass('active');
-		play = setInterval(next, 5000);
+		play = setInterval(next, 1000);
 
 	});
 
@@ -331,28 +409,28 @@ function loadAffordability() {
 		skipSlider.noUiSlider.set(2000);
 		updateTimestamp = 2000;
 
-
 	});
 
-	//initial load (2000)
 
 	setStyle();
-
-
 
 	function next() {
 
 		if (timestamp < 2014){
- 		updateTimestamp = timestamp + 1;
-	
-	
-		setStyle();
-		skipSlider.noUiSlider.set(updateTimestamp);
+ 			updateTimestamp = timestamp + 1;
+			setStyle();
+			skipSlider.noUiSlider.set(updateTimestamp);
 
 	
-	} else {
-		clearInterval(play);
-	}
+		} else if (timestamp == 2014){
+			updateTimestamp = timestamp + 6;
+			setStyle();
+			skipSlider.noUiSlider.set(updateTimestamp);
+			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
+			
+		} else {
+			clearInterval(play);
+		}
 	}
 }
 
@@ -432,6 +510,34 @@ function loadVulnerability(){
 			}else{
 
 			}
+			
+			if(timestamp==2020 && attr[vulnField + timestamp] === 0){
+				layer.setStyle({
+					fillColor:"rgba(235,235,235,0.75)"
+				});
+			}else if(timestamp==2020 && attr[vulnField + timestamp]=== 1){
+				layer.setStyle({
+					fillColor:"rgba(254,229,217,0.75)"
+				});
+			
+			}else if(timestamp==2020 && attr[vulnField + timestamp] === 2){
+				layer.setStyle({
+					fillColor:"rgba(252,174,145,0.75)"
+				});
+			
+			}else if(timestamp==2020 && attr[vulnField + timestamp] === 3){
+				layer.setStyle({
+					fillColor:"rgba(251,106,74,0.75)"
+				});
+			
+			}else if(timestamp==2020 && attr[vulnField + timestamp] === 4){
+				layer.setStyle({
+					fillColor:"rgba(203,24,29,0.75)"
+				}); 
+		  
+			}else{
+
+			}
 		});
 	}
 
@@ -480,15 +586,20 @@ function loadVulnerability(){
 		timestamp=Number(values[handle]);
 	
 		skipValues[handle].innerHTML = values[handle];
-	
+		
 		setStyle();
-
+		
+		if (timestamp==2020){
+			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
+		} else {
+		
+		}
 	});
 
 
 	playButton.addEventListener('click', function(){
 		$('#vcr-play').addClass('active');
-		play = setInterval(next, 5000);
+		play = setInterval(next, 1000);
 
 	});
 
@@ -534,7 +645,7 @@ function loadVulnerability(){
 	
 		setStyle();
 		skipSlider.noUiSlider.set(updateTimestamp);
-
+		document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
 		
 		} else {
 		clearInterval(play);

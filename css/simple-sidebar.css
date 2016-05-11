@@ -68,6 +68,13 @@ body {
 	padding: 3px;
 	font-size: 30px;
 	color: #828282;
+	text-align: right;
+	line-height: 20px;
+	
+}
+
+#year-label p{
+	letter-spacing: 1px;
 }
 
 #logo img{
