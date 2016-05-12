@@ -233,18 +233,14 @@ function loadAffordability() {
 			skipSlider.noUiSlider.set(updateTimestamp);
 	
 		} else if (timestamp >= 2014 && timestamp < 2020){
-			updateTimestamp = timestamp + 1;
-			console.log(timestamp);
-			clearStyle();
-			skipSlider.noUiSlider.set(updateTimestamp);
-			document.getElementById('year-label').innerHTML = " ";
-		
+			timestamp += 1;
+	
 		} else if (timestamp == 2020){
 			updateTimestamp = timestamp + 1;
 			setStyle();
 			skipSlider.noUiSlider.set(updateTimestamp);
 			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
-			console.log(updateTimestamp);
+			
 		} else if (updateTimestamp > 2020){
 			clearInterval(play);
 		}
