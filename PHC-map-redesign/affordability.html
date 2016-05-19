@@ -14,9 +14,9 @@
 	<!-- mapbox library -->
 	<script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
 	<link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
-	
-	<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
-	
+  
+  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+
 	<!-- jquery library 
 	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 -->
@@ -92,7 +92,7 @@
 			<div id="slider"></div>
 			<div id="year-label" class="leaflet-top leaflet-right"></div>
 			<div id="affdButton" class="intrst20"><a class='btn btn-primary btn-sm' role='button'>Interest toggle</a></div>
-
+						
         </div>
         <div id="info-window" class="col-md-4">
          <p></p>
@@ -110,34 +110,14 @@
 		  
           <h2>Map-specific info</h2>
           <p id='legend'>
-  		  </p>
+  			</p>
           <p><strong>This content would change dynamically with the map to show relevant info and assumptions. This text box is scrollable, so there is flexibility in word count.</strong></p>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu dignissim lacus. Maecenas vitae enim ante. In venenatis ante orci, ullamcorper egestas nisl blandit ut. Donec ligula nisl, ultrices eu dictum quis, malesuada id purus.</p>
           <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas finibus lorem metus. Aenean et velit consequat, imperdiet dolor at, lacinia magna. Nam sit amet odio purus.</p>
           <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas finibus lorem metus. Aenean et velit consequat, imperdiet dolor at, lacinia magna. Nam sit amet odio purus.</p>
-
-          <h4> Assumptions: </h4>
-            <ul>
-            <li>
-            <strong>Structure Type &amp; Cost:</strong><br>Single Family Homes and Owned Condominiums and Townhouses. Sales Price from Metro RLIS
-            </li>
-            <li>
-            <strong>Income:</strong><br>4 person household Median Family Income according to HUD for each year
-            </li>
-            <li>
-            <strong>Affordability:</strong><br>Affordable: Housing Costs = 30% or less of gross family incomeDown Payment: 5%Mortgage: 30-year amortizing principal interestInterest Rate: Annual Average from Freddie MacProperty Tax Change Ratio: from the Multnomah County Assessor’s OfficeProperty Tax Rate: $18 per $1,000Insurance: Sales Price/1,000 * 3.5Utilities: $250 per month in 2014, adjusted for inflation
-            </li>
-            <li>
-            <strong>Geography:</strong><br>Portland Urban Growth Boundary (UGB)
-            </li>
-            <li>
-            <strong>Calculation:</strong><br>Percent of MFI spent on Housing=Yearly 
-            </li>
-            </ul>
           
         </div>
       </div>
-      <!--
       <div class="row">
       <h4> Assumptions: </h4>
       </div>
@@ -156,7 +136,6 @@
 	  	CALCULATION:<br>Percent of MFI spent on Housing=Yearly 
 	  	</div>
 	  </div>
-    -->
       <hr>
 
       <footer >
@@ -184,16 +163,16 @@
 
 
 <script type='text/javascript'>
-   	$("#affdButton").click(function() {
-   		if ($('#affdButton').hasClass('intrst20')){
-   			loadAffordability2();
-            $('#affdButton').removeClass('intrst20');
-            $('#affdButton').addClass('intrst5');
-        } else if ($('#affdButton').hasClass('intrst5')){
-        	loadAffordability();
-            $('#affdButton').removeClass('intrst5');
-            $('#affdButton').addClass('intrst20');
-          }
+	$("#affdButton").click(function() {
+		if ($('#affdButton').hasClass('intrst20')){
+			loadAffordability2();
+			$('#affdButton').removeClass('intrst20');
+			$('#affdButton').addClass('intrst5');
+		} else if ($('#affdButton').hasClass('intrst5')){
+			loadAffordability();
+			$('#affdButton').removeClass('intrst5');
+			$('#affdButton').addClass('intrst20');
+		}
       
     });
     

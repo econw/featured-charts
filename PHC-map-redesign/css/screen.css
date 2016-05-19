@@ -33,15 +33,23 @@ body {
 	
 }
 
-.btn-primary{
-	background-color: #57bed5;
-	border-color: #57bed5;
+.leaflet-container a{
+	color: #fff;
 }
 
-.btn-primary:hover{
+.leaflet-container a:hover{
+	color: #fff;
+}
+
+.btn-primary{
 	background-color: #003056;
 	border-color: #003056;
 	
+}
+
+.btn-primary:hover{
+	background-color: #57bed5;
+	border-color: #57bed5;
 }
 
 .navbar{
@@ -76,7 +84,7 @@ body {
 	z-index: 10;
 }
 .leaflet-popup-content{
-	font-size: 14px;
+	font-size: 12px;
 	white-space: nowrap;
 }
 #slider {

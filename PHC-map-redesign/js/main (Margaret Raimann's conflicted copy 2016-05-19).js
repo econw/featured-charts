@@ -11,7 +11,6 @@
 	play,
 	updateTimestamp;
 	
-
 	//load mapbox access
 	L.mapbox.accessToken = 'pk.eyJ1IjoiZWNvbnciLCJhIjoiWUZxcXRMVSJ9.tmmSP9rEmDmhB54B8ARtQQ';
 	var southWest = L.latLng(44.5, -124.5),
@@ -524,7 +523,7 @@ function loadAffordability2() {
 
 function loadVulnerability(){
 	clearInterval();
-	activeLayers.clearLayers();
+	//activeLayers.clearLayers();
 
     document.getElementById('legend').innerHTML = "<img id='vIndexLegend' src='images/legend_vIndex.png' alt='affordability legend'></img>";
 
@@ -544,10 +543,13 @@ function loadVulnerability(){
 				
 	}
 	*/
-	var cTract = omnivore.topojson('../data/ctract2010_tooltips.json');
+
+	function setStyle(){
+		var cTract = omnivore.topojson('../data/ctract2010_tooltips.json');
 	cTract.addTo(activeLayers);
 	cTract.on('ready',function(layer){
-		this.eachLayer(function(feature){
+  		
+      		this.eachLayer(function(feature){
             
               feature.setStyle({
               	fillColor:'gray',
@@ -586,81 +588,8 @@ function loadVulnerability(){
 					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
 				}
 			});
-      	});
-     });
-
-	function updateTooltips(){
-		if (timestamp==2020){
-			cTract.eachLayer(function(feature){
-            
-              feature.setStyle({
-              	fillColor:'gray',
-                fillOpacity:'0',
-                color: 'white',
-                weight: '0.5',
-                opacity: '0'
-            });
-			
-            feature.closePopup();  	
-			feature.unbindPopup();
-
-			
-      	});
-		}else{
-			
-		cTract.eachLayer(function(feature){
-            
-              feature.setStyle({
-              	fillColor:'gray',
-                fillOpacity:'0',
-                color: 'white',
-                weight: '0.5',
-                opacity: '0'
-            });
-			
-			
-			var tooltip = feature.toGeoJSON().properties;
-			var year = timestamp.toString().substr(2,2);
-
-			var vIndexField = 'SC_TOT';
-					var vIndexVar = tooltip[vIndexField + year];
-
-					var nwhiteField = 'NONWHT_';
-					var nwhiteVar = tooltip[nwhiteField + timestamp];
-					var nwhite_format = nwhiteVar*100;
-
-					var bachField = 'LSBCH_';
-					var bachVar = tooltip[bachField + timestamp];
-					var bach_format = bachVar*100;
-
-					var rentersField = 'RENT_';
-					var rentVar = tooltip[rentersField + timestamp];
-					var rent_format = rentVar*100;
-
-					var hudField = 'LSHUD_';
-					var hudVar = tooltip[hudField + timestamp];
-					var hud_format = hudVar*100;
-										
-					var popupHTML = "Displacement Vulnerability Score: "+vIndexVar+"<br>Non-White: "+nwhite_format.toFixed(2)+"%<br>Without Bachelor's Degree: "+bach_format.toFixed(2)+"%<br>Renters: "+rent_format.toFixed(2)+"% <br>Below 80% HUD Median Family Income: "+rent_format.toFixed(2)+"%";
-
-			feature.bindPopup(popupHTML);
-
-			feature.on({
-				mouseover: function(){
-					feature.setStyle({"fillOpacity":"0.3", "opacity":"0.3"}); 			
-				},
-				mouseout: function(){
-					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
-				}
-			});
-      	});
-		}
-   		
-	}
-
-	function setStyle(){
-		
-	
+      	   })
+   		});
 		vulnerability.eachLayer(function(layer){
 			//layer.on({
 			//	mouseover: function(){
@@ -765,7 +694,6 @@ function loadVulnerability(){
 		skipValues[handle].innerHTML = values[handle];
 		
 		setStyle();
-		updateTooltips();
 		
 		if (timestamp==2020){
 			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
@@ -803,7 +731,6 @@ function loadVulnerability(){
 			updateTimestamp = timestamp + 10;
 	
 			setStyle();
-			updateTooltips();
 			skipSlider.noUiSlider.set(updateTimestamp);
 
 
@@ -811,14 +738,12 @@ function loadVulnerability(){
 			updateTimestamp = timestamp + 9;
 	
 			setStyle();
-			updateTooltips();
 			skipSlider.noUiSlider.set(updateTimestamp);
 	
 		} else if (timestamp < 2014){
 			updateTimestamp = timestamp + 1;
 	
 			setStyle();
-			updateTooltips();
 			skipSlider.noUiSlider.set(updateTimestamp);
 		
 		} else if (timestamp >= 2014 && timestamp < 2020){
@@ -829,7 +754,6 @@ function loadVulnerability(){
 			updateTimestamp = timestamp + 1;
 	
 			setStyle();
-			updateTooltips();
 			skipSlider.noUiSlider.set(updateTimestamp);
 			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
 		
@@ -848,103 +772,28 @@ function loadOwnership() {
 
 	var ownershipLayer = L.mapbox.featureLayer(censusHex);
 	ownershipLayer.addTo(activeLayers);
-
-	var cTract = omnivore.topojson('../data/ctract2010_tooltips.json');
-	cTract.addTo(activeLayers);
-
-	cTract.on('ready',function(layer){
-		this.eachLayer(function(feature){
-            
-              feature.setStyle({
-              	fillColor:'gray',
-                fillOpacity:'0',
-                color: 'white',
-                weight: '0.5',
-                opacity: '0'
-            });
-			
-			
-			var tooltip = feature.toGeoJSON().properties;
-			var year = timestamp.toString().substr(2,2);
-
-			var ownField = 'OWN_';
-			var ownVar = tooltip[ownField + timestamp];
-			var ownVar_format = ownVar*100;
-
-			var popupHTML = "Owner-occupied homes: "+ownVar_format.toFixed(2)+"%";
-
-			feature.bindPopup(popupHTML);
-
-			feature.on({
-				mouseover: function(){
-					feature.setStyle({"fillOpacity":"0.3", "opacity":"0.3"}); 			
-				},
-				mouseout: function(){
-					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
-				}
-			});
-      	});
-     });
-
-	function updateTooltips(){
-		if (timestamp==2020){
-			cTract.eachLayer(function(feature){
-            
-              feature.setStyle({
-              	fillColor:'gray',
-                fillOpacity:'0',
-                color: 'white',
-                weight: '0.5',
-                opacity: '0'
-            });
-			
-			feature.closePopup();
-			feature.unbindPopup();
-			
-      		});
-		}else{
-			
-			cTract.eachLayer(function(feature){
-	            
-	              feature.setStyle({
-	              	fillColor:'gray',
-	                fillOpacity:'0',
-	                color: 'white',
-	                weight: '0.5',
-	                opacity: '0'
-	            });
-				
-				
-				var tooltip = feature.toGeoJSON().properties;
-				var year = timestamp.toString().substr(2,2);
-
-				var ownField = 'OWN_';
-				var ownVar = tooltip[ownField + timestamp];
-				var ownVar_format = ownVar*100;
-
-				var popupHTML = "Owner-occupied homes: "+ownVar_format.toFixed(2)+"%";
-
-				feature.bindPopup(popupHTML);
-
-				feature.on({
-					mouseover: function(){
-						feature.setStyle({"fillOpacity":"0.3", "opacity":"0.3"}); 			
-					},
-					mouseout: function(){
-						feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
-					}
-				});
-	      	});
-		}
-   		
-	}
-
 	
+	function onEachFeature(layer) {
+		var ownField= 'OWN_';
+		var ownershipVar = layer.feature.properties[ownField + timestamp];
+		var percentage = ownershipVar*100
+		
+		if (timestamp==2020){
+			return
+		}else if (timestamp <2020){
+			var popupHTML = "Owner-occupied homes: "+percentage.toFixed(2)+"%";
+
+			layer.bindPopup(popupHTML);
+		} else {
+		}
+				
+	}
 
 	function setStyle(){
 	
 		ownershipLayer.eachLayer(function(layer){
-					
+			
+			onEachFeature(layer);
 			var attr = layer.feature.properties;
 			// color
 			layer.setStyle({
@@ -955,6 +804,14 @@ function loadOwnership() {
 		
 			var ownField= 'OWN_';
 		
+			layer.on({
+				mouseover: function(){
+					layer.setStyle({"fillOpacity":"0.1"}); 			
+				},
+				mouseout: function(){
+					layer.setStyle({"fillOpacity":"1"}); 					
+				}
+			});
 					
 			if(attr[ownField + timestamp] <= 0.5){
 				layer.setStyle({
@@ -1032,8 +889,7 @@ function loadOwnership() {
 	
 		skipValues[handle].innerHTML = values[handle];
 		setStyle();
-		updateTooltips();
-
+		
 		if (timestamp==2020){
 			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
 		} else {
@@ -1064,7 +920,7 @@ function loadOwnership() {
 	//initial load (1990)
 
 	setStyle();
-	updateTooltips();
+
 	
 	function next() {
 
@@ -1073,7 +929,6 @@ function loadOwnership() {
 			updateTimestamp = timestamp + 10;
 	
 			setStyle();
-			updateTooltips();
 			skipSlider.noUiSlider.set(updateTimestamp);
 
 
@@ -1081,14 +936,12 @@ function loadOwnership() {
 			updateTimestamp = timestamp + 9;
 	
 			setStyle();
-			updateTooltips();
 			skipSlider.noUiSlider.set(updateTimestamp);
 	
 		} else if (timestamp < 2014){
 			updateTimestamp = timestamp + 1;
 	
 			setStyle();
-			updateTooltips();
 			skipSlider.noUiSlider.set(updateTimestamp);
 		
 		} else if (timestamp >= 2014 && timestamp < 2020){
@@ -1099,7 +952,6 @@ function loadOwnership() {
 			updateTimestamp = timestamp + 1;
 	
 			setStyle();
-			updateTooltips();
 			skipSlider.noUiSlider.set(updateTimestamp);
 			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
 		
