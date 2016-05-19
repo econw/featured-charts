@@ -11,7 +11,6 @@
 	play,
 	updateTimestamp;
 	
-
 	//load mapbox access
 	L.mapbox.accessToken = 'pk.eyJ1IjoiZWNvbnciLCJhIjoiWUZxcXRMVSJ9.tmmSP9rEmDmhB54B8ARtQQ';
 	var southWest = L.latLng(44.5, -124.5),
