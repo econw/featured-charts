@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>PHC Housing Affordability</title>
+    <title>Trends in Portland Metro Homeownership Affordability</title>
 
 	<!-- mapbox library -->
 	<script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
@@ -37,7 +37,7 @@
     <link href="css/libs/jumbotron.css" rel="stylesheet">
     <!-- Additional styles -->
     <link href="css/screen.css" rel="stylesheet">
-
+    <link href='https://fonts.googleapis.com/css?family=Cabin:400,500,500italic,400italic' rel='stylesheet' type='text/css'>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -51,7 +51,7 @@
       <div class="container">
         <div class="navbar-header">
 
-          <a class="navbar-brand" href="index.html">Portland Housing Affordability Tool</a>
+          <a class="navbar-brand" href="index.html">Trends in Portland Metro Homeownership Affordability</a>
         </div>
 		
       </div>
@@ -60,11 +60,12 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h3>About the tool</h3>
+        <h4>About the tool</h4>
         <p>This section could be used for general information about the tool, how to use it, etc. This information could be static across all of the map views or change dynamically...</p>
         <a class="btn btn-primary " href="http://portlandhousingcenter.org/" target="_blank" role="button">TAKE ACTION &raquo;</a>
       </div>
     </div>
+
 
     <div class="container">
       <!-- Example row of columns -->
@@ -102,38 +103,23 @@
   			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 				<li> <a id='afford-button' href="affordability.html">Home Ownership Affordability</a></li>
 				<li><a id='vIndex-button' href="vulnerability.html">Displacement Vulnerability</a></li>
-				<li><a id='ownership-button' href="tenure.html">Tenure</a></li>					
+				<li><a id='ownership-button' href="tenure.html">Housing Tenure</a></li>					
 			</ul>
 		  </div>
-		  
-          <h2>Map-specific info</h2>
+          
+          <h4>Housing Tenure</h4>
           <p id='legend'>
   			</p>
-          <p><strong>This content would change dynamically with the map to show relevant info and assumptions. This text box is scrollable, so there is flexibility in word count.</strong></p>
+          <p>This content would change dynamically with the map to show relevant info and assumptions. This text box is scrollable, so there is flexibility in word count.</p>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu dignissim lacus. Maecenas vitae enim ante. In venenatis ante orci, ullamcorper egestas nisl blandit ut. Donec ligula nisl, ultrices eu dictum quis, malesuada id purus.</p>
           <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas finibus lorem metus. Aenean et velit consequat, imperdiet dolor at, lacinia magna. Nam sit amet odio purus.</p>
           <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas finibus lorem metus. Aenean et velit consequat, imperdiet dolor at, lacinia magna. Nam sit amet odio purus.</p>
-          
+          <h4> Assumptions: </h4>
+            <p>Data on tenure was gathered from the 1990 and 2000 Decennial Census and 2009-2014 5-year American Community Survey for the Three-County Area.</p>
+              
         </div>
       </div>
-      <div class="row">
-      <h4> Assumptions: </h4>
-      </div>
-	  <div class="row">
-	  	<div class= 'col-md-4'>
-	  		
-	  		STRUCTURE TYPE & COST:<br>Single Family Homes and Owned Condominiums and Townhouses. Sales Price from Metro RLIS
-	  		<br><br>INCOME:<br>4 person household Median Family Income according to HUD for each year<br><br>
-	  	</div>
- 			
-	  	<div class= 'col-md-4'>
-	  		AFFORDABILITY:<br>Affordable: Housing Costs = 30% or less of gross family incomeDown Payment: 5%Mortgage: 30-year amortizing principal interestInterest Rate: Annual Average from Freddie MacProperty Tax Change Ratio: from the Multnomah County Assessor’s OfficeProperty Tax Rate: $18 per $1,000Insurance: Sales Price/1,000 * 3.5Utilities: $250 per month in 2014, adjusted for inflation<br><br>
-	  	</div>
-	  	
-	  	<div class= 'col-xs-6 col-sm-3'>GEOGRAPHY:<br>Portland Urban Growth Boundary (UGB)<br><br>
-	  	CALCULATION:<br>Percent of MFI spent on Housing=Yearly 
-	  	</div>
-	  </div>
+      
       <hr>
 
       <footer >
