@@ -39,6 +39,7 @@
 	map.addControl(new uiControl('#slider', { position: 'topright' }));
 	map.addControl(new uiControl('#year-label', { position: 'topright' }));
 	map.addControl(new uiControl('#affdButton', { position: 'topleft' }));
+	map.addControl(new uiControl('#map-menu', { position: 'topleft' }));
 
 
 	var topBasemap = map._createPane('leaflet-top-pane', map.getPanes().mapPane);
@@ -523,6 +524,7 @@ function loadAffordability2() {
 
 function loadVulnerability(){
 	clearInterval();
+
 	activeLayers.clearLayers();
 
     document.getElementById('legend').innerHTML = "<img id='vIndexLegend' src='images/legend_vIndex.png' alt='affordability legend'></img>";
@@ -565,15 +567,21 @@ function loadVulnerability(){
 
 			var nwhiteField = 'NONWHT_';
 			var nwhiteVar = tooltip[nwhiteField + timestamp];
-			var nwhite_format = nwhiteVar*100
+			var nwhite_format = nwhiteVar*100;
 
-			//Without a Bachelor’s Degree:
-			
-			//Renters:
-			
-			//Below 80% HUD Median Family Income:
-			
-			var popupHTML = "Displacement Vulnerability Score: "+vIndexVar+"<br>Non-White: "+nwhite_format.toFixed(2)+"%";
+			var bachField = 'LSBCH_';
+			var bachVar = tooltip[bachField + timestamp];
+			var bach_format = bachVar*100;
+
+			var rentersField = 'RENT_';
+			var rentVar = tooltip[rentersField + timestamp];
+			var rent_format = rentVar*100;
+
+			var hudField = 'LSHUD_';
+			var hudVar = tooltip[hudField + timestamp];
+			var hud_format = hudVar*100;
+										
+			var popupHTML = "Displacement Vulnerability Score: "+vIndexVar+"<br>Non-White: "+nwhite_format.toFixed(2)+"%<br>Without Bachelor's Degree: "+bach_format.toFixed(2)+"%<br>Renters: "+rent_format.toFixed(2)+"% <br>Below 80% HUD Median Family Income: "+rent_format.toFixed(2)+"%";
 
 			feature.bindPopup(popupHTML);
 
@@ -622,25 +630,25 @@ function loadVulnerability(){
 			var year = timestamp.toString().substr(2,2);
 
 			var vIndexField = 'SC_TOT';
-					var vIndexVar = tooltip[vIndexField + year];
+			var vIndexVar = tooltip[vIndexField + year];
 
-					var nwhiteField = 'NONWHT_';
-					var nwhiteVar = tooltip[nwhiteField + timestamp];
-					var nwhite_format = nwhiteVar*100;
+			var nwhiteField = 'NONWHT_';
+			var nwhiteVar = tooltip[nwhiteField + timestamp];
+			var nwhite_format = nwhiteVar*100;
 
-					var bachField = 'LSBCH_';
-					var bachVar = tooltip[bachField + timestamp];
-					var bach_format = bachVar*100;
+			var bachField = 'LSBCH_';
+			var bachVar = tooltip[bachField + timestamp];
+			var bach_format = bachVar*100;
 
-					var rentersField = 'RENT_';
-					var rentVar = tooltip[rentersField + timestamp];
-					var rent_format = rentVar*100;
+			var rentersField = 'RENT_';
+			var rentVar = tooltip[rentersField + timestamp];
+			var rent_format = rentVar*100;
 
-					var hudField = 'LSHUD_';
-					var hudVar = tooltip[hudField + timestamp];
-					var hud_format = hudVar*100;
+			var hudField = 'LSHUD_';
+			var hudVar = tooltip[hudField + timestamp];
+			var hud_format = hudVar*100;
 										
-					var popupHTML = "Displacement Vulnerability Score: "+vIndexVar+"<br>Non-White: "+nwhite_format.toFixed(2)+"%<br>Without Bachelor's Degree: "+bach_format.toFixed(2)+"%<br>Renters: "+rent_format.toFixed(2)+"% <br>Below 80% HUD Median Family Income: "+rent_format.toFixed(2)+"%";
+			var popupHTML = "Displacement Vulnerability Score: "+vIndexVar+"<br>Non-White: "+nwhite_format.toFixed(2)+"%<br>Without Bachelor's Degree: "+bach_format.toFixed(2)+"%<br>Renters: "+rent_format.toFixed(2)+"% <br>Below 80% HUD Median Family Income: "+rent_format.toFixed(2)+"%";
 
 			feature.bindPopup(popupHTML);
 

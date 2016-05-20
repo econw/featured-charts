@@ -62,8 +62,10 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h4>About the tool</h4>
-        <p>This section could be used for general information about the tool, how to use it, etc. This information could be static across all of the map views or change dynamically...</p>
+        <h4>Home Ownership Affordability</h4>
+        <p>Much of the region, especially neighborhoods closer to Portland’s city center, has become increasingly less affordable for middle-income home buyers since 2012. The map to the right shows the percent of income spent on housing for a household earning the region’s median family income for a family of four in the given year. Areas shaded green are locations considered affordable for these households, as they require 30% or less of a household’s income. Areas shaded red are considered unaffordable. Over time, affordability changes as incomes, interest rates, and home sales prices change.</p>
+        <p>The 2000 to 2015 period shows two full housing cycles; while housing became more affordable from 2000 to 2004, by 2007 affordable home ownership had become more challenging that it is today given relatively high interest rates. By 2011 at the bottom of the recession, housing once again trended towards being more affordable. If these trends continue at their current rates it is likely housing will become only more unaffordable again by 2020.</p>
+
         <a class="btn btn-primary " href="http://portlandhousingcenter.org/" target="_blank" role="button">TAKE ACTION &raquo;</a>
       </div>
     </div>
@@ -97,7 +99,7 @@
         </div>
         <div id="info-window" class="col-md-4">
          <p></p>
-         <div class="dropdown">
+         <div class="dropdown" id="map-menu">
   			<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
     			Maps
     			<span class="caret"></span>
@@ -108,15 +110,14 @@
 				<li><a id='ownership-button' href="tenure.html">Housing Tenure</a></li>					
 			</ul>
 		  </div>
-		  
+		   <p id='legend'></p>
+      <!--
           <h4>Home Ownership Affordability</h4>
-          <p id='legend'>
-  		    </p>
-          <p>This content would change dynamically with the map to show relevant info and assumptions. This text box is scrollable, so there is flexibility in word count.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu dignissim lacus. Maecenas vitae enim ante. In venenatis ante orci, ullamcorper egestas nisl blandit ut. Donec ligula nisl, ultrices eu dictum quis, malesuada id purus.</p>
-          <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas finibus lorem metus. Aenean et velit consequat, imperdiet dolor at, lacinia magna. Nam sit amet odio purus.</p>
-          <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas finibus lorem metus. Aenean et velit consequat, imperdiet dolor at, lacinia magna. Nam sit amet odio purus.</p>
-
+        
+          <p>Much of the region, especially neighborhoods closer to Portland’s city center, has become increasingly less affordable for middle-income home buyers since 2012. The map to the right shows the percent of income spent on housing for a household earning the region’s median family income for a family of four in the given year. Areas shaded green are locations considered affordable for these households, as they require 30% or less of a household’s income. Areas shaded red are considered unaffordable. Over time, affordability changes as incomes, interest rates, and home sales prices change.</p>
+          <p>The 2000 to 2015 period shows two full housing cycles; while housing became more affordable from 2000 to 2004, by 2007 affordable home ownership had become more challenging that it is today given relatively high interest rates. By 2011 at the bottom of the recession, housing once again trended towards being more affordable. If these trends continue at their current rates it is likely housing will become only more unaffordable again by 2020.
+          </p>
+        -->
           <h4> Assumptions: </h4>
             <ul>
             <li>

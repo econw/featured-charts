@@ -35,7 +35,8 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .jumbotron{
-	
+	overflow: scroll;
+	max-height: 350px;
 	margin-top: 40px;
 	background-color: rgba(161, 165, 175, 0.2);
 	padding-top: 30px;
@@ -180,7 +181,8 @@ h1, h2, h3, h4, h5, h6{
 #eco-logo{
 
 	width: auto;
-	height: 70px;
+	height: 40px;
+	margin-left: 10px;
 }
 
 
