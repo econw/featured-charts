@@ -1127,7 +1127,6 @@ function loadOwnership() {
 	var ownershipLayer = L.mapbox.featureLayer(censusHex);
 	ownershipLayer.addTo(activeLayers);
 
-	var cTract = omnivore.topojson('../data/ctract2010_tooltips.json');
 	cTract.addTo(activeLayers);
 
 	cTract.on('ready',function(layer){

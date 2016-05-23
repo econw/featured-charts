@@ -30,6 +30,10 @@ h1, h2, h3, h4, h5, h6{
 	padding-bottom: 10px;
 }
 
+#info-window li{
+	font-weight: 200;
+}
+
 #header-bar{
 	font-family: "Cabin", "Arial";	
 	background-color: rgba(161, 165, 175, 0.6);
@@ -67,7 +71,7 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .jumbotron p{
-
+	font-weight: 400;
 	font-size: 15px;
 
 }
@@ -162,7 +166,7 @@ font-family: "Helvetica-Neue", "Helvetica", "Arial";
 #vIndexLegend {
 	margin-left: 5px;
 	width: auto;
-	height: 150px;
+	height: 190px;
 
 }
 
@@ -170,14 +174,14 @@ font-family: "Helvetica-Neue", "Helvetica", "Arial";
 
 	margin-left: 5px;
 	width: auto;
-	height: 150px;
+	height: 190px;
 
 }
 
 #ownLegend {
 	margin-left: 5px;
 	width: auto;
-	height: 150px;
+	height: 190px;
 
 }
 
