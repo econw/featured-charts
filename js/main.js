@@ -1,143 +1,61 @@
-function loadAffordability() {
-	activeLayers.clearLayers();
+ //load global variables
+    var map,
+	activeLayers,
+	skipSlider,
+	playButton,
+	pauseButton,
+	refreshButton,
+	skipValues,
+	timestamp,
+	timestampShort,
+	layer,
+	play,
+	updateTimestamp;
+	
+	//load mapbox access
+	L.mapbox.accessToken = 'pk.eyJ1IjoiZWNvbnciLCJhIjoiWUZxcXRMVSJ9.tmmSP9rEmDmhB54B8ARtQQ';
+	var southWest = L.latLng(45.043598, -123.440661),
+    	northEast = L.latLng(46.023814, -122.013812),
+    	bounds = L.latLngBounds(southWest, northEast);
     
-	var affordLayer = L.mapbox.featureLayer(SFaffordHex);
-	affordLayer.addTo(activeLayers);
+	map = L.mapbox.map('map', '',{
+		maxBounds: bounds,
+		maxZoom: 13,
+		minZoom: 9
 
-	function onEachFeature(layer) {
-		var intrstField = 'intrst_2020';
-		var hudmfiField = 'hudmfi';
-		var salesField = 'SP';
-		var incomeField = 'affd';
-		var interest = layer.feature.properties[intrstField + timestamp];
-		var intPercentage = interest*100;
-		var hudMFI = layer.feature.properties[hudmfiField + timestamp];
-		var hudMFIFormat = parseInt(hudMFI);
-		var sales = layer.feature.properties[salesField + timestamp];
-		var income = layer.feature.properties[incomeField + timestamp];
-		var incomePercentage = income*100;
-		
-		if (timestamp==2020){
-		var popupHTML = "Interest rate: 6.59%<br>HUD Median Family Income: $"+hudMFIFormat.toLocaleString();
+	}).setView([45.467021, -122.675738], 10);
 
-		layer.bindPopup(popupHTML);
-		} else if (timestamp <= 2014){
-		var popupHTML = "Percent of Income spent on Housing: "+incomePercentage.toFixed(2)+"%<br>Median Sales price: $"+sales.toLocaleString()+ "<br>Interest rate: "+intPercentage.toFixed(2)+"%<br>HUD Median Family Income: $"+hudMFIFormat.toLocaleString();
 
-		layer.bindPopup(popupHTML);		
-		}
+	var uiControl = L.Control.extend({
+	initialize: function (foo, options) {
+		L.Util.setOptions(this, options);
+	element = foo.replace('#','');
+	},
+	onAdd: function (map) {
+		return L.DomUtil.get(element);
 	}
-	
-	function setStyle(){
-	
-		affordLayer.eachLayer(function(layer){
-			//layer.on({
-			//	mouseover: function(){
-			//		layer.openPopup();				
-			//	},
-			//	mouseout: function(){
-			//		layer.closePopup();				
-			//	}
-			//});
-			onEachFeature(layer);
-			var attr = layer.feature.properties;
-			// color
-			layer.setStyle({
-				weight: 1,
-				color: 'rgba(255,255,255,1)',
-				fillOpacity: 1
-			});
-		
-		
-			var slsField = 'numSls_';
-			var affdField = 'affd';
-		
-			layer.on({
-				mouseover: function(){
-					layer.setStyle({"fillOpacity":"0.1"}); 			
-				},
-				mouseout: function(){
-					layer.setStyle({"fillOpacity":"1"}); 					
-				}
-			});
-		
-			if(attr[slsField + timestamp] < 3){
-				layer.setStyle({
-					fillColor:"rgb(235, 235, 235)"
-				});
-			}else if(attr[affdField + timestamp] > 0.5 && attr[slsField + timestamp] >= 3){
-				layer.setStyle({
-					fillColor:"rgb(215,48,39)"
-				}); 
-			}else if(attr[affdField + timestamp] > 0.4 && attr[slsField + timestamp] >= 3){
-				layer.setStyle({
-					fillColor:"rgb(252,141,89)"
-				}); 
-			}else if(attr[affdField + timestamp] > 0.3 && attr[slsField + timestamp] >= 3){
-				layer.setStyle({
-					fillColor:"rgb(254,224,149)"
-				}); 
-			}else if(attr[affdField + timestamp] > 0.25 && attr[slsField + timestamp] >= 3){
-				layer.setStyle({
-					fillColor:"rgb(217,239,149)"
-				});	
-			}else if(attr[affdField + timestamp] >= 0.2 && attr[slsField + timestamp] >= 3){
-				layer.setStyle({
-					fillColor:"rgb(145,207,96)"
-				});
-			}else if(attr[affdField + timestamp] < 0.2 && attr[slsField + timestamp] >= 3){
-				layer.setStyle({
-					fillColor:"rgb(26,152,80)"
-				});
-			
-				  
-			}else{
+	});
 
-			}
-			
-			if (timestamp == 2020 && attr[affdField + timestamp] > 0.5 && attr.include_fo==1){
-					layer.setStyle({
-					fillColor:"rgba(215,48,39,1)"
-				});
-		
-			}else if(timestamp == 2020 && attr[affdField + timestamp] > 0.4&& attr.include_fo==1){
-				layer.setStyle({
-					fillColor:"rgba(252,141,89,1)"
-				}); 
-			}else if(timestamp == 2020 && attr[affdField + timestamp] > 0.3&& attr.include_fo==1){
-				layer.setStyle({
-					fillColor:"rgba(254,224,149,1)"
-				}); 
-			}else if(timestamp == 2020 && attr[affdField + timestamp] > 0.25&& attr.include_fo==1){
-				layer.setStyle({
-					fillColor:"rgba(217,239,149,1)"
-				});	
-			}else if(timestamp == 2020 && attr[affdField + timestamp] >= 0.2&& attr.include_fo==1){
-				layer.setStyle({
-					fillColor:"rgba(145,207,96,1)"
-				});
-			}else if(timestamp == 2020 && attr[affdField + timestamp] < 0.2&& attr.include_fo==1){
-				layer.setStyle({
-					fillColor:"rgba(26,152,80,1)"
-				});
-			
-			} else {
-			}
-		});
-	}
-	
-	function clearStyle(){
-	
-		affordLayer.eachLayer(function(layer){
-		
-			layer.setStyle({
-				weight: 0,
-				color: 'rgba(255,255,255,0)',
-				fillOpacity: 0
-			});
-		
-		});
-	}
+
+	map.addControl(new uiControl('#vcr-controls', { position: 'topright' }));
+	map.addControl(new uiControl('#slider', { position: 'topright' }));
+	map.addControl(new uiControl('#year-label', { position: 'topright' }));
+	//map.addControl(new uiControl('#affdButton', { position: 'topleft' }));
+	map.addControl(new uiControl('#homeButton', { position: 'topleft' }));
+	map.addControl(new uiControl('#map-menu', { position: 'topleft' }));
+
+	$("#homeButton").click(function() {
+		map.setView([45.467021, -122.675738], 10);
+	});
+
+	var topBasemap = map._createPane('leaflet-top-pane', map.getPanes().mapPane);
+    var labels = L.mapbox.tileLayer('econw.0iw1bc23').addTo(map);
+    topBasemap.appendChild(labels.getContainer());
+    labels.setZIndex(7);
+    
+	activeLayers = L.layerGroup().addTo(map);
+
+	var cTract = omnivore.topojson('econw.github.io/PHC-map/PHC-map-redesign/data/ctract2010_tooltips.json');
 
 	skipSlider = document.getElementById('slider');
 	playButton = document.getElementById('vcr-play');
@@ -163,7 +81,7 @@ function loadAffordability() {
 		'60%': 2012,
 		'65%': 2013,
 		'70%': 2014,
-		//'75%': 2015,
+		'75%': 2015,
 		//'80%': 2016,
 		//'85%': 2017,
 		//'90%': 2018,
@@ -177,6 +95,274 @@ function loadAffordability() {
 	})
 	});
 
+	
+	
+function loadAffordability20() {
+	
+	clearInterval();
+	activeLayers.clearLayers();
+    
+    document.getElementById('legend').innerHTML = "<img id='affordLegend' src='images/legend_affordability.png' alt='affordability legend'></img>";
+    
+	var affordLayer = L.mapbox.featureLayer(SFaffordHex);
+
+	affordLayer.addTo(activeLayers);
+	
+	cTract.addTo(activeLayers);
+	cTract.on('ready',function(layer){
+		this.eachLayer(function(feature){
+            
+              feature.setStyle({
+              	fillColor:'gray',
+                fillOpacity:'0',
+                color: 'white',
+                weight: '0.5',
+                opacity: '0'
+            });
+			
+			var tooltip = feature.toGeoJSON().properties;
+			var year = timestamp.toString().substr(2,2);
+
+			var affdField20 = 'affd20_';
+			var affd20Var = tooltip[affdField20 + year];
+			var percentIncome_format = affd20Var*100;
+
+			var medSalesField = 'SP';
+			var medSalesVar = tooltip[medSalesField + year];
+			var medSales_format = medSalesVar.toLocaleString();
+			
+			var interestField = 'intrst_';
+			var intrstVar = tooltip[interestField+year];
+			var percentInt = intrstVar*100;
+			
+			var mfiField = 'hudmfi';
+			var mfiVar = tooltip[mfiField + year];
+				
+			var popupHTML = "Percent of Income spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSales_format+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfiVar.toLocaleString();
+
+			feature.bindPopup(popupHTML);
+
+			feature.on({
+				mouseover: function(){
+					feature.setStyle({"fillOpacity":"0.3", "opacity":"0.3"}); 			
+				},
+				mouseout: function(){
+					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
+				}
+			});
+      	});
+     });
+
+	function updateTooltips(){
+		if (timestamp==2020){
+			cTract.eachLayer(function(feature){
+            
+              feature.setStyle({
+              	fillColor:'gray',
+                fillOpacity:'0',
+                color: 'white',
+                weight: '0.5',
+                opacity: '0'
+            });
+			
+            feature.closePopup();  	
+			feature.unbindPopup();
+			
+			feature.on({
+				mouseover: function(){
+					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 			
+				},
+				mouseout: function(){
+					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
+				}
+			});
+			
+      	});
+		}else{
+			
+		cTract.eachLayer(function(feature){
+            
+              feature.setStyle({
+              	fillColor:'gray',
+                fillOpacity:'0',
+                color: 'white',
+                weight: '0.5',
+                opacity: '0'
+            });
+			
+			
+			var tooltip = feature.toGeoJSON().properties;
+			var year = timestamp.toString().substr(2,2);
+
+			var affdField20 = 'affd20_';
+			var affd20Var = tooltip[affdField20 + year];
+			var percentIncome_format = affd20Var*100;
+
+			var medSalesField = 'SP';
+			var medSalesVar = tooltip[medSalesField + year];
+			
+			var interestField = 'intrst_';
+			var intrstVar = tooltip[interestField+year];
+			var percentInt = intrstVar*100;
+			
+			var mfiField = 'hudmfi';
+			var mfiVar = tooltip[mfiField + year];
+				
+			var popupHTML = "Percent of Income spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSalesVar.toLocaleString()+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfiVar.toLocaleString();
+
+			feature.bindPopup(popupHTML);
+
+			feature.on({
+				mouseover: function(){
+					feature.setStyle({"fillOpacity":"0.3", "opacity":"0.3"}); 			
+				},
+				mouseout: function(){
+					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
+				}
+			});
+      	});
+		}
+   		
+	}
+		
+	function setStyle(){
+		
+		
+		
+		affordLayer.eachLayer(function(layer){
+			
+			var attr = layer.feature.properties;
+			// color
+			layer.setStyle({
+				weight: 1,
+				color: 'rgba(255,255,255,1)',
+				fillOpacity: 1
+			});
+		
+		
+			var slsField = 'numSls';
+			var affdField = 'affd20_';
+		
+			timestampShort = timestamp.toString().substr(2,2);
+			
+
+			if(attr[slsField + timestampShort] < 3){
+				layer.setStyle({
+					fillColor:"rgb(235, 235, 235)"
+				});
+			}else if(attr[affdField + timestampShort] > 0.5 && attr[slsField + timestampShort] >= 3){
+				layer.setStyle({
+					fillColor:"rgb(215,48,39)"
+				}); 
+			}else if(attr[affdField + timestampShort] > 0.4 && attr[slsField + timestampShort] >= 3){
+				layer.setStyle({
+					fillColor:"rgb(252,141,89)"
+				}); 
+			}else if(attr[affdField + timestampShort] > 0.3 && attr[slsField + timestampShort] >= 3){
+				layer.setStyle({
+					fillColor:"rgb(254,224,149)"
+				}); 
+			}else if(attr[affdField + timestampShort] > 0.25 && attr[slsField + timestampShort] >= 3){
+				layer.setStyle({
+					fillColor:"rgb(217,239,149)"
+				});	
+			}else if(attr[affdField + timestampShort] >= 0.2 && attr[slsField + timestampShort] >= 3){
+				layer.setStyle({
+					fillColor:"rgb(145,207,96)"
+				});
+			}else if(attr[affdField + timestampShort] < 0.2 && attr[slsField + timestampShort] >= 3){
+				layer.setStyle({
+					fillColor:"rgb(26,152,80)"
+				});
+			
+				  
+			}else{
+
+			}
+			
+			if (timestamp == 2020 && attr[affdField + timestampShort] > 0.5 && attr.include_fo==1){
+					layer.setStyle({
+					fillColor:"rgba(215,48,39,1)"
+				});
+		
+			}else if(timestamp == 2020 && attr[affdField + timestampShort] > 0.4&& attr.include_fo==1){
+				layer.setStyle({
+					fillColor:"rgba(252,141,89,1)"
+				}); 
+			}else if(timestamp == 2020 && attr[affdField + timestampShort] > 0.3&& attr.include_fo==1){
+				layer.setStyle({
+					fillColor:"rgba(254,224,149,1)"
+				}); 
+			}else if(timestamp == 2020 && attr[affdField + timestampShort] > 0.25&& attr.include_fo==1){
+				layer.setStyle({
+					fillColor:"rgba(217,239,149,1)"
+				});	
+			}else if(timestamp == 2020 && attr[affdField + timestampShort] >= 0.2&& attr.include_fo==1){
+				layer.setStyle({
+					fillColor:"rgba(145,207,96,1)"
+				});
+			}else if(timestamp == 2020 && attr[affdField + timestampShort] < 0.2&& attr.include_fo==1){
+				layer.setStyle({
+					fillColor:"rgba(26,152,80,1)"
+				});
+			
+			} else {
+			}
+		});
+	}
+	
+	function clearStyle(){
+	
+		affordLayer.eachLayer(function(layer){
+		
+			layer.setStyle({
+				weight: 0,
+				color: 'rgba(255,255,255,0)',
+				fillOpacity: 0
+			});
+		
+		});
+	}
+
+	$("#vcr-controls").css("display","initial");
+	$("#slider").css("display","initial");
+	$("#year-label").css("display","initial");
+	$("#homeButton").css("display","initial");
+	$("#map-menu").css("display","initial");
+
+	skipSlider.noUiSlider.updateOptions({
+		animate: true,
+		animationDuration: 1000,
+		range: {
+			'min': 2000,
+			'5%': 2001,
+			'10%': 2002,
+			'15%': 2003,
+			'20%': 2004,
+			'25%': 2005,
+			'30%': 2006,
+			'35%': 2007,
+			'40%': 2008,
+			'45%': 2009,
+			'50%': 2010,
+			'55%': 2011,
+			'60%': 2012,
+			'65%': 2013,
+			'70%': 2014,
+			'75%': 2015,
+			//'80%': 2016,
+			//'85%': 2017,
+			//'90%': 2018,
+			//'95%': 2019,
+			'max': 2020
+		},
+		snap: true,
+		start: [2000],
+		format: wNumb({
+			decimals: 0
+		})
+	});
+
 
 	skipValues = [
 		document.getElementById('year-label'),
@@ -186,11 +372,14 @@ function loadAffordability() {
 	skipSlider.noUiSlider.on('update', function( values, handle ) {
 	
 		timestamp=Number(values[handle]);
+
 	
 		skipValues[handle].innerHTML = values[handle];
 		
 		setStyle();
-		if (timestamp > 2014 && timestamp < 2020){
+		updateTooltips();
+
+		if (timestamp > 2015 && timestamp < 2020){
 			clearStyle()
 		} else {
 		}
@@ -222,22 +411,28 @@ function loadAffordability() {
 	});
 
 
-	setStyle();
-
+	//setStyle();
+	
+	
 	function next() {
 
-		if (timestamp < 2014){
+		if (timestamp < 2015){
 			
  			updateTimestamp = timestamp + 1;
 			setStyle();
+			updateTooltips();
+
 			skipSlider.noUiSlider.set(updateTimestamp);
 	
-		} else if (timestamp >= 2014 && timestamp < 2020){
-			timestamp += 1;
+		} else if (timestamp >= 2015 && timestamp < 2020){
+			timestamp += 2.5;
+			console.log(timestamp);
 	
 		} else if (timestamp == 2020){
 			updateTimestamp = timestamp + 1;
 			setStyle();
+			updateTooltips();
+
 			skipSlider.noUiSlider.set(updateTimestamp);
 			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
 			
@@ -245,26 +440,500 @@ function loadAffordability() {
 			clearInterval(play);
 		}
 	}
+}
+
+function loadAffordability5() {
+	
+	clearInterval();
+	activeLayers.clearLayers();
+    
+    document.getElementById('legend').innerHTML = "<img id='affordLegend' src='images/legend_affordability.png' alt='affordability legend'></img>";
+    
+	var affordLayer = L.mapbox.featureLayer(SFaffordHex);
+
+	affordLayer.addTo(activeLayers);
+	
+	cTract.addTo(activeLayers);
+	cTract.on('ready',function(layer){
+		this.eachLayer(function(feature){
+            
+              feature.setStyle({
+              	fillColor:'gray',
+                fillOpacity:'0',
+                color: 'white',
+                weight: '0.5',
+                opacity: '0'
+            });
+			
+			var tooltip = feature.toGeoJSON().properties;
+			var year = timestamp.toString().substr(2,2);
+
+			var affdField5 = 'affd5_';
+			var affd5Var = tooltip[affdField5 + year];
+			var percentIncome_format = affd5Var*100;
+
+			var medSalesField = 'SP';
+			var medSalesVar = tooltip[medSalesField + year];
+			
+			var interestField = 'intrst_';
+			var intrstVar = tooltip[interestField+year];
+			var percentInt = intrstVar*100;
+			
+			var mfiField = 'hudmfi';
+			var mfiVar = tooltip[mfiField + year];
+				
+			var popupHTML = "Percent of Income spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSalesVar.toLocaleString()+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfiVar.toLocaleString();
+
+			feature.bindPopup(popupHTML);
+
+			feature.on({
+				mouseover: function(){
+					feature.setStyle({"fillOpacity":"0.3", "opacity":"0.3"}); 			
+				},
+				mouseout: function(){
+					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
+				}
+			});
+      	});
+     });
+
+	function updateTooltips(){
+		if (timestamp==2020){
+			cTract.eachLayer(function(feature){
+            
+              feature.setStyle({
+              	fillColor:'gray',
+                fillOpacity:'0',
+                color: 'white',
+                weight: '0.5',
+                opacity: '0'
+            });
+			
+            feature.closePopup();  	
+			feature.unbindPopup();
+			
+			feature.on({
+				mouseover: function(){
+					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 			
+				},
+				mouseout: function(){
+					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
+				}
+			});
+			
+      	});
+		}else{
+			
+		cTract.eachLayer(function(feature){
+            
+              feature.setStyle({
+              	fillColor:'gray',
+                fillOpacity:'0',
+                color: 'white',
+                weight: '0.5',
+                opacity: '0'
+            });
+			
+			
+			var tooltip = feature.toGeoJSON().properties;
+			var year = timestamp.toString().substr(2,2);
+
+			var affdField5 = 'affd5_';
+			var affd5Var = tooltip[affdField5 + year];
+			var percentIncome_format = affd5Var*100;
+
+			var medSalesField = 'SP';
+			var medSalesVar = tooltip[medSalesField + year];
+			
+			var interestField = 'intrst_';
+			var intrstVar = tooltip[interestField+year];
+			var percentInt = intrstVar*100;
+			
+			var mfiField = 'hudmfi';
+			var mfiVar = tooltip[mfiField + year];
+				
+			var popupHTML = "Percent of Income spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSalesVar.toLocaleString()+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfiVar.toLocaleString();
+
+			feature.bindPopup(popupHTML);
+
+			feature.on({
+				mouseover: function(){
+					feature.setStyle({"fillOpacity":"0.3", "opacity":"0.3"}); 			
+				},
+				mouseout: function(){
+					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
+				}
+			});
+      	});
+		}
+   		
+	}
+		
+	function setStyle(){
+		
+		
+		
+		affordLayer.eachLayer(function(layer){
+			//layer.on({
+			//	mouseover: function(){
+			//		layer.openPopup();				
+			//	},
+			//	mouseout: function(){
+			//		layer.closePopup();				
+			//	}
+			//});
+			//onEachFeature(layer);
+			var attr = layer.feature.properties;
+			// color
+			layer.setStyle({
+				weight: 1,
+				color: 'rgba(255,255,255,1)',
+				fillOpacity: 1
+			});
+		
+		
+			var slsField = 'numSls';
+			var affdField = 'affd5_';
+		
+			timestampShort = timestamp.toString().substr(2,2);
+			
+
+			if(attr[slsField + timestampShort] < 3){
+				layer.setStyle({
+					fillColor:"rgb(235, 235, 235)"
+				});
+			}else if(attr[affdField + timestampShort] > 0.5 && attr[slsField + timestampShort] >= 3){
+				layer.setStyle({
+					fillColor:"rgb(215,48,39)"
+				}); 
+			}else if(attr[affdField + timestampShort] > 0.4 && attr[slsField + timestampShort] >= 3){
+				layer.setStyle({
+					fillColor:"rgb(252,141,89)"
+				}); 
+			}else if(attr[affdField + timestampShort] > 0.3 && attr[slsField + timestampShort] >= 3){
+				layer.setStyle({
+					fillColor:"rgb(254,224,149)"
+				}); 
+			}else if(attr[affdField + timestampShort] > 0.25 && attr[slsField + timestampShort] >= 3){
+				layer.setStyle({
+					fillColor:"rgb(217,239,149)"
+				});	
+			}else if(attr[affdField + timestampShort] >= 0.2 && attr[slsField + timestampShort] >= 3){
+				layer.setStyle({
+					fillColor:"rgb(145,207,96)"
+				});
+			}else if(attr[affdField + timestampShort] < 0.2 && attr[slsField + timestampShort] >= 3){
+				layer.setStyle({
+					fillColor:"rgb(26,152,80)"
+				});
+			
+				  
+			}else{
+
+			}
+			
+			if (timestamp == 2020 && attr[affdField + timestampShort] > 0.5 && attr.include_fo==1){
+					layer.setStyle({
+					fillColor:"rgba(215,48,39,1)"
+				});
+		
+			}else if(timestamp == 2020 && attr[affdField + timestampShort] > 0.4&& attr.include_fo==1){
+				layer.setStyle({
+					fillColor:"rgba(252,141,89,1)"
+				}); 
+			}else if(timestamp == 2020 && attr[affdField + timestampShort] > 0.3&& attr.include_fo==1){
+				layer.setStyle({
+					fillColor:"rgba(254,224,149,1)"
+				}); 
+			}else if(timestamp == 2020 && attr[affdField + timestampShort] > 0.25&& attr.include_fo==1){
+				layer.setStyle({
+					fillColor:"rgba(217,239,149,1)"
+				});	
+			}else if(timestamp == 2020 && attr[affdField + timestampShort] >= 0.2&& attr.include_fo==1){
+				layer.setStyle({
+					fillColor:"rgba(145,207,96,1)"
+				});
+			}else if(timestamp == 2020 && attr[affdField + timestampShort] < 0.2&& attr.include_fo==1){
+				layer.setStyle({
+					fillColor:"rgba(26,152,80,1)"
+				});
+			
+			} else {
+			}
+		});
+	}
+	
+	function clearStyle(){
+	
+		affordLayer.eachLayer(function(layer){
+		
+			layer.setStyle({
+				weight: 0,
+				color: 'rgba(255,255,255,0)',
+				fillOpacity: 0
+			});
+		
+		});
 	}
 
-function loadVulnerability(){
-	activeLayers.clearLayers();
+
+
+	skipSlider.noUiSlider.updateOptions({
+		animate: true,
+		animationDuration: 1000,
+		range: {
+			'min': 2000,
+			'5%': 2001,
+			'10%': 2002,
+			'15%': 2003,
+			'20%': 2004,
+			'25%': 2005,
+			'30%': 2006,
+			'35%': 2007,
+			'40%': 2008,
+			'45%': 2009,
+			'50%': 2010,
+			'55%': 2011,
+			'60%': 2012,
+			'65%': 2013,
+			'70%': 2014,
+			'75%': 2015,
+			//'80%': 2016,
+			//'85%': 2017,
+			//'90%': 2018,
+			//'95%': 2019,
+			'max': 2020
+		},
+		snap: true,
+		start: [2000],
+		format: wNumb({
+			decimals: 0
+		})
+	});
+
+
+	skipValues = [
+		document.getElementById('year-label'),
+	];
+
+	$("#vcr-controls").css("display","initial");
+	$("#slider").css("display","initial");
+	$("#year-label").css("display","initial");
+	$("#homeButton").css("display","initial");
+	$("#map-menu").css("display","initial");
+
+	skipSlider.noUiSlider.on('update', function( values, handle ) {
 	
+		timestamp=Number(values[handle]);
+
+	
+		skipValues[handle].innerHTML = values[handle];
+		
+		setStyle();
+		updateTooltips();
+
+		if (timestamp > 2015 && timestamp < 2020){
+			clearStyle()
+		} else {
+		}
+		if (timestamp==2020){
+			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
+		} else {
+		
+		}
+		
+	});
+
+
+	playButton.addEventListener('click', function(){
+		$('#vcr-play').addClass('active');
+		play = setInterval(next, 1000);
+
+	});
+
+	pauseButton.addEventListener('click', function(){
+
+		clearInterval(play);
+		$('#vcr-play').removeClass('active');
+	});
+
+	refreshButton.addEventListener('click', function(){
+		skipSlider.noUiSlider.set(2000);
+		updateTimestamp = 2000;
+
+	});
+
+
+	//setStyle();
+	
+	
+	function next() {
+
+		if (timestamp < 2015){
+			
+ 			updateTimestamp = timestamp + 1;
+			setStyle();
+			updateTooltips();
+
+			skipSlider.noUiSlider.set(updateTimestamp);
+	
+		} else if (timestamp >= 2015 && timestamp < 2020){
+			timestamp += 2.5;
+			console.log(timestamp);
+	
+		} else if (timestamp == 2020){
+			updateTimestamp = timestamp + 1;
+			setStyle();
+			updateTooltips();
+
+			skipSlider.noUiSlider.set(updateTimestamp);
+			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
+			
+		} else if (updateTimestamp > 2020){
+			clearInterval(play);
+		}
+	}
+}	
+
+
+function loadVulnerability(){
+	clearInterval();
+
+	activeLayers.clearLayers();
+
+    document.getElementById('legend').innerHTML = "<img id='vIndexLegend' src='images/legend_vIndex.png' alt='affordability legend'></img>";
+
 	var vulnerability = L.mapbox.featureLayer(censusHex);
 	vulnerability.addTo(activeLayers);
 	
-	function onEachFeature(layer) {
-		var vIndexField= 'SC_TOT_';
-		var vIndexVar = layer.feature.properties[vIndexField + timestamp];
-		
-		
-		var popupHTML = "Displacement Vulnerability Score: "+vIndexVar;
+	cTract.addTo(activeLayers);
+	cTract.on('ready',function(layer){
+		this.eachLayer(function(feature){
+            
+              feature.setStyle({
+              	fillColor:'white',
+                fillOpacity:'0',
+                color: 'white',
+                weight: '0.5',
+                opacity: '0'
+            });
+			
+			
+			var tooltip = feature.toGeoJSON().properties;
+			var year = timestamp.toString().substr(2,2);
 
-		layer.bindPopup(popupHTML);
-				
+			var vIndexField = 'SC_TOT';
+			var vIndexVar = tooltip[vIndexField + year];
+
+			var nwhiteField = 'NONWHT_';
+			var nwhiteVar = tooltip[nwhiteField + timestamp];
+			var nwhite_format = nwhiteVar*100;
+
+			var bachField = 'LSBCH_';
+			var bachVar = tooltip[bachField + timestamp];
+			var bach_format = bachVar*100;
+
+			var rentersField = 'RENT_';
+			var rentVar = tooltip[rentersField + timestamp];
+			var rent_format = rentVar*100;
+
+			var hudField = 'LSHUD_';
+			var hudVar = tooltip[hudField + timestamp];
+			var hud_format = hudVar*100;
+										
+			var popupHTML = "Displacement Vulnerability Score: "+vIndexVar+"<br>Non-White: "+nwhite_format.toFixed(2)+"%<br>Without Bachelor's Degree: "+bach_format.toFixed(2)+"%<br>Renters: "+rent_format.toFixed(2)+"% <br>Below 80% HUD Median Family Income: "+rent_format.toFixed(2)+"%";
+
+			feature.bindPopup(popupHTML);
+
+			feature.on({
+				mouseover: function(){
+					feature.setStyle({"fillOpacity":"0.5", "opacity":"0.5"}); 			
+				},
+				mouseout: function(){
+					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
+				}
+			});
+      	});
+     });
+
+	function updateTooltips(){
+		if (timestamp==2020){
+			cTract.eachLayer(function(feature){
+            
+              feature.setStyle({
+              	fillColor:'white',
+                fillOpacity:'0',
+                color: 'white',
+                weight: '0.5',
+                opacity: '0'
+            });
+			
+            feature.closePopup();  	
+			feature.unbindPopup();
+
+			feature.on({
+				mouseover: function(){
+					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 			
+				},
+				mouseout: function(){
+					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
+				}
+			});
+      	});
+		}else{
+			
+		cTract.eachLayer(function(feature){
+            
+              feature.setStyle({
+              	fillColor:'white',
+                fillOpacity:'0',
+                color: 'white',
+                weight: '0.5',
+                opacity: '0'
+            });
+			
+			
+			var tooltip = feature.toGeoJSON().properties;
+			var year = timestamp.toString().substr(2,2);
+
+			var vIndexField = 'SC_TOT';
+			var vIndexVar = tooltip[vIndexField + year];
+
+			var nwhiteField = 'NONWHT_';
+			var nwhiteVar = tooltip[nwhiteField + timestamp];
+			var nwhite_format = nwhiteVar*100;
+
+			var bachField = 'LSBCH_';
+			var bachVar = tooltip[bachField + timestamp];
+			var bach_format = bachVar*100;
+
+			var rentersField = 'RENT_';
+			var rentVar = tooltip[rentersField + timestamp];
+			var rent_format = rentVar*100;
+
+			var hudField = 'LSHUD_';
+			var hudVar = tooltip[hudField + timestamp];
+			var hud_format = hudVar*100;
+										
+			var popupHTML = "Displacement Vulnerability Score: "+vIndexVar+"<br>Non-White: "+nwhite_format.toFixed(2)+"%<br>Without Bachelor's Degree: "+bach_format.toFixed(2)+"%<br>Renters: "+rent_format.toFixed(2)+"% <br>Below 80% HUD Median Family Income: "+rent_format.toFixed(2)+"%";
+
+			feature.bindPopup(popupHTML);
+
+			feature.on({
+				mouseover: function(){
+					feature.setStyle({"fillOpacity":"0.5", "opacity":"0.5"}); 			
+				},
+				mouseout: function(){
+					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
+				}
+			});
+      	});
+		}
+   		
 	}
 
 	function setStyle(){
+		
 	
 		vulnerability.eachLayer(function(layer){
 			//layer.on({
@@ -276,7 +945,7 @@ function loadVulnerability(){
 			//	}
 			//});
 			
-			onEachFeature(layer);
+			//onEachFeature(layer);
 			var attr = layer.feature.properties;
 			// color
 			layer.setStyle({
@@ -287,14 +956,14 @@ function loadVulnerability(){
 		
 			var vulnField= 'SC_TOT_';
 			
-			layer.on({
+			/*layer.on({
 				mouseover: function(){
 					layer.setStyle({"fillOpacity":"0.1"}); 			
 				},
 				mouseout: function(){
 					layer.setStyle({"fillOpacity":"1"}); 					
 				}
-			});
+			});*/
 			
 			if(attr[vulnField + timestamp] === 0){
 				layer.setStyle({
@@ -323,46 +992,17 @@ function loadVulnerability(){
 			}else{
 
 			}
-			/*
-			//gray overlay for projected year
-			if(timestamp==2020 && attr[vulnField + timestamp] === 0){
-				layer.setStyle({
-					fillColor:"rgba(235,235,235,0.75)"
-				});
-			}else if(timestamp==2020 && attr[vulnField + timestamp]=== 1){
-				layer.setStyle({
-					fillColor:"rgba(254,229,217,0.75)"
-				});
-			
-			}else if(timestamp==2020 && attr[vulnField + timestamp] === 2){
-				layer.setStyle({
-					fillColor:"rgba(252,174,145,0.75)"
-				});
-			
-			}else if(timestamp==2020 && attr[vulnField + timestamp] === 3){
-				layer.setStyle({
-					fillColor:"rgba(251,106,74,0.75)"
-				});
-			
-			}else if(timestamp==2020 && attr[vulnField + timestamp] === 4){
-				layer.setStyle({
-					fillColor:"rgba(203,24,29,0.75)"
-				}); 
-		  
-			}else{
 
-			}
-			*/
 		});
 	}
 
+	$("#vcr-controls").css("display","initial");
+	$("#slider").css("display","initial");
+	$("#year-label").css("display","initial");
+	$("#homeButton").css("display","initial");
+	$("#map-menu").css("display","initial");
 
-	skipSlider = document.getElementById('slider');
-	playButton = document.getElementById('vcr-play');
-	pauseButton = document.getElementById('vcr-pause');
-	refreshButton = document.getElementById('vcr-refresh');
-
-	noUiSlider.create(skipSlider, {
+	skipSlider.noUiSlider.updateOptions({
 		animate: true,
 		animationDuration: 3000,
 		range: {
@@ -403,6 +1043,7 @@ function loadVulnerability(){
 		skipValues[handle].innerHTML = values[handle];
 		
 		setStyle();
+		updateTooltips();
 		
 		if (timestamp==2020){
 			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
@@ -437,68 +1078,160 @@ function loadVulnerability(){
 
 		if (timestamp == 1990) {
 	
-		updateTimestamp = timestamp + 10;
+			updateTimestamp = timestamp + 10;
 	
-		setStyle();
-		skipSlider.noUiSlider.set(updateTimestamp);
+			setStyle();
+			updateTooltips();
+			skipSlider.noUiSlider.set(updateTimestamp);
 
 
 		} else if (timestamp == 2000){
-		updateTimestamp = timestamp + 9;
+			updateTimestamp = timestamp + 9;
 	
-		setStyle();
-		skipSlider.noUiSlider.set(updateTimestamp);
+			setStyle();
+			updateTooltips();
+			skipSlider.noUiSlider.set(updateTimestamp);
 	
 		} else if (timestamp < 2014){
-		updateTimestamp = timestamp + 1;
+			updateTimestamp = timestamp + 1;
 	
-		setStyle();
-		skipSlider.noUiSlider.set(updateTimestamp);
-
-		} else if (timestamp == 2014){
-		updateTimestamp = timestamp + 6;
-	
-		setStyle();
-		skipSlider.noUiSlider.set(updateTimestamp);
-		document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
+			setStyle();
+			updateTooltips();
+			skipSlider.noUiSlider.set(updateTimestamp);
 		
-		} else {
+		} else if (timestamp >= 2014 && timestamp < 2020){
+			timestamp += 3;
+			
+			
+		} else if (timestamp == 2020){
+			updateTimestamp = timestamp + 1;
+	
+			setStyle();
+			updateTooltips();
+			skipSlider.noUiSlider.set(updateTimestamp);
+			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
+		
+		} else if (updateTimestamp > 2020){
 		clearInterval(play);
 		}
 	}
 
 
-
-
 }
 
 function loadOwnership() {
-	
+	clearInterval();
     activeLayers.clearLayers();
+    document.getElementById('legend').innerHTML = "<img id='ownLegend' src='images/legend_ownership.png' alt='affordability legend'></img>";
+
 	var ownershipLayer = L.mapbox.featureLayer(censusHex);
 	ownershipLayer.addTo(activeLayers);
-	
-	function onEachFeature(layer) {
-		var ownField= 'OWN_';
-		var ownershipVar = layer.feature.properties[ownField + timestamp];
-		var percentage = ownershipVar*100
-		
-		if (timestamp==2020){
-			return
-		}else if (timestamp <2020){
-			var popupHTML = "Owner-occupied homes: "+percentage.toFixed(2)+"%";
 
-			layer.bindPopup(popupHTML);
-		} else {
-		}
+	var cTract = omnivore.topojson('../data/ctract2010_tooltips.json');
+	cTract.addTo(activeLayers);
+
+	cTract.on('ready',function(layer){
+		this.eachLayer(function(feature){
+            
+              feature.setStyle({
+              	fillColor:'gray',
+                fillOpacity:'0',
+                color: 'white',
+                weight: '0.5',
+                opacity: '0'
+            });
+			
+			
+			var tooltip = feature.toGeoJSON().properties;
+			var year = timestamp.toString().substr(2,2);
+
+			var ownField = 'OWN_';
+			var ownVar = tooltip[ownField + timestamp];
+			var ownVar_format = ownVar*100;
+
+			var popupHTML = "Owner-occupied homes: "+ownVar_format.toFixed(2)+"%";
+
+			feature.bindPopup(popupHTML);
+
+			feature.on({
+				mouseover: function(){
+					feature.setStyle({"fillOpacity":"0.3", "opacity":"0.3"}); 			
+				},
+				mouseout: function(){
+					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
+				}
+			});
+      	});
+     });
+
+	function updateTooltips(){
+		if (timestamp==2020){
+			cTract.eachLayer(function(feature){
+            
+              feature.setStyle({
+              	fillColor:'gray',
+                fillOpacity:'0',
+                color: 'white',
+                weight: '0.5',
+                opacity: '0'
+            });
+			
+			feature.closePopup();
+			feature.unbindPopup();
+
+			feature.on({
+				mouseover: function(){
+					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 			
+				},
+				mouseout: function(){
+					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
+				}
+			});
+			
+      		});
+		}else{
+			
+			cTract.eachLayer(function(feature){
+	            
+	              feature.setStyle({
+	              	fillColor:'gray',
+	                fillOpacity:'0',
+	                color: 'white',
+	                weight: '0.5',
+	                opacity: '0'
+	            });
 				
+				
+				var tooltip = feature.toGeoJSON().properties;
+				var year = timestamp.toString().substr(2,2);
+
+				var ownField = 'OWN_';
+				var ownVar = tooltip[ownField + timestamp];
+				var ownVar_format = ownVar*100;
+
+				var popupHTML = "Owner-occupied homes: "+ownVar_format.toFixed(2)+"%";
+
+				feature.bindPopup(popupHTML);
+
+				feature.on({
+					mouseover: function(){
+						feature.setStyle({"fillOpacity":"0.3", "opacity":"0.3"}); 			
+					},
+					mouseout: function(){
+						feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
+					}
+				});
+	      	});
+		}
+   		
 	}
+
+	
 
 	function setStyle(){
 	
 		ownershipLayer.eachLayer(function(layer){
-			
-			onEachFeature(layer);
+					
 			var attr = layer.feature.properties;
 			// color
 			layer.setStyle({
@@ -509,14 +1242,6 @@ function loadOwnership() {
 		
 			var ownField= 'OWN_';
 		
-			layer.on({
-				mouseover: function(){
-					layer.setStyle({"fillOpacity":"0.1"}); 			
-				},
-				mouseout: function(){
-					layer.setStyle({"fillOpacity":"1"}); 					
-				}
-			});
 					
 			if(attr[ownField + timestamp] <= 0.5){
 				layer.setStyle({
@@ -551,50 +1276,16 @@ function loadOwnership() {
 
 			}
 			
-			/*
-			//gray overlay for projected year
-			if(timestamp==2020 && attr[ownField + timestamp] <= 0.5){
-				layer.setStyle({
-					fillColor:"rgba(239,243,255,0.75)"
-				});
-			}else if(timestamp==2020 &&attr[ownField + timestamp] > 0.9){
-				layer.setStyle({
-					fillColor:"rgba(8,81,156,0.75)"
-				});
-			
-			}else if(timestamp==2020 &&attr[ownField + timestamp] > 0.8){
-				layer.setStyle({
-					fillColor:"rgba(49,130,189,0.75)"
-				});
-			
-			}else if(timestamp==2020 &&attr[ownField + timestamp] > 0.7){
-				layer.setStyle({
-					fillColor:"rgba(107,174,214,0.75)"
-				});
-			
-			}else if(timestamp==2020 &&attr[ownField + timestamp] > 0.6){
-				layer.setStyle({
-					fillColor:"rgba(158,202,225,0.75)"
-				}); 
-				
-			}else if(timestamp==2020 &&attr[ownField + timestamp] > 0.5){
-				layer.setStyle({
-					fillColor:"rgba(239,243,255,0.75)"
-				}); 
-				  
-			}else{
-
-			}
-			*/
 		});
 	}
 
-	skipSlider = document.getElementById('slider');
-	playButton = document.getElementById('vcr-play');
-	pauseButton = document.getElementById('vcr-pause');
-	refreshButton = document.getElementById('vcr-refresh');
-
-	noUiSlider.create(skipSlider, {
+	$("#vcr-controls").css("display","initial");
+	$("#slider").css("display","initial");
+	$("#year-label").css("display","initial");
+	$("#homeButton").css("display","initial");
+	$("#map-menu").css("display","initial");
+	
+	skipSlider.noUiSlider.updateOptions({
 		animate: true,
 		animationDuration: 3000,
 		range: {
@@ -633,7 +1324,8 @@ function loadOwnership() {
 	
 		skipValues[handle].innerHTML = values[handle];
 		setStyle();
-		
+		updateTooltips();
+
 		if (timestamp==2020){
 			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
 		} else {
@@ -664,39 +1356,46 @@ function loadOwnership() {
 	//initial load (1990)
 
 	setStyle();
-
-
-
+	updateTooltips();
+	
 	function next() {
 
 		if (timestamp == 1990) {
 	
-		updateTimestamp = timestamp + 10;
+			updateTimestamp = timestamp + 10;
 	
-		setStyle();
-		skipSlider.noUiSlider.set(updateTimestamp);
+			setStyle();
+			updateTooltips();
+			skipSlider.noUiSlider.set(updateTimestamp);
 
 
 		} else if (timestamp == 2000){
-		updateTimestamp = timestamp + 9;
+			updateTimestamp = timestamp + 9;
 	
-		setStyle();
-		skipSlider.noUiSlider.set(updateTimestamp);
+			setStyle();
+			updateTooltips();
+			skipSlider.noUiSlider.set(updateTimestamp);
 	
 		} else if (timestamp < 2014){
-		updateTimestamp = timestamp + 1;
+			updateTimestamp = timestamp + 1;
 	
-		setStyle();
-		skipSlider.noUiSlider.set(updateTimestamp);
-
-		} else if (timestamp == 2014){
-		updateTimestamp = timestamp + 6;
-	
-		setStyle();
-		skipSlider.noUiSlider.set(updateTimestamp);
-		document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
+			setStyle();
+			updateTooltips();
+			skipSlider.noUiSlider.set(updateTimestamp);
 		
-		} else {
+		} else if (timestamp >= 2014 && timestamp < 2020){
+			timestamp += 3;
+			
+			
+		} else if (timestamp == 2020){
+			updateTimestamp = timestamp + 1;
+	
+			setStyle();
+			updateTooltips();
+			skipSlider.noUiSlider.set(updateTimestamp);
+			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
+		
+		} else if (updateTimestamp > 2020){
 		clearInterval(play);
 		}
 	}
