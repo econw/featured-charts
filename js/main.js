@@ -55,7 +55,7 @@
     
 	activeLayers = L.layerGroup().addTo(map);
 
-	var cTract = omnivore.topojson('econw.github.io/PHC-map/PHC-map-redesign/data/ctract2010_tooltips.json');
+	var cTract = omnivore.topojson('../data/ctract2010_tooltips.json');
 
 	skipSlider = document.getElementById('slider');
 	playButton = document.getElementById('vcr-play');
