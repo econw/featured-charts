@@ -129,6 +129,7 @@ function loadAffordability20() {
 
 			var medSalesField = 'SP';
 			var medSalesVar = tooltip[medSalesField + year];
+			var medSales_format = medSalesVar.toLocaleString();
 			
 			var interestField = 'intrst_';
 			var intrstVar = tooltip[interestField+year];
@@ -137,7 +138,7 @@ function loadAffordability20() {
 			var mfiField = 'hudmfi';
 			var mfiVar = tooltip[mfiField + year];
 				
-			var popupHTML = "Percent of Income spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSalesVar.toLocaleString()+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfiVar.toLocaleString();
+			var popupHTML = "Percent of Income spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSales_format+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfiVar.toLocaleString();
 
 			feature.bindPopup(popupHTML);
 
