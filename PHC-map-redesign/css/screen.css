@@ -30,6 +30,30 @@ h1, h2, h3, h4, h5, h6{
 	padding-bottom: 10px;
 }
 
+#header-bar{
+	font-family: "Cabin", "Arial";	
+	background-color: rgba(161, 165, 175, 0.6);
+	color: #003056;
+	padding: 5px 0 5px 0;
+}
+
+#header-bar h2{
+	margin-left: 30px;
+}
+#phc-logo{
+
+	width: auto;
+	height: 70px;
+	margin-left: 5px;
+}
+
+#eco-logo{
+
+	width: auto;
+	height: 40px;
+	margin-left: 20px;
+}
+
 .dropdown-menu{
 	cursor: pointer;
 }
@@ -37,7 +61,6 @@ h1, h2, h3, h4, h5, h6{
 .jumbotron{
 	overflow: scroll;
 	max-height: 350px;
-	margin-top: 40px;
 	background-color: rgba(161, 165, 175, 0.2);
 	padding-top: 30px;
 	padding-bottom: 30px;
@@ -120,6 +143,9 @@ h1, h2, h3, h4, h5, h6{
 	font-size: 12px;
 	white-space: nowrap;
 }
+.leaflet-container {
+font-family: "Helvetica-Neue", "Helvetica", "Arial";
+}
 #slider {
 	width: 198%;
 	float: right;
@@ -172,23 +198,6 @@ h1, h2, h3, h4, h5, h6{
 
 
 
-#phc-logo{
-
-	width: auto;
-	height: 70px;
-}
-
-#eco-logo{
-
-	width: auto;
-	height: 40px;
-	margin-left: 10px;
-}
-
-
-.leaflet-container {
-font-family: "Helvetica-Neue", "Helvetica", "Arial";
-}
 
 /*
 	VCR CONTROLS
