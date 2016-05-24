@@ -85,6 +85,7 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .btn-primary{
+
 	background-color: #9b1828;
 	border-color: #9b1828;
 }
@@ -92,6 +93,23 @@ h1, h2, h3, h4, h5, h6{
 .btn-primary:hover{
 	background-color: #ccc;
 	border-color: #ccc;
+}
+
+#homeButton-icon.btn-primary{
+	width: 30px;
+	height:30px;
+	background-color: #aaa;
+	border-color: #aaa;
+}
+
+#homeButton-icon.btn-primary:hover{
+	background-color: #ccc;
+	border-color: #ccc;
+}
+
+#homeButton-icon span{
+	font-size: 14px;
+	margin-left:-2px;
 }
 
 #dropdownMenu1{

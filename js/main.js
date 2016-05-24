@@ -108,129 +108,47 @@ function loadAffordability20() {
 
 	affordLayer.addTo(activeLayers);
 	
-	cTract.addTo(activeLayers);
-	cTract.on('ready',function(layer){
-		this.eachLayer(function(feature){
-            
-              feature.setStyle({
-              	fillColor:'gray',
-                fillOpacity:'0',
-                color: 'white',
-                weight: '0.5',
-                opacity: '0'
-            });
-			
-			var tooltip = feature.toGeoJSON().properties;
-			var year = timestamp.toString().substr(2,2);
+	function onEachFeature(layer) {
+		var tooltip = layer.feature.properties;
+		var year = timestamp.toString().substr(2,2);
 
-			var affdField20 = 'affd20_';
-			var affd20Var = tooltip[affdField20 + year];
-			var percentIncome_format = affd20Var*100;
+		var affdField20 = 'affd20_';
+		var affd20Var = tooltip[affdField20 + year];
+		var percentIncome_format = affd20Var*100;
 
-			var medSalesField = 'SP';
-			var medSalesVar = tooltip[medSalesField + year];
-			var medSales_format = medSalesVar.toLocaleString();
+		var medSalesField = 'SP';
+		var medSalesVar = tooltip[medSalesField + year];
 			
-			var interestField = 'intrst_';
-			var intrstVar = tooltip[interestField+year];
-			var percentInt = intrstVar*100;
+		var interestField = 'intrst_';
+		var intrstVar = tooltip[interestField+year];
+		var percentInt = intrstVar*100;
 			
-			var mfiField = 'hudmfi';
-			var mfiVar = tooltip[mfiField + year];
+		var mfiField = 'hudmfi';
+		var mfiVar = tooltip[mfiField + year];
+		var mfi_format = parseInt(mfiVar);
 				
-			var popupHTML = "Percent of Income spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSales_format+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfiVar.toLocaleString();
+		//var popupHTML = "Percent of Income spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSalesVar.toLocaleString()+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfiVar.toLocaleString();
 
-			feature.bindPopup(popupHTML);
-
-			feature.on({
-				mouseover: function(){
-					feature.setStyle({"fillOpacity":"0.3", "opacity":"0.3"}); 			
-				},
-				mouseout: function(){
-					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
-				}
-			});
-      	});
-     });
-
-	function updateTooltips(){
-		if (timestamp==2020){
-			cTract.eachLayer(function(feature){
-            
-              feature.setStyle({
-              	fillColor:'gray',
-                fillOpacity:'0',
-                color: 'white',
-                weight: '0.5',
-                opacity: '0'
-            });
-			
-            feature.closePopup();  	
-			feature.unbindPopup();
-			
-			feature.on({
-				mouseover: function(){
-					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 			
-				},
-				mouseout: function(){
-					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
-				}
-			});
-			
-      	});
-		}else{
-			
-		cTract.eachLayer(function(feature){
-            
-              feature.setStyle({
-              	fillColor:'gray',
-                fillOpacity:'0',
-                color: 'white',
-                weight: '0.5',
-                opacity: '0'
-            });
-			
-			
-			var tooltip = feature.toGeoJSON().properties;
-			var year = timestamp.toString().substr(2,2);
-
-			var affdField20 = 'affd20_';
-			var affd20Var = tooltip[affdField20 + year];
-			var percentIncome_format = affd20Var*100;
-
-			var medSalesField = 'SP';
-			var medSalesVar = tooltip[medSalesField + year];
-			
-			var interestField = 'intrst_';
-			var intrstVar = tooltip[interestField+year];
-			var percentInt = intrstVar*100;
-			
-			var mfiField = 'hudmfi';
-			var mfiVar = tooltip[mfiField + year];
-				
-			var popupHTML = "Percent of Income spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSalesVar.toLocaleString()+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfiVar.toLocaleString();
-
-			feature.bindPopup(popupHTML);
-
-			feature.on({
-				mouseover: function(){
-					feature.setStyle({"fillOpacity":"0.3", "opacity":"0.3"}); 			
-				},
-				mouseout: function(){
-					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
-				}
-			});
-      	});
-		}
-   		
-	}
+		//layer.bindPopup(popupHTML);
 		
+		if (timestamp==2020){
+		var popupHTML = "Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfi_format.toLocaleString();
+
+		layer.bindPopup(popupHTML);
+		} else if (timestamp <= 2014){
+		var popupHTML = "Percent of Income Spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSalesVar.toLocaleString()+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfi_format.toLocaleString();
+
+		layer.bindPopup(popupHTML);		
+		}
+	}
+
 	function setStyle(){
 		
 		
 		
 		affordLayer.eachLayer(function(layer){
-			
+
+			onEachFeature(layer);
 			var attr = layer.feature.properties;
 			// color
 			layer.setStyle({
@@ -239,7 +157,15 @@ function loadAffordability20() {
 				fillOpacity: 1
 			});
 		
-		
+			layer.on({
+				mouseover: function(){
+					layer.setStyle({"fillOpacity":"0.3"}); 			
+				},
+				mouseout: function(){
+					layer.setStyle({"fillOpacity":"1"}); 					
+				}
+			});
+
 			var slsField = 'numSls';
 			var affdField = 'affd20_';
 		
@@ -377,7 +303,7 @@ function loadAffordability20() {
 		skipValues[handle].innerHTML = values[handle];
 		
 		setStyle();
-		updateTooltips();
+		//updateTooltips();
 
 		if (timestamp > 2015 && timestamp < 2020){
 			clearStyle()
@@ -420,7 +346,7 @@ function loadAffordability20() {
 			
  			updateTimestamp = timestamp + 1;
 			setStyle();
-			updateTooltips();
+			//updateTooltips();
 
 			skipSlider.noUiSlider.set(updateTimestamp);
 	
@@ -431,7 +357,7 @@ function loadAffordability20() {
 		} else if (timestamp == 2020){
 			updateTimestamp = timestamp + 1;
 			setStyle();
-			updateTooltips();
+			//updateTooltips();
 
 			skipSlider.noUiSlider.set(updateTimestamp);
 			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
@@ -453,136 +379,45 @@ function loadAffordability5() {
 
 	affordLayer.addTo(activeLayers);
 	
-	cTract.addTo(activeLayers);
-	cTract.on('ready',function(layer){
-		this.eachLayer(function(feature){
-            
-              feature.setStyle({
-              	fillColor:'gray',
-                fillOpacity:'0',
-                color: 'white',
-                weight: '0.5',
-                opacity: '0'
-            });
-			
-			var tooltip = feature.toGeoJSON().properties;
-			var year = timestamp.toString().substr(2,2);
+	function onEachFeature(layer) {
+		var tooltip = layer.feature.properties;
+		var year = timestamp.toString().substr(2,2);
 
-			var affdField5 = 'affd5_';
-			var affd5Var = tooltip[affdField5 + year];
-			var percentIncome_format = affd5Var*100;
+		var affdField5 = 'affd5_';
+		var affd5Var = tooltip[affdField5 + year];
+		var percentIncome_format = affd5Var*100;
 
-			var medSalesField = 'SP';
-			var medSalesVar = tooltip[medSalesField + year];
+		var medSalesField = 'SP';
+		var medSalesVar = tooltip[medSalesField + year];
 			
-			var interestField = 'intrst_';
-			var intrstVar = tooltip[interestField+year];
-			var percentInt = intrstVar*100;
+		var interestField = 'intrst_';
+		var intrstVar = tooltip[interestField+year];
+		var percentInt = intrstVar*100;
 			
-			var mfiField = 'hudmfi';
-			var mfiVar = tooltip[mfiField + year];
+		var mfiField = 'hudmfi';
+		var mfiVar = tooltip[mfiField + year];
+		var mfi_format = parseInt(mfiVar);
 				
-			var popupHTML = "Percent of Income spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSalesVar.toLocaleString()+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfiVar.toLocaleString();
+		//var popupHTML = "Percent of Income spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSalesVar.toLocaleString()+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfiVar.toLocaleString();
 
-			feature.bindPopup(popupHTML);
-
-			feature.on({
-				mouseover: function(){
-					feature.setStyle({"fillOpacity":"0.3", "opacity":"0.3"}); 			
-				},
-				mouseout: function(){
-					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
-				}
-			});
-      	});
-     });
-
-	function updateTooltips(){
+		//layer.bindPopup(popupHTML);
+		
 		if (timestamp==2020){
-			cTract.eachLayer(function(feature){
-            
-              feature.setStyle({
-              	fillColor:'gray',
-                fillOpacity:'0',
-                color: 'white',
-                weight: '0.5',
-                opacity: '0'
-            });
-			
-            feature.closePopup();  	
-			feature.unbindPopup();
-			
-			feature.on({
-				mouseover: function(){
-					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 			
-				},
-				mouseout: function(){
-					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
-				}
-			});
-			
-      	});
-		}else{
-			
-		cTract.eachLayer(function(feature){
-            
-              feature.setStyle({
-              	fillColor:'gray',
-                fillOpacity:'0',
-                color: 'white',
-                weight: '0.5',
-                opacity: '0'
-            });
-			
-			
-			var tooltip = feature.toGeoJSON().properties;
-			var year = timestamp.toString().substr(2,2);
+		var popupHTML = "Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfi_format.toLocaleString();
 
-			var affdField5 = 'affd5_';
-			var affd5Var = tooltip[affdField5 + year];
-			var percentIncome_format = affd5Var*100;
+		layer.bindPopup(popupHTML);
+		} else if (timestamp <= 2014){
+		var popupHTML = "Percent of Income Spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSalesVar.toLocaleString()+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfi_format.toLocaleString();
 
-			var medSalesField = 'SP';
-			var medSalesVar = tooltip[medSalesField + year];
-			
-			var interestField = 'intrst_';
-			var intrstVar = tooltip[interestField+year];
-			var percentInt = intrstVar*100;
-			
-			var mfiField = 'hudmfi';
-			var mfiVar = tooltip[mfiField + year];
-				
-			var popupHTML = "Percent of Income spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSalesVar.toLocaleString()+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfiVar.toLocaleString();
-
-			feature.bindPopup(popupHTML);
-
-			feature.on({
-				mouseover: function(){
-					feature.setStyle({"fillOpacity":"0.3", "opacity":"0.3"}); 			
-				},
-				mouseout: function(){
-					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
-				}
-			});
-      	});
+		layer.bindPopup(popupHTML);		
 		}
-   		
 	}
-		
+
 	function setStyle(){
-		
-		
-		
+	
 		affordLayer.eachLayer(function(layer){
-			//layer.on({
-			//	mouseover: function(){
-			//		layer.openPopup();				
-			//	},
-			//	mouseout: function(){
-			//		layer.closePopup();				
-			//	}
-			//});
-			//onEachFeature(layer);
+			
+			onEachFeature(layer);
 			var attr = layer.feature.properties;
 			// color
 			layer.setStyle({
@@ -590,7 +425,15 @@ function loadAffordability5() {
 				color: 'rgba(255,255,255,1)',
 				fillOpacity: 1
 			});
-		
+			
+			layer.on({
+				mouseover: function(){
+					layer.setStyle({"fillOpacity":"0.3"}); 			
+				},
+				mouseout: function(){
+					layer.setStyle({"fillOpacity":"1"}); 					
+				}
+			});
 		
 			var slsField = 'numSls';
 			var affdField = 'affd5_';
@@ -730,7 +573,7 @@ function loadAffordability5() {
 		skipValues[handle].innerHTML = values[handle];
 		
 		setStyle();
-		updateTooltips();
+		//updateTooltips();
 
 		if (timestamp > 2015 && timestamp < 2020){
 			clearStyle()
@@ -759,7 +602,7 @@ function loadAffordability5() {
 
 	refreshButton.addEventListener('click', function(){
 		skipSlider.noUiSlider.set(2000);
-		updateTimestamp = 2000;
+		//updateTimestamp = 2000;
 
 	});
 
@@ -773,7 +616,7 @@ function loadAffordability5() {
 			
  			updateTimestamp = timestamp + 1;
 			setStyle();
-			updateTooltips();
+			//updateTooltips();
 
 			skipSlider.noUiSlider.set(updateTimestamp);
 	
@@ -784,7 +627,7 @@ function loadAffordability5() {
 		} else if (timestamp == 2020){
 			updateTimestamp = timestamp + 1;
 			setStyle();
-			updateTooltips();
+			//updateTooltips();
 
 			skipSlider.noUiSlider.set(updateTimestamp);
 			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
@@ -841,7 +684,7 @@ function loadVulnerability(){
 			var hudVar = tooltip[hudField + timestamp];
 			var hud_format = hudVar*100;
 										
-			var popupHTML = "Displacement Vulnerability Score: "+vIndexVar+"<br>Non-White: "+nwhite_format.toFixed(2)+"%<br>Without Bachelor's Degree: "+bach_format.toFixed(2)+"%<br>Renters: "+rent_format.toFixed(2)+"% <br>Below 80% HUD Median Family Income: "+rent_format.toFixed(2)+"%";
+			var popupHTML = "Displacement Vulnerability Score: "+vIndexVar+"<br>Non-White: "+nwhite_format.toFixed(2)+"%<br>Without Bachelor's Degree: "+bach_format.toFixed(2)+"%<br>Renters: "+rent_format.toFixed(2)+"% <br>Below 80% HUD Median Family Income: "+hud_format.toFixed(2)+"%";
 
 			feature.bindPopup(popupHTML);
 
@@ -857,6 +700,8 @@ function loadVulnerability(){
      });
 
 	function updateTooltips(){
+		
+
 		if (timestamp==2020){
 			cTract.eachLayer(function(feature){
             
@@ -867,13 +712,20 @@ function loadVulnerability(){
                 weight: '0.5',
                 opacity: '0'
             });
-			
-            feature.closePopup();  	
-			feature.unbindPopup();
+             
+            var tooltip = feature.toGeoJSON().properties;
+			var year = timestamp.toString().substr(2,2);
+			var vIndexField = 'SC_TOT';
+			var vIndexVar = tooltip[vIndexField + year];
+            //feature.closePopup();  	
+			//feature.unbindPopup();
+			var popupHTML = "Displacement Vulnerability Score: "+vIndexVar;
+
+			feature.bindPopup(popupHTML);
 
 			feature.on({
 				mouseover: function(){
-					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 			
+					feature.setStyle({"fillOpacity":"0.5", "opacity":"0.5"}); 			
 				},
 				mouseout: function(){
 					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
@@ -891,7 +743,6 @@ function loadVulnerability(){
                 weight: '0.5',
                 opacity: '0'
             });
-			
 			
 			var tooltip = feature.toGeoJSON().properties;
 			var year = timestamp.toString().substr(2,2);
@@ -1133,7 +984,7 @@ function loadOwnership() {
 		this.eachLayer(function(feature){
             
               feature.setStyle({
-              	fillColor:'gray',
+              	fillColor:'white',
                 fillOpacity:'0',
                 color: 'white',
                 weight: '0.5',
@@ -1154,7 +1005,7 @@ function loadOwnership() {
 
 			feature.on({
 				mouseover: function(){
-					feature.setStyle({"fillOpacity":"0.3", "opacity":"0.3"}); 			
+					feature.setStyle({"fillOpacity":"0.5", "opacity":"0.5"}); 			
 				},
 				mouseout: function(){
 					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
@@ -1168,7 +1019,7 @@ function loadOwnership() {
 			cTract.eachLayer(function(feature){
             
               feature.setStyle({
-              	fillColor:'gray',
+              	fillColor:'white',
                 fillOpacity:'0',
                 color: 'white',
                 weight: '0.5',
@@ -1193,11 +1044,11 @@ function loadOwnership() {
 			cTract.eachLayer(function(feature){
 	            
 	              feature.setStyle({
-	              	fillColor:'gray',
-	                fillOpacity:'0',
-	                color: 'white',
-	                weight: '0.5',
-	                opacity: '0'
+	              	fillColor:'white',
+                fillOpacity:'0',
+                color: 'white',
+                weight: '0.5',
+                opacity: '0'
 	            });
 				
 				
@@ -1208,13 +1059,13 @@ function loadOwnership() {
 				var ownVar = tooltip[ownField + timestamp];
 				var ownVar_format = ownVar*100;
 
-				var popupHTML = "Owner-occupied homes: "+ownVar_format.toFixed(2)+"%";
+				var popupHTML = "Owner-Occupied Homes: "+ownVar_format.toFixed(2)+"%";
 
 				feature.bindPopup(popupHTML);
 
 				feature.on({
 					mouseover: function(){
-						feature.setStyle({"fillOpacity":"0.3", "opacity":"0.3"}); 			
+						feature.setStyle({"fillOpacity":"0.5", "opacity":"0.5"}); 			
 					},
 					mouseout: function(){
 						feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
