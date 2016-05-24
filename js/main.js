@@ -135,7 +135,7 @@ function loadAffordability20() {
 		var popupHTML = "Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfi_format.toLocaleString();
 
 		layer.bindPopup(popupHTML);
-		} else if (timestamp <= 2014){
+		} else if (timestamp <= 2015){
 		var popupHTML = "Percent of Income Spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSalesVar.toLocaleString()+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfi_format.toLocaleString();
 
 		layer.bindPopup(popupHTML);		
@@ -406,7 +406,7 @@ function loadAffordability5() {
 		var popupHTML = "Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfi_format.toLocaleString();
 
 		layer.bindPopup(popupHTML);
-		} else if (timestamp <= 2014){
+		} else if (timestamp <= 2015){
 		var popupHTML = "Percent of Income Spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSalesVar.toLocaleString()+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfi_format.toLocaleString();
 
 		layer.bindPopup(popupHTML);		
