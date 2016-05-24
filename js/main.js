@@ -14,10 +14,12 @@
 	
 	//load mapbox access
 	L.mapbox.accessToken = 'pk.eyJ1IjoiZWNvbnciLCJhIjoiWUZxcXRMVSJ9.tmmSP9rEmDmhB54B8ARtQQ';
+
+	//set bounds for restricted panning
 	var southWest = L.latLng(45.043598, -123.440661),
     	northEast = L.latLng(46.023814, -122.013812),
     	bounds = L.latLngBounds(southWest, northEast);
-    
+    //set map options
 	map = L.mapbox.map('map', '',{
 		maxBounds: bounds,
 		maxZoom: 13,
@@ -25,7 +27,7 @@
 
 	}).setView([45.467021, -122.675738], 10);
 
-
+	//add map controls
 	var uiControl = L.Control.extend({
 	initialize: function (foo, options) {
 		L.Util.setOptions(this, options);
@@ -36,32 +38,44 @@
 	}
 	});
 
-
+	//add play, pause, refrest buttons
 	map.addControl(new uiControl('#vcr-controls', { position: 'topright' }));
+	//add slider 
 	map.addControl(new uiControl('#slider', { position: 'topright' }));
+	//add slider label
 	map.addControl(new uiControl('#year-label', { position: 'topright' }));
+	//add toggle
 	//map.addControl(new uiControl('#affdButton', { position: 'topleft' }));
+	//add refresh map view button
 	map.addControl(new uiControl('#homeButton', { position: 'topleft' }));
+	//add maps menu
 	map.addControl(new uiControl('#map-menu', { position: 'topleft' }));
 
+	//funtionality for refreshing map view
 	$("#homeButton").click(function() {
 		map.setView([45.467021, -122.675738], 10);
 	});
 
+	//add separate pane so that the "basemap" loads on top of the other layers
 	var topBasemap = map._createPane('leaflet-top-pane', map.getPanes().mapPane);
     var labels = L.mapbox.tileLayer('econw.0iw1bc23').addTo(map);
     topBasemap.appendChild(labels.getContainer());
+    //zindex level sets this layer above geojsons but below any popups
     labels.setZIndex(7);
     
+    //define layer group for changing out different geojson layers
 	activeLayers = L.layerGroup().addTo(map);
 
+	//define census tract layer for tooltips
 	var cTract = omnivore.topojson('./data/ctract2010_tooltips.json');
 
+	//initial slider settings
 	skipSlider = document.getElementById('slider');
 	playButton = document.getElementById('vcr-play');
 	pauseButton = document.getElementById('vcr-pause');
 	refreshButton = document.getElementById('vcr-refresh');
 
+	//create slider with noUiSlider library
 	noUiSlider.create(skipSlider, {
 	animate: true,
 	animationDuration: 1000,
@@ -96,67 +110,74 @@
 	});
 
 	
-	
+//function for affordability maps: 20% down payment. This is the initial view (index.html)	
 function loadAffordability20() {
 	
+	//make sure that animations are reset
 	clearInterval();
+
+	//clear the layer group
 	activeLayers.clearLayers();
     
+    //grab legend element from html and update the image to the affordability legend
     document.getElementById('legend').innerHTML = "<img id='affordLegend' src='images/legend_affordability.png' alt='affordability legend'></img>";
     
+    //define the affordability layer and grab data from the geojson, then add this layer to the layer group
 	var affordLayer = L.mapbox.featureLayer(SFaffordHex);
-
 	affordLayer.addTo(activeLayers);
 	
+	//define tooltips
 	function onEachFeature(layer) {
+		//define short version of geojson field names
 		var tooltip = layer.feature.properties;
+		//short version of timestamp to work better with field names
 		var year = timestamp.toString().substr(2,2);
-
+		//affordability tooltip formatting
 		var affdField20 = 'affd20_';
 		var affd20Var = tooltip[affdField20 + year];
 		var percentIncome_format = affd20Var*100;
-
+		//median sales tooltip formatting
 		var medSalesField = 'SP';
 		var medSalesVar = tooltip[medSalesField + year];
-			
+		//interest tooltip formatting	
 		var interestField = 'intrst_';
 		var intrstVar = tooltip[interestField+year];
 		var percentInt = intrstVar*100;
-			
+		//median family income tooltip formatting	
 		var mfiField = 'hudmfi';
 		var mfiVar = tooltip[mfiField + year];
 		var mfi_format = parseInt(mfiVar);
-				
-		//var popupHTML = "Percent of Income spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSalesVar.toLocaleString()+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfiVar.toLocaleString();
-
-		//layer.bindPopup(popupHTML);
 		
+		//define custom tooltips based on timestamp 				
 		if (timestamp==2020){
+		//define 2020 tooltip html and bind popup to data	
 		var popupHTML = "Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfi_format.toLocaleString();
-
 		layer.bindPopup(popupHTML);
+
 		} else if (timestamp <= 2015){
+		//define all other year tooltips html and bind popup to data	
 		var popupHTML = "Percent of Income Spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSalesVar.toLocaleString()+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfi_format.toLocaleString();
+		layer.bindPopup(popupHTML);	
 
-		layer.bindPopup(popupHTML);		
 		}
-	}
+	}//end onEachFeature function
 
+	//define hex bin style
 	function setStyle(){
 		
-		
-		
+		//call layer and define style for each hex
 		affordLayer.eachLayer(function(layer){
-
+			//call tooltip function
 			onEachFeature(layer);
+			//define short version of geojson field names
 			var attr = layer.feature.properties;
-			// color
+			// default color
 			layer.setStyle({
 				weight: 1,
 				color: 'rgba(255,255,255,1)',
 				fillOpacity: 1
 			});
-		
+			//hover opacity
 			layer.on({
 				mouseover: function(){
 					layer.setStyle({"fillOpacity":"0.3"}); 			
@@ -165,17 +186,18 @@ function loadAffordability20() {
 					layer.setStyle({"fillOpacity":"1"}); 					
 				}
 			});
-
+			//variables for use in style classification below
 			var slsField = 'numSls';
 			var affdField = 'affd20_';
-		
+			//short version of timestamp used for applicable field names
 			timestampShort = timestamp.toString().substr(2,2);
 			
-
+			//conditional statement for hex bin color classification
 			if(attr[slsField + timestampShort] < 3){
 				layer.setStyle({
 					fillColor:"rgb(235, 235, 235)"
 				});
+			//must be high to low, otherwise all would be styled at the first 'else if' statement 
 			}else if(attr[affdField + timestampShort] > 0.5 && attr[slsField + timestampShort] >= 3){
 				layer.setStyle({
 					fillColor:"rgb(215,48,39)"
@@ -206,6 +228,7 @@ function loadAffordability20() {
 
 			}
 			
+			//different formatting for projected year, since there is no sales data
 			if (timestamp == 2020 && attr[affdField + timestampShort] > 0.5 && attr.include_fo==1){
 					layer.setStyle({
 					fillColor:"rgba(215,48,39,1)"
@@ -235,21 +258,10 @@ function loadAffordability20() {
 			} else {
 			}
 		});
-	}
+	}//end setStyle function
 	
-	function clearStyle(){
-	
-		affordLayer.eachLayer(function(layer){
-		
-			layer.setStyle({
-				weight: 0,
-				color: 'rgba(255,255,255,0)',
-				fillOpacity: 0
-			});
-		
-		});
-	}
 
+	//
 	$("#vcr-controls").css("display","initial");
 	$("#slider").css("display","initial");
 	$("#year-label").css("display","initial");
@@ -305,10 +317,6 @@ function loadAffordability20() {
 		setStyle();
 		//updateTooltips();
 
-		if (timestamp > 2015 && timestamp < 2020){
-			clearStyle()
-		} else {
-		}
 		if (timestamp==2020){
 			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
 		} else {
@@ -506,19 +514,7 @@ function loadAffordability5() {
 		});
 	}
 	
-	function clearStyle(){
 	
-		affordLayer.eachLayer(function(layer){
-		
-			layer.setStyle({
-				weight: 0,
-				color: 'rgba(255,255,255,0)',
-				fillOpacity: 0
-			});
-		
-		});
-	}
-
 
 
 	skipSlider.noUiSlider.updateOptions({
@@ -575,10 +571,6 @@ function loadAffordability5() {
 		setStyle();
 		//updateTooltips();
 
-		if (timestamp > 2015 && timestamp < 2020){
-			clearStyle()
-		} else {
-		}
 		if (timestamp==2020){
 			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
 		} else {
