@@ -261,13 +261,14 @@ function loadAffordability20() {
 	}//end setStyle function
 	
 
-	//
+	//load buttons on map (reset css display setting)
 	$("#vcr-controls").css("display","initial");
 	$("#slider").css("display","initial");
 	$("#year-label").css("display","initial");
 	$("#homeButton").css("display","initial");
 	$("#map-menu").css("display","initial");
 
+	//update values for slider
 	skipSlider.noUiSlider.updateOptions({
 		animate: true,
 		animationDuration: 1000,
@@ -301,22 +302,19 @@ function loadAffordability20() {
 		})
 	});
 
-
+	//link slider values to year label html element
 	skipValues = [
 		document.getElementById('year-label'),
 	];
 
-
+	//define slider functionality
 	skipSlider.noUiSlider.on('update', function( values, handle ) {
-	
+		//link timestamp to slider value
 		timestamp=Number(values[handle]);
-
-	
 		skipValues[handle].innerHTML = values[handle];
-		
+		//define style when user moved slider
 		setStyle();
-		//updateTooltips();
-
+		//change year label html for projected years
 		if (timestamp==2020){
 			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
 		} else {
@@ -325,29 +323,28 @@ function loadAffordability20() {
 		
 	});
 
-
+	//set functionality for play button
 	playButton.addEventListener('click', function(){
 		$('#vcr-play').addClass('active');
 		play = setInterval(next, 1000);
 
 	});
 
+	//set functionality for pause button
 	pauseButton.addEventListener('click', function(){
 
 		clearInterval(play);
 		$('#vcr-play').removeClass('active');
 	});
 
+	//set functionality for refresh button
 	refreshButton.addEventListener('click', function(){
 		skipSlider.noUiSlider.set(2000);
 		updateTimestamp = 2000;
 
 	});
 
-
-	//setStyle();
-	
-	
+	//define function for play animation
 	function next() {
 
 		if (timestamp < 2015){
@@ -373,67 +370,75 @@ function loadAffordability20() {
 		} else if (updateTimestamp > 2020){
 			clearInterval(play);
 		}
-	}
-}
+	}//end next function
+}//end loadAffordability20
 
 function loadAffordability5() {
 	
+	//make sure that animations are reset
 	clearInterval();
+
+	//clear the layer group
 	activeLayers.clearLayers();
-    
+
+    //grab legend element from html and update the image to the affordability legend
     document.getElementById('legend').innerHTML = "<img id='affordLegend' src='images/legend_affordability.png' alt='affordability legend'></img>";
-    
+
+    //define the affordability layer and grab data from the geojson, then add this layer to the layer group
 	var affordLayer = L.mapbox.featureLayer(SFaffordHex);
-
 	affordLayer.addTo(activeLayers);
-	
-	function onEachFeature(layer) {
-		var tooltip = layer.feature.properties;
-		var year = timestamp.toString().substr(2,2);
 
+	//define tooltips
+	function onEachFeature(layer) {
+		//define short version of geojson field names
+		var tooltip = layer.feature.properties;
+		//short version of timestamp to work better with field names
+		var year = timestamp.toString().substr(2,2);
+		//affordability tooltip formatting
 		var affdField5 = 'affd5_';
 		var affd5Var = tooltip[affdField5 + year];
 		var percentIncome_format = affd5Var*100;
-
+		//median sales tooltip formatting
 		var medSalesField = 'SP';
 		var medSalesVar = tooltip[medSalesField + year];
-			
+		//interest tooltip formatting		
 		var interestField = 'intrst_';
 		var intrstVar = tooltip[interestField+year];
 		var percentInt = intrstVar*100;
-			
+		//median family income tooltip formatting	
 		var mfiField = 'hudmfi';
 		var mfiVar = tooltip[mfiField + year];
 		var mfi_format = parseInt(mfiVar);
 				
-		//var popupHTML = "Percent of Income spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSalesVar.toLocaleString()+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfiVar.toLocaleString();
-
-		//layer.bindPopup(popupHTML);
-		
+		//define custom tooltips based on timestamp
 		if (timestamp==2020){
+		//define 2020 tooltip html and bind popup to data
 		var popupHTML = "Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfi_format.toLocaleString();
-
 		layer.bindPopup(popupHTML);
+
 		} else if (timestamp <= 2015){
+		//define all other year tooltips html and bind popup to data	
 		var popupHTML = "Percent of Income Spent on Housing: "+percentIncome_format.toFixed(2)+"%<br>Median Sales Price: $"+medSalesVar.toLocaleString()+"<br>Interest Rate: "+percentInt.toFixed(2)+"%<br>HUD Median Family Income: $"+mfi_format.toLocaleString();
 
 		layer.bindPopup(popupHTML);		
 		}
-	}
+	}//end onEachFeature function
 
+	//define hex bin style
 	function setStyle(){
-	
+		//call layer and define style for each hex
 		affordLayer.eachLayer(function(layer){
-			
+			//call tooltip function
 			onEachFeature(layer);
+			//define short version of geojson field names
 			var attr = layer.feature.properties;
-			// color
+			// default color
 			layer.setStyle({
 				weight: 1,
 				color: 'rgba(255,255,255,1)',
 				fillOpacity: 1
 			});
-			
+			//hover opacity
 			layer.on({
 				mouseover: function(){
 					layer.setStyle({"fillOpacity":"0.3"}); 			
@@ -442,17 +447,18 @@ function loadAffordability5() {
 					layer.setStyle({"fillOpacity":"1"}); 					
 				}
 			});
-		
+			//variables for use in style classification below
 			var slsField = 'numSls';
 			var affdField = 'affd5_';
-		
+			//short version of timestamp used for applicable field names
 			timestampShort = timestamp.toString().substr(2,2);
 			
-
+			//conditional statement for hex bin color classification
 			if(attr[slsField + timestampShort] < 3){
 				layer.setStyle({
 					fillColor:"rgb(235, 235, 235)"
 				});
+			//must be high to low, otherwise all would be styled at the first 'else if' statement	
 			}else if(attr[affdField + timestampShort] > 0.5 && attr[slsField + timestampShort] >= 3){
 				layer.setStyle({
 					fillColor:"rgb(215,48,39)"
@@ -482,7 +488,7 @@ function loadAffordability5() {
 			}else{
 
 			}
-			
+			//different formatting for projected year, since there is no sales data
 			if (timestamp == 2020 && attr[affdField + timestampShort] > 0.5 && attr.include_fo==1){
 					layer.setStyle({
 					fillColor:"rgba(215,48,39,1)"
@@ -512,11 +518,16 @@ function loadAffordability5() {
 			} else {
 			}
 		});
-	}
+	}//end setStyle function
 	
-	
+	//load buttons on map (reset css display setting)
+	$("#vcr-controls").css("display","initial");
+	$("#slider").css("display","initial");
+	$("#year-label").css("display","initial");
+	$("#homeButton").css("display","initial");
+	$("#map-menu").css("display","initial");
 
-
+	//update values for slider
 	skipSlider.noUiSlider.updateOptions({
 		animate: true,
 		animationDuration: 1000,
@@ -550,27 +561,19 @@ function loadAffordability5() {
 		})
 	});
 
-
+	//link slider values to year label html element
 	skipValues = [
 		document.getElementById('year-label'),
 	];
 
-	$("#vcr-controls").css("display","initial");
-	$("#slider").css("display","initial");
-	$("#year-label").css("display","initial");
-	$("#homeButton").css("display","initial");
-	$("#map-menu").css("display","initial");
-
+	//define slider functionality
 	skipSlider.noUiSlider.on('update', function( values, handle ) {
-	
+		//link timestamp to slider value
 		timestamp=Number(values[handle]);
-
-	
 		skipValues[handle].innerHTML = values[handle];
-		
+		//define style when user moved slider
 		setStyle();
-		//updateTooltips();
-
+		//change year label html for projected years
 		if (timestamp==2020){
 			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
 		} else {
@@ -579,29 +582,28 @@ function loadAffordability5() {
 		
 	});
 
-
+	//set functionality for play button
 	playButton.addEventListener('click', function(){
 		$('#vcr-play').addClass('active');
 		play = setInterval(next, 1000);
 
 	});
 
+	//set functionality for pause button
 	pauseButton.addEventListener('click', function(){
 
 		clearInterval(play);
 		$('#vcr-play').removeClass('active');
 	});
 
+	//set functionality for refresh button
 	refreshButton.addEventListener('click', function(){
 		skipSlider.noUiSlider.set(2000);
-		//updateTimestamp = 2000;
+		updateTimestamp = 2000;
 
 	});
 
-
-	//setStyle();
-	
-	
+	//define function for play animation
 	function next() {
 
 		if (timestamp < 2015){
@@ -614,7 +616,6 @@ function loadAffordability5() {
 	
 		} else if (timestamp >= 2015 && timestamp < 2020){
 			timestamp += 2.5;
-			console.log(timestamp);
 	
 		} else if (timestamp == 2020){
 			updateTimestamp = timestamp + 1;
@@ -627,24 +628,30 @@ function loadAffordability5() {
 		} else if (updateTimestamp > 2020){
 			clearInterval(play);
 		}
-	}
-}	
+	}//end next function
+}// end loadAffordability5	
 
-
+//function for vulnerability map
 function loadVulnerability(){
+	//make sure that animations are reset
 	clearInterval();
 
+	//clear the layer group
 	activeLayers.clearLayers();
 
+	//grab legend element from html and update the image to the vulnerability legend
     document.getElementById('legend').innerHTML = "<img id='vIndexLegend' src='images/legend_vIndex.png' alt='affordability legend'></img>";
 
+    //define the vulnerability layer and grab data from the geojson, then add this layer to the layer group
 	var vulnerability = L.mapbox.featureLayer(censusHex);
 	vulnerability.addTo(activeLayers);
 	
+	//add census tract layer to layer group
 	cTract.addTo(activeLayers);
+	//initialize census tract layer for tooltip functionality
 	cTract.on('ready',function(layer){
 		this.eachLayer(function(feature){
-            
+            //define style (initially not visible)
               feature.setStyle({
               	fillColor:'white',
                 fillOpacity:'0',
@@ -653,33 +660,33 @@ function loadVulnerability(){
                 opacity: '0'
             });
 			
-			
+			//define path to geojson field names
 			var tooltip = feature.toGeoJSON().properties;
+			//create variable for short version of year
 			var year = timestamp.toString().substr(2,2);
-
+			//call vulnerability field and create variable
 			var vIndexField = 'SC_TOT';
 			var vIndexVar = tooltip[vIndexField + year];
-
+			//call non white field and create variable and format for tooltip
 			var nwhiteField = 'NONWHT_';
 			var nwhiteVar = tooltip[nwhiteField + timestamp];
 			var nwhite_format = nwhiteVar*100;
-
+			//call without bachelor's degree field and create variable and format for tooltip
 			var bachField = 'LSBCH_';
 			var bachVar = tooltip[bachField + timestamp];
 			var bach_format = bachVar*100;
-
+			//call renters field and create variable and format for tooltip
 			var rentersField = 'RENT_';
 			var rentVar = tooltip[rentersField + timestamp];
 			var rent_format = rentVar*100;
-
+			//call HUD MFI field and create variable and format for tooltip
 			var hudField = 'LSHUD_';
 			var hudVar = tooltip[hudField + timestamp];
 			var hud_format = hudVar*100;
-										
+			//create variable for html to show in tooltip, bind popup on click									
 			var popupHTML = "Displacement Vulnerability Score: "+vIndexVar+"<br>Non-White: "+nwhite_format.toFixed(2)+"%<br>Without Bachelor's Degree: "+bach_format.toFixed(2)+"%<br>Renters: "+rent_format.toFixed(2)+"% <br>Below 80% HUD Median Family Income: "+hud_format.toFixed(2)+"%";
-
 			feature.bindPopup(popupHTML);
-
+			//style for hover functionality 
 			feature.on({
 				mouseover: function(){
 					feature.setStyle({"fillOpacity":"0.5", "opacity":"0.5"}); 			
@@ -691,12 +698,12 @@ function loadVulnerability(){
       	});
      });
 
+	//function that updates the data reflected in the tooltips
 	function updateTooltips(){
-		
-
+		//test for projected years, define different tooltip data
 		if (timestamp==2020){
 			cTract.eachLayer(function(feature){
-            
+            //define style of initial view
               feature.setStyle({
               	fillColor:'white',
                 fillOpacity:'0',
@@ -704,17 +711,19 @@ function loadVulnerability(){
                 weight: '0.5',
                 opacity: '0'
             });
-             
+            //define path to geojson field names 
             var tooltip = feature.toGeoJSON().properties;
+            //create variable for short version of year
 			var year = timestamp.toString().substr(2,2);
+			//call vulnerability field and create variable
 			var vIndexField = 'SC_TOT';
 			var vIndexVar = tooltip[vIndexField + year];
             //feature.closePopup();  	
 			//feature.unbindPopup();
+			//create variable for html to show in tooltip, bind popup on click
 			var popupHTML = "Displacement Vulnerability Score: "+vIndexVar;
-
 			feature.bindPopup(popupHTML);
-
+			//style for hover functionality
 			feature.on({
 				mouseover: function(){
 					feature.setStyle({"fillOpacity":"0.5", "opacity":"0.5"}); 			
@@ -724,10 +733,10 @@ function loadVulnerability(){
 				}
 			});
       	});
-		}else{
-			
+		//tooltip style for non-projected years
+		}else{	
 		cTract.eachLayer(function(feature){
-            
+            //define style of initial view
               feature.setStyle({
               	fillColor:'white',
                 fillOpacity:'0',
@@ -735,33 +744,33 @@ function loadVulnerability(){
                 weight: '0.5',
                 opacity: '0'
             });
-			
+			//define path to geojson field names
 			var tooltip = feature.toGeoJSON().properties;
+			//create variable for short version of year
 			var year = timestamp.toString().substr(2,2);
-
+			//call vulnerability field and create variable	
 			var vIndexField = 'SC_TOT';
 			var vIndexVar = tooltip[vIndexField + year];
-
+			//call non white field and create variable and format for tooltip
 			var nwhiteField = 'NONWHT_';
 			var nwhiteVar = tooltip[nwhiteField + timestamp];
 			var nwhite_format = nwhiteVar*100;
-
+			//call without bachelor's degree field and create variable and format for tooltip
 			var bachField = 'LSBCH_';
 			var bachVar = tooltip[bachField + timestamp];
 			var bach_format = bachVar*100;
-
+			//call renters field and create variable and format for tooltip
 			var rentersField = 'RENT_';
 			var rentVar = tooltip[rentersField + timestamp];
 			var rent_format = rentVar*100;
-
+			//call HUD MFI field and create variable and format for tooltip
 			var hudField = 'LSHUD_';
 			var hudVar = tooltip[hudField + timestamp];
 			var hud_format = hudVar*100;
-										
+			//create variable for html to show in tooltip, bind popup on click							
 			var popupHTML = "Displacement Vulnerability Score: "+vIndexVar+"<br>Non-White: "+nwhite_format.toFixed(2)+"%<br>Without Bachelor's Degree: "+bach_format.toFixed(2)+"%<br>Renters: "+rent_format.toFixed(2)+"% <br>Below 80% HUD Median Family Income: "+rent_format.toFixed(2)+"%";
-
 			feature.bindPopup(popupHTML);
-
+			//style for hover functionality
 			feature.on({
 				mouseover: function(){
 					feature.setStyle({"fillOpacity":"0.5", "opacity":"0.5"}); 			
@@ -774,40 +783,21 @@ function loadVulnerability(){
 		}
    		
 	}
-
+	//define hex bin style
 	function setStyle(){
-		
-	
+		//call layer and define style for each hex
 		vulnerability.eachLayer(function(layer){
-			//layer.on({
-			//	mouseover: function(){
-			//		layer.openPopup();				
-			//	},
-			//	mouseout: function(){
-			//		layer.closePopup();				
-			//	}
-			//});
-			
-			//onEachFeature(layer);
+			//define short version of geojson field names
 			var attr = layer.feature.properties;
-			// color
+			//default color
 			layer.setStyle({
 				weight: 1,
 				color: 'rgba(255,255,255,1)',
 				fillOpacity: 1
 			});
-		
+			//define vulnerability field in order to define classes for styling
 			var vulnField= 'SC_TOT_';
-			
-			/*layer.on({
-				mouseover: function(){
-					layer.setStyle({"fillOpacity":"0.1"}); 			
-				},
-				mouseout: function(){
-					layer.setStyle({"fillOpacity":"1"}); 					
-				}
-			});*/
-			
+			//conditional statement for hex bin color classification
 			if(attr[vulnField + timestamp] === 0){
 				layer.setStyle({
 					fillColor:"rgb(235,235,235)"
@@ -837,14 +827,16 @@ function loadVulnerability(){
 			}
 
 		});
-	}
+	}//end setStyle function
 
+	//load buttons on map (reset css display setting)
 	$("#vcr-controls").css("display","initial");
 	$("#slider").css("display","initial");
 	$("#year-label").css("display","initial");
 	$("#homeButton").css("display","initial");
 	$("#map-menu").css("display","initial");
 
+	//update values for slider
 	skipSlider.noUiSlider.updateOptions({
 		animate: true,
 		animationDuration: 3000,
@@ -873,50 +865,43 @@ function loadVulnerability(){
 		})
 	});
 
+	//link slider values to year label html element
 	skipValues = [
 		document.getElementById('year-label'),
 	];
-
-
-
+	//define slider functionality
 	skipSlider.noUiSlider.on('update', function( values, handle ) {
-	
+		//link timestamp to slider value
 		timestamp=Number(values[handle]);
-	
 		skipValues[handle].innerHTML = values[handle];
-		
+		//define style and tooltip data when user moved slider
 		setStyle();
 		updateTooltips();
-		
+		//change year label html for projected years
 		if (timestamp==2020){
 			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
 		} else {
 		
 		}
 	});
-
-
+	//set functionality for play button
 	playButton.addEventListener('click', function(){
 		$('#vcr-play').addClass('active');
 		play = setInterval(next, 1000);
 
 	});
-
+	//set functionality for pause button
 	pauseButton.addEventListener('click', function(){
 
 		clearInterval(play);
 		$('#vcr-play').removeClass('active');
 	});
-
+	//set functionality for refresh button
 	refreshButton.addEventListener('click', function(){
 		skipSlider.noUiSlider.set(1990);
 		updateTimestamp = 1990;
-
-
 	});
-
-
-
+	//define function for play animation
 	function next() {
 
 		if (timestamp == 1990) {
@@ -957,24 +942,26 @@ function loadVulnerability(){
 		} else if (updateTimestamp > 2020){
 		clearInterval(play);
 		}
-	}
+	}//end next function
 
-
-}
+}//end vulnerability function
 
 function loadOwnership() {
+	//make sure that animations are reset
 	clearInterval();
+	//clear the layer group
     activeLayers.clearLayers();
+    //grab legend element from html and update the image to the ownership legend
     document.getElementById('legend').innerHTML = "<img id='ownLegend' src='images/legend_ownership.png' alt='affordability legend'></img>";
-
+    //define the ownership layer and grab data from the geojson, then add this layer to the layer group
 	var ownershipLayer = L.mapbox.featureLayer(censusHex);
 	ownershipLayer.addTo(activeLayers);
-
+	//add census tract layer to layer group
 	cTract.addTo(activeLayers);
-
+	//initialize census tract layer for tooltip functionality
 	cTract.on('ready',function(layer){
 		this.eachLayer(function(feature){
-            
+            //define style
               feature.setStyle({
               	fillColor:'white',
                 fillOpacity:'0',
@@ -982,19 +969,18 @@ function loadOwnership() {
                 weight: '0.5',
                 opacity: '0'
             });
-			
-			
+			//define path to geojson field names
 			var tooltip = feature.toGeoJSON().properties;
+			//create variable for short version of year
 			var year = timestamp.toString().substr(2,2);
-
+			//call ownership field and create variable and format for tooltip
 			var ownField = 'OWN_';
 			var ownVar = tooltip[ownField + timestamp];
 			var ownVar_format = ownVar*100;
-
+			//create variable for html to show in tooltip, bind popup on click
 			var popupHTML = "Owner-occupied homes: "+ownVar_format.toFixed(2)+"%";
-
 			feature.bindPopup(popupHTML);
-
+			//style for hover functionality
 			feature.on({
 				mouseover: function(){
 					feature.setStyle({"fillOpacity":"0.5", "opacity":"0.5"}); 			
@@ -1005,11 +991,12 @@ function loadOwnership() {
 			});
       	});
      });
-
+	//function that updates the data reflected in the tooltips
 	function updateTooltips(){
+		//test for projected years, define different tooltip data
 		if (timestamp==2020){
 			cTract.eachLayer(function(feature){
-            
+            //define style of initial view
               feature.setStyle({
               	fillColor:'white',
                 fillOpacity:'0',
@@ -1017,10 +1004,10 @@ function loadOwnership() {
                 weight: '0.5',
                 opacity: '0'
             });
-			
+			//define function that forces the popup to close and is not activated for projected years
 			feature.closePopup();
 			feature.unbindPopup();
-
+			//style for hover functionality
 			feature.on({
 				mouseover: function(){
 					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 			
@@ -1031,30 +1018,31 @@ function loadOwnership() {
 			});
 			
       		});
+      	//tooltip style for non-projected years	
 		}else{
 			
 			cTract.eachLayer(function(feature){
-	            
-	              feature.setStyle({
-	              	fillColor:'white',
-                fillOpacity:'0',
-                color: 'white',
-                weight: '0.5',
-                opacity: '0'
+	            //define style of initial view
+	            feature.setStyle({
+	            	fillColor:'white',
+	                fillOpacity:'0',
+	                color: 'white',
+	                weight: '0.5',
+	                opacity: '0'
 	            });
 				
-				
+				//define path to geojson field names
 				var tooltip = feature.toGeoJSON().properties;
+				//create variable for short version of year
 				var year = timestamp.toString().substr(2,2);
-
+				//call ownership field and create variable and format for tooltip
 				var ownField = 'OWN_';
 				var ownVar = tooltip[ownField + timestamp];
 				var ownVar_format = ownVar*100;
-
+				//create variable for html to show in tooltip, bind popup on click
 				var popupHTML = "Owner-Occupied Homes: "+ownVar_format.toFixed(2)+"%";
-
 				feature.bindPopup(popupHTML);
-
+				//style for hover functionality
 				feature.on({
 					mouseover: function(){
 						feature.setStyle({"fillOpacity":"0.5", "opacity":"0.5"}); 			
@@ -1065,26 +1053,22 @@ function loadOwnership() {
 				});
 	      	});
 		}
-   		
 	}
-
-	
-
+	//define hex bin style
 	function setStyle(){
-	
+		//call layer and define style for each hex
 		ownershipLayer.eachLayer(function(layer){
-					
+			//define short version of geojson field names		
 			var attr = layer.feature.properties;
-			// color
+			//default color
 			layer.setStyle({
 				weight: 1,
 				color: 'rgba(255,255,255,1)',
 				fillOpacity: 1
 			});
-		
+			//define vulnerability field in order to define classes for styling
 			var ownField= 'OWN_';
-		
-					
+			//conditional statement for hex bin color classification					
 			if(attr[ownField + timestamp] <= 0.5){
 				layer.setStyle({
 					fillColor:"rgb(239,243,255)"
@@ -1119,14 +1103,16 @@ function loadOwnership() {
 			}
 			
 		});
-	}
+	}//end setStyle function
 
+	//load buttons on map (reset css display setting)
 	$("#vcr-controls").css("display","initial");
 	$("#slider").css("display","initial");
 	$("#year-label").css("display","initial");
 	$("#homeButton").css("display","initial");
 	$("#map-menu").css("display","initial");
-	
+
+	//update values for slider
 	skipSlider.noUiSlider.updateOptions({
 		animate: true,
 		animationDuration: 3000,
@@ -1154,52 +1140,47 @@ function loadOwnership() {
 			decimals: 0
 		})
 	});
-
+	//link slider values to year label html element
 	skipValues = [
 		document.getElementById('year-label'),
 	];
-
-
+	//define slider functionality
 	skipSlider.noUiSlider.on('update', function( values, handle ) {
-	
+		//link timestamp to slider value
 		timestamp=Number(values[handle]);
-	
 		skipValues[handle].innerHTML = values[handle];
+		//define style and tooltip data when user moves slider
 		setStyle();
 		updateTooltips();
-
+		//change year label html for projected years
 		if (timestamp==2020){
 			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
 		} else {
 		
 		}
 	});
-
-
+	//set functionality for play button
 	playButton.addEventListener('click', function(){
 		$('#vcr-play').addClass('active');
 		play = setInterval(next, 1000);
 
 	});
-
+	//set functionality for pause button
 	pauseButton.addEventListener('click', function(){
 
 		clearInterval(play);
 		$('#vcr-play').removeClass('active');
 	});
-
+	//set functionality for refresh button
 	refreshButton.addEventListener('click', function(){
 		skipSlider.noUiSlider.set(1990);
 		updateTimestamp = 1990;
 
 
 	});
-
-	//initial load (1990)
-
-	setStyle();
-	updateTooltips();
-	
+	//setStyle();
+	//updateTooltips();
+	//define function for play animation
 	function next() {
 
 		if (timestamp == 1990) {
@@ -1240,7 +1221,8 @@ function loadOwnership() {
 		} else if (updateTimestamp > 2020){
 		clearInterval(play);
 		}
-	}
-}
+	}//end next function
+	
+}//end ownership function
 
 
