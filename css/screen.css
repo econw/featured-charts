@@ -203,6 +203,13 @@ font-family: "Helvetica-Neue", "Helvetica", "Arial";
 
 }
 
+#nonwhiteLegend {
+	margin-left: 5px;
+	width: auto;
+	height: 190px;
+
+}
+
 #year-label {
 	top: 80px;
 	margin-right: 20px;
