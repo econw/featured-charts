@@ -1256,11 +1256,290 @@ function loadNonWhite() {
 			var whiteField = 'NONWHT_';
 			var whiteVar = tooltip[whiteField + timestamp];
 			var whiteVar_format = whiteVar*100;
+			//create variable for html to show in tooltip, bind popup on click
+			var popupHTML = "Nonwhite: "+whiteVar_format.toFixed(2)+"%";
+			feature.bindPopup(popupHTML);
+			//style for hover functionality
+			feature.on({
+				mouseover: function(){
+					feature.setStyle({"fillOpacity":"0.5", "opacity":"0.5"}); 			
+				},
+				mouseout: function(){
+					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
+				}
+			});
+      	});
+     });
+	//function that updates the data reflected in the tooltips
+	function updateTooltips(){
+		//test for projected years, define different tooltip data
+		if (timestamp==2020){
+			cTract.eachLayer(function(feature){
+            //define style of initial view
+              feature.setStyle({
+              	fillColor:'white',
+                fillOpacity:'0',
+                color: 'white',
+                weight: '0.5',
+                opacity: '0'
+            });
+			//define function that forces the popup to close and is not activated for projected years
+			feature.closePopup();
+			feature.unbindPopup();
+			//style for hover functionality
+			feature.on({
+				mouseover: function(){
+					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 			
+				},
+				mouseout: function(){
+					feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
+				}
+			});
+			
+      		});
+      	//tooltip style for non-projected years	
+		}else{
+		
+			cTract.eachLayer(function(feature){
+	            //define style of initial view
+	            feature.setStyle({
+	            	fillColor:'white',
+	                fillOpacity:'0',
+	                color: 'white',
+	                weight: '0.5',
+	                opacity: '0'
+	            });
+				
+				//define path to geojson field names
+							var tooltip = feature.toGeoJSON().properties;
+			//create variable for short version of year
+			var year = timestamp.toString().substr(2,2);
+			//call ownership field and create variable and format for tooltip
+			var whiteField = 'NONWHT_';
+			var whiteVar = tooltip[whiteField + timestamp];
+			var whiteVar_format = whiteVar*100;
+			//create variable for html to show in tooltip, bind popup on click
+			var popupHTML = "Nonwhite: "+whiteVar_format.toFixed(2)+"%";
+				feature.bindPopup(popupHTML);
+				//style for hover functionality
+				feature.on({
+					mouseover: function(){
+						feature.setStyle({"fillOpacity":"0.5", "opacity":"0.5"}); 			
+					},
+					mouseout: function(){
+						feature.setStyle({"fillOpacity":"0", "opacity":"0"}); 					
+					}
+				});
+	      	});
+		}
+	}
+	//define hex bin style
+	function setStyle(){
+		//call layer and define style for each hex
+		nonwhiteLayer.eachLayer(function(layer){
+			//define short version of geojson field names		
+			var attr = layer.feature.properties;
+			//default color
+			layer.setStyle({
+				weight: 1,
+				color: 'rgba(255,255,255,1)',
+				fillOpacity: 1
+			});
+			//define vulnerability field in order to define classes for styling
+			var nonWhiteField= 'NONWHT_';
+			//conditional statement for hex bin color classification					
+			if(attr[nonWhiteField + timestamp] > 0.5){
+				layer.setStyle({
+					fillColor:"rgb(8,88,158)"
+				}); 
+			}else if(attr[nonWhiteField + timestamp] > 0.4){
+				layer.setStyle({
+					fillColor:"rgb(43,140,190)"
+				}); 
+			}else if(attr[nonWhiteField + timestamp] > 0.3){
+				layer.setStyle({
+					fillColor:"rgb(78,179,211)"
+				});
+			}else if(attr[nonWhiteField + timestamp] > 0.2){
+				layer.setStyle({
+					fillColor:"rgb(123,204,196)"
+				});
+			}else if(attr[nonWhiteField + timestamp] > 0.1){
+				layer.setStyle({
+					fillColor:"rgb(168,221,181)"
+				});	
+			}else if(attr[nonWhiteField + timestamp] >= 0.05){
+				layer.setStyle({
+					fillColor:"rgb(204,235,197)"
+				});
+			}else if(attr[nonWhiteField + timestamp] < 0.05){
+				layer.setStyle({
+					fillColor:"rgb(240,249,232)"
+				});
+						  
+			}else{
+
+			}
+			
+		});
+	}//end setStyle function
+
+	//load buttons on map (reset css display setting)
+	$("#vcr-controls").css("display","initial");
+	$("#slider").css("display","initial");
+	$("#year-label").css("display","initial");
+	$("#homeButton").css("display","initial");
+	$("#map-menu").css("display","initial");
+
+	//update values for slider
+	skipSlider.noUiSlider.updateOptions({
+		animate: true,
+		animationDuration: 3000,
+		range: {
+			'min': 1990,
+			//skip
+			'30%': 2000,
+			//skip
+			'56%': 2009,
+			'60%': 2010,
+			'64%': 2011,
+			'68%': 2012,
+			'72%': 2013,
+			'76%': 2014,
+			//'80%': 2015,
+			//'84%': 2016,
+			//'88%': 2017,
+			//'92%': 2018,
+			//'96%': 2019,
+			'max': 2020
+		},
+		snap: true,
+		start: [1990],
+		format: wNumb({
+			decimals: 0
+		})
+	});
+	//link slider values to year label html element
+	skipValues = [
+		document.getElementById('year-label'),
+	];
+	//define slider functionality
+	skipSlider.noUiSlider.on('update', function( values, handle ) {
+		//link timestamp to slider value
+		timestamp=Number(values[handle]);
+		skipValues[handle].innerHTML = values[handle];
+		//define style and tooltip data when user moves slider
+		setStyle();
+		updateTooltips();
+		//change year label html for projected years
+		if (timestamp==2020){
+			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
+		} else {
+		
+		}
+	});
+	//set functionality for play button
+	playButton.addEventListener('click', function(){
+		$('#vcr-play').addClass('active');
+		play = setInterval(next, 1000);
+
+	});
+	//set functionality for pause button
+	pauseButton.addEventListener('click', function(){
+
+		clearInterval(play);
+		$('#vcr-play').removeClass('active');
+	});
+	//set functionality for refresh button
+	refreshButton.addEventListener('click', function(){
+		skipSlider.noUiSlider.set(1990);
+		updateTimestamp = 1990;
+
+
+	});
+	//setStyle();
+	//updateTooltips();
+	//define function for play animation
+	function next() {
+
+		if (timestamp == 1990) {
+	
+			updateTimestamp = timestamp + 10;
+	
+			setStyle();
+			updateTooltips();
+			skipSlider.noUiSlider.set(updateTimestamp);
+
+
+		} else if (timestamp == 2000){
+			updateTimestamp = timestamp + 9;
+	
+			setStyle();
+			updateTooltips();
+			skipSlider.noUiSlider.set(updateTimestamp);
+	
+		} else if (timestamp < 2014){
+			updateTimestamp = timestamp + 1;
+	
+			setStyle();
+			updateTooltips();
+			skipSlider.noUiSlider.set(updateTimestamp);
+		
+		} else if (timestamp >= 2014 && timestamp < 2020){
+			timestamp += 3;
+			
+			
+		} else if (timestamp == 2020){
+			updateTimestamp = timestamp + 1;
+	
+			setStyle();
+			updateTooltips();
+			skipSlider.noUiSlider.set(updateTimestamp);
+			document.getElementById('year-label').innerHTML = "2020 <p>(projected)</p>";
+		
+		} else if (updateTimestamp > 2020){
+		clearInterval(play);
+		}
+	}//end next function
+	
+}//end nonwhite function
+
+function loadNonWhiteData() {
+	//make sure that animations are reset
+	clearInterval();
+	//clear the layer group
+    activeLayers.clearLayers();
+    //grab legend element from html and update the image to the legend
+    document.getElementById('legend').innerHTML = "<img id='nonwhiteLegend' src='images/legend_nonwhite.png' alt='non white population legend'></img>";
+    //define the ownership layer and grab data from the geojson, then add this layer to the layer group
+	var nonwhiteLayer = L.mapbox.featureLayer(censusHex);
+	nonwhiteLayer.addTo(activeLayers);
+	//add census tract layer to layer group
+	cTract.addTo(activeLayers);
+	//initialize census tract layer for tooltip functionality
+	cTract.on('ready',function(layer){
+		this.eachLayer(function(feature){
+            //define style
+              feature.setStyle({
+              	fillColor:'white',
+                fillOpacity:'0',
+                color: 'white',
+                weight: '0.5',
+                opacity: '0'
+            });
+			//define path to geojson field names
+			var tooltip = feature.toGeoJSON().properties;
+			//create variable for short version of year
+			var year = timestamp.toString().substr(2,2);
+			//call ownership field and create variable and format for tooltip
+			var whiteField = 'NONWHT_';
+			var whiteVar = tooltip[whiteField + timestamp];
+			var whiteVar_format = whiteVar*100;
 			var geoFIPS = tooltip.Geo_FIPS_2;
 			var popField = 'POP_';
 			var popVar = tooltip[popField + timestamp];
 			//create variable for html to show in tooltip, bind popup on click
-			var popupHTML = "Total Tract Population: " +popVar+ "<br>Non-White: "+whiteVar_format.toFixed(2)+"%<br>FIPS ID: "+geoFIPS;
+			var popupHTML = "Total Tract Population: " +popVar+ "<br>Nonwhite: "+whiteVar_format.toFixed(2)+"%<br>FIPS ID: "+geoFIPS;
 			feature.bindPopup(popupHTML);
 			//style for hover functionality
 			feature.on({
@@ -1325,7 +1604,7 @@ function loadNonWhite() {
 			var popField = 'POP_';
 			var popVar = tooltip[popField + timestamp];
 			//create variable for html to show in tooltip, bind popup on click
-			var popupHTML = "Total Tract Population: " +popVar+ "<br>Non-White: "+whiteVar_format.toFixed(2)+"%<br>FIPS ID: "+geoFIPS;
+			var popupHTML = "Total Tract Population: " +popVar+ "<br>Nonwhite: "+whiteVar_format.toFixed(2)+"%<br>FIPS ID: "+geoFIPS;
 				feature.bindPopup(popupHTML);
 				//style for hover functionality
 				feature.on({
