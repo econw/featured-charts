@@ -1253,11 +1253,14 @@ function loadNonWhite() {
 			//create variable for short version of year
 			var year = timestamp.toString().substr(2,2);
 			//call ownership field and create variable and format for tooltip
-			//var ownField = 'OWN_';
-			//var ownVar = tooltip[ownField + timestamp];
-			//var ownVar_format = ownVar*100;
+			var whiteField = 'NONWHT_';
+			var whiteVar = tooltip[whiteField + timestamp];
+			var whiteVar_format = whiteVar*100;
+			var geoFIPS = tooltip.Geo_FIPS_2;
+			var popField = 'POP_';
+			var popVar = tooltip[popField + timestamp];
 			//create variable for html to show in tooltip, bind popup on click
-			var popupHTML = "";
+			var popupHTML = "Total Tract Population: " +popVar+ "<br>Non-White: "+whiteVar_format.toFixed(2)+"%<br>FIPS ID: "+geoFIPS;
 			feature.bindPopup(popupHTML);
 			//style for hover functionality
 			feature.on({
@@ -1272,7 +1275,7 @@ function loadNonWhite() {
      });
 	//function that updates the data reflected in the tooltips
 	function updateTooltips(){
-		//test for projected years, define different tooltip data
+		/*test for projected years, define different tooltip data
 		if (timestamp==2020){
 			cTract.eachLayer(function(feature){
             //define style of initial view
@@ -1299,7 +1302,7 @@ function loadNonWhite() {
       		});
       	//tooltip style for non-projected years	
 		}else{
-			
+			*/
 			cTract.eachLayer(function(feature){
 	            //define style of initial view
 	            feature.setStyle({
@@ -1311,15 +1314,18 @@ function loadNonWhite() {
 	            });
 				
 				//define path to geojson field names
-				//var tooltip = feature.toGeoJSON().properties;
-				//create variable for short version of year
-				//var year = timestamp.toString().substr(2,2);
-				//call ownership field and create variable and format for tooltip
-				//var ownField = 'OWN_';
-				//var ownVar = tooltip[ownField + timestamp];
-				//var ownVar_format = ownVar*100;
-				//create variable for html to show in tooltip, bind popup on click
-				var popupHTML = "";
+							var tooltip = feature.toGeoJSON().properties;
+			//create variable for short version of year
+			var year = timestamp.toString().substr(2,2);
+			//call ownership field and create variable and format for tooltip
+			var whiteField = 'NONWHT_';
+			var whiteVar = tooltip[whiteField + timestamp];
+			var whiteVar_format = whiteVar*100;
+			var geoFIPS = tooltip.Geo_FIPS_2;
+			var popField = 'POP_';
+			var popVar = tooltip[popField + timestamp];
+			//create variable for html to show in tooltip, bind popup on click
+			var popupHTML = "Total Tract Population: " +popVar+ "<br>Non-White: "+whiteVar_format.toFixed(2)+"%<br>FIPS ID: "+geoFIPS;
 				feature.bindPopup(popupHTML);
 				//style for hover functionality
 				feature.on({
@@ -1331,7 +1337,7 @@ function loadNonWhite() {
 					}
 				});
 	      	});
-		}
+		//}
 	}
 	//define hex bin style
 	function setStyle(){
