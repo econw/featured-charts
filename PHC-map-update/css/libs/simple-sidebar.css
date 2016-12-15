@@ -1,0 +1,281 @@
+/*!
+ * Start Bootstrap - Simple Sidebar HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+
+body {
+	margin:0;
+	padding:0;
+	font-family: "Avenir", "Arial"; 
+
+}
+
+#map {
+	 	
+	top:0;
+	bottom:0;
+	margin-left: auto;
+	width:100%;
+	height:700px;
+}
+
+.leaflet-top-pane {
+      pointer-events: none;
+}
+
+.leaflet-popup-pane{
+	z-index: 10;
+}
+.leaflet-popup-content{
+	font-size: 14px;
+	white-space: nowrap;
+}
+#slider {
+	width: 200%;
+	float: right;
+	margin-right: 15px;
+	margin-top: 10px;
+}
+
+#take-action{
+	margin-left: 10px;
+	margin-top: 10px;
+}
+
+
+#vIndexLegend {
+	margin-left: 5px;
+	width: 280px;
+	height: auto;
+
+}
+
+#affordLegend {
+
+	margin-left: 5px;
+	width: 280px;
+	height: auto;
+
+}
+
+#ownLegend {
+	margin-left: 5px;
+
+	width: 280px;
+	height: auto;
+
+}
+
+#year-label {
+	top: 80px;
+	margin-right: 20px;
+	padding: 3px;
+	font-size: 30px;
+	color: #828282;
+	text-align: right;
+	line-height: 20px;
+	
+}
+
+#year-label p{
+	letter-spacing: 1px;
+}
+
+#logo img{
+	margin-top: 20px;
+}
+
+#phc-logo{
+	position: absolute;
+	margin-left: 5px;
+	width: auto;
+	height: 60px;
+}
+
+#eco-logo{
+	position: absolute;
+	margin-left: 80px;
+	width: auto;
+	height: 60px;
+}
+
+#menu-toggle {
+	
+	width: 28px;
+}
+#menu-toggle .glyphicon {
+	margin-left: -6px;
+}
+.leaflet-container {
+font-family: "Avenir", "Arial"; 
+}
+
+/*
+	VCR CONTROLS
+*/
+
+#vcr-controls {
+	margin-right: 15px;
+	padding: 3px;
+	font-family: "Avenir", "Arial";
+}
+.vcr {
+	
+	width: 48px;
+	height: 32px;
+}
+.vcr:hover {
+	opacity: .4;
+}
+
+/* Toggle Styles */
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled {
+    padding-left: 325px;
+}
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 325px;
+    width: 0;
+    height: 100%;
+    margin-left: -325px;
+    overflow-y: auto;
+    background: rgba(208,210,215,0.5);
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    width: 325px;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+    position: absolute;
+    margin-right: -325px;
+}
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 325px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-nav li {
+    text-indent: 20px;
+    line-height: 40px;
+}
+
+.dropdown {
+	float: left;
+	margin-top: -15px;
+	margin-left: 15px;
+}
+
+.sidebar-nav .dropdown-menu li {
+    text-indent: 0px;
+    line-height: 40px;
+}
+
+.sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color: #003056;
+}
+
+.sidebar-nav li a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+}
+
+.sidebar-nav .dropdown-menu li a {
+    display: block;
+    text-decoration: none;
+    color: #003056;
+}
+
+.sidebar-nav .dropdown-menu li a:hover {
+    text-decoration: none;
+    color: #003056;
+    background: rgba(86,190,215,0.2);
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+    text-decoration: none;
+}
+
+
+.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+}
+
+.sidebar-nav > .sidebar-brand a {
+    color: #fff;
+    font-weight: 600;
+    background: #9b1828;
+    height: 90px;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+    color: #003056;
+    background: #9b1828;
+}
+
+#info-text{
+	margin: 50px 10px 5px 10px;
+
+}
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 325px;
+    }
+
+    #wrapper.toggled {
+        padding-left: 0;
+    }
+
+    #sidebar-wrapper {
+        width: 325px;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        width: 0;
+    }
+
+    #page-content-wrapper {
+        padding: 20px;
+        position: relative;
+    }
+
+    #wrapper.toggled #page-content-wrapper {
+        position: relative;
+        margin-right: 0;
+    }
+}
