@@ -1,0 +1,240 @@
+body {
+	margin:0;
+	padding:0;
+	font-family: 'Nunito', sans-serif;
+	font-weight: 400;
+
+
+}
+
+h1, h2, h3, h4, h5, h6{
+	font-weight: 500;
+	font-family: 'Lato', "sans-serif"; 
+}
+
+#map {
+	 	
+	top:0;
+	bottom:0;
+	margin-left: auto;
+	width:100%;
+	height:750px;
+}
+
+
+
+#header-bar{
+	font-family: "Lato", "sans-serif";	
+	background-color: rgba(161, 165, 175, 0.6);
+	color: #003056;
+	padding: 5px 0 5px 0;
+}
+
+#header-bar h2{
+	margin-left: 25px;
+}
+
+#phc-logo{
+
+	width: auto;
+	height: 70px;
+	margin-left: 5px;
+}
+
+#eco-logo{
+
+	width: auto;
+	height: 40px;
+	margin-left: 20px;
+}
+
+.dropdown-menu{
+	cursor: pointer;
+}
+
+
+
+.jumbotron{
+	overflow-y: scroll;
+	max-height: 350px;
+	background-color: rgba(161, 165, 175, 0.2);
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.jumbotron p{
+	font-weight: 400;
+	font-size: 15px;
+
+}
+
+.leaflet-container a{
+	color: #fff;
+}
+
+.leaflet-container a:hover{
+	color: #fff;
+}
+
+.btn-primary{
+
+	background-color: #9b1828;
+	border-color: #9b1828;
+}
+
+.btn-primary:hover{
+	background-color: #ccc;
+	border-color: #ccc;
+}
+
+#homeButton-icon.btn-primary{
+	width: 30px;
+	height:30px;
+	background-color: #aaa;
+	border-color: #aaa;
+}
+
+#homeButton-icon.btn-primary:hover{
+	background-color: #ccc;
+	border-color: #ccc;
+}
+
+#homeButton-icon span{
+	font-size: 14px;
+	margin-left:-2px;
+}
+
+#infoButton-icon.btn-primary{
+	width: 30px;
+	height:30px;
+	background-color: #aaa;
+	border-color: #aaa;
+}
+
+#infoButton-icon.btn-primary:hover{
+	background-color: #ccc;
+	border-color: #ccc;
+}
+
+#infoButton-icon span{
+	font-size: 14px;
+	margin-left:-2px;
+}
+
+#dropdownMenu1{
+	color: #fff;
+	background-color: #9b1828;
+	border-color: #9b1828;
+}
+
+#dropdownMenu1:hover{
+	background-color: #ccc;
+	border-color: #ccc;
+}
+
+
+/*show scroll bar for OSX
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+
+}
+::-webkit-scrollbar-thumb {
+	padding: 10px;
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+*/
+
+.leaflet-top-pane {
+      pointer-events: none;
+}
+
+.leaflet-popup-pane{
+	z-index: 10;
+}
+.leaflet-popup-content{
+	font-size: 12px;
+	white-space: nowrap;
+}
+.leaflet-container {
+	font-family: 'Nunito', sans-serif;
+}
+#slider {
+	width: 198%;
+	float: right;
+	margin-right: 20px;
+	margin-top: 10px;
+}
+
+#legend {
+	margin-left: 5px;
+	width: auto;
+	height: 100px;
+}
+
+#vIndexLegend {
+	margin-left: 5px;
+	width: auto;
+	height: 100px;
+
+}
+
+#affordLegend {
+
+	margin-left: 5px;
+	width: auto;
+	height: 100px;
+
+}
+
+#ownLegend {
+	margin-left: 5px;
+	width: auto;
+	height: 100px;
+
+}
+
+#nonwhiteLegend {
+	margin-left: 5px;
+	width: auto;
+	height: 100px;
+
+}
+
+#year-label {
+	top: 80px;
+	margin-right: 20px;
+	padding: 3px;
+	font-size: 30px;
+	color: #828282;
+	text-align: right;
+	line-height: 20px;
+	
+}
+
+#year-label p{
+	letter-spacing: 1px;
+}
+
+
+
+
+/*
+	VCR CONTROLS
+*/
+
+#vcr-controls {
+	margin-right: 15px;
+	padding: 3px;
+	font-family: 'Nunito', sans-serif;
+}
+.vcr {
+	
+	width: 48px;
+	height: 32px;
+}
+.vcr:hover {
+	opacity: .4;
+}
