@@ -169,23 +169,23 @@ h1, h2, h3, h4, h5, h6{
 }
 
 #legend {
-	margin-left: 5px;
-	width: auto;
-	height: 100px;
+	margin: auto;
+	width: 750px;
+	height: 120px;
 }
 
 #vIndexLegend {
 	margin-left: 5px;
 	width: auto;
-	height: 100px;
+	height: 120px;
 
 }
 
 #affordLegend {
 
-	margin-left: 5px;
-	width: auto;
-	height: 100px;
+
+	width: 750px;
+	height: auto;
 
 }
 

@@ -120,7 +120,7 @@ function loadAffordability20() {
 	activeLayers.clearLayers();
     
     //grab legend element from html and update the image to the affordability legend
-    document.getElementById('legend').innerHTML = "<img id='affordLegend' src='images/legend_affordability.png' alt='affordability legend'></img>";
+    document.getElementById('legend').innerHTML = "<img id='affordLegend' class='afford20' src='images/legend_affordability.jpg' alt='affordability legend'></img>";
     
     //define the affordability layer and grab data from the geojson, then add this layer to the layer group
 	var affordLayer = L.mapbox.featureLayer(SFaffordHex);
@@ -382,7 +382,7 @@ function loadAffordability5() {
 	activeLayers.clearLayers();
 
     //grab legend element from html and update the image to the affordability legend
-    document.getElementById('legend').innerHTML = "<img id='affordLegend' src='images/legend_affordability.png' alt='affordability legend'></img>";
+    document.getElementById('legend').innerHTML = "<img id='affordLegend' class='afford5' src='images/legend_affordability.jpg' alt='affordability legend'></img>";
 
     //define the affordability layer and grab data from the geojson, then add this layer to the layer group
 	var affordLayer = L.mapbox.featureLayer(SFaffordHex);
@@ -640,7 +640,7 @@ function loadVulnerability(){
 	activeLayers.clearLayers();
 
 	//grab legend element from html and update the image to the vulnerability legend
-    document.getElementById('legend').innerHTML = "<img id='vIndexLegend' src='images/legend_vIndex.png' alt='affordability legend'></img>";
+    document.getElementById('legend').innerHTML = "<img id='vIndexLegend' src='images/legend_vIndex.jpg' alt='affordability legend'></img>";
 
     //define the vulnerability layer and grab data from the geojson, then add this layer to the layer group
 	var vulnerability = L.mapbox.featureLayer(censusHex);
@@ -954,7 +954,7 @@ function loadOwnership() {
 	//clear the layer group
     activeLayers.clearLayers();
     //grab legend element from html and update the image to the ownership legend
-    document.getElementById('legend').innerHTML = "<img id='ownLegend' src='images/legend_ownership.png' alt='affordability legend'></img>";
+    document.getElementById('legend').innerHTML = "<img id='ownLegend' src='images/legend_ownership.jpg' alt='affordability legend'></img>";
     //define the ownership layer and grab data from the geojson, then add this layer to the layer group
 	var ownershipLayer = L.mapbox.featureLayer(censusHex);
 	ownershipLayer.addTo(activeLayers);

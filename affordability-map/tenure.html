@@ -11,21 +11,22 @@
 
     <title>Trends in Portland Metro Homeownership Affordability</title>
 
-	<!-- mapbox library -->
-	<script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
-	<link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
-  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+  	<!-- mapbox library -->
+  	<script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
+  	<link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
+  	
+  	<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+  	
+  	<!-- jquery library 
+  	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    -->
 
-	<!-- jquery library 
-	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
--->
+  	<!-- nouislider library -->
+  	<script type='text/javascript' src="js/libs/nouislider.js"></script>
+  	<link href='css/libs/nouislider.css' rel='stylesheet' />
 
-	<!-- nouislider library -->
-	<script type='text/javascript' src="js/libs/nouislider.js"></script>
-	<link href='css/libs/nouislider.css' rel='stylesheet' />
-
-	<!-- wNumb library (for nouislider functionality) -->
-	<script type='text/javascript' src="js/libs/wNumb.js"></script>
+  	<!-- wNumb library (for nouislider functionality) -->
+  	<script type='text/javascript' src="js/libs/wNumb.js"></script>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/libs/bootstrap.min.css" rel="stylesheet">
@@ -48,97 +49,122 @@
 
   <body>
 
-  <!-- Title header with logos -->
+    <!-- Title header with logos -->
     <div id="header-bar" class="row">
-        <div class="col-md-8">
-          <h2 href="index.html">Trends in Portland Metro Homeownership Affordability</h2>
-        </div>
-        <div id="logos" class="col-md-4">
-        <a href="http://portlandhousingcenter.org/" target="_blank"><img  id="phc-logo" src="images/PHC_logo.png"  alt="link to portland housing center website" ></img></a>
-          <a href="http://econw.com/" target="_blank"><img  id="eco-logo" src="images/ECO_logo.png" href="http://econw.com/" alt="link to econorthwest website" ></img></a>
-        </div>
-    </div>
-  <!--
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-
-          <a class="navbar-brand" href="index.html">Trends in Portland Metro Homeownership Affordability</a>
-        </div>
-    
+      <div class="col-md-8">
+        <h2 href="index.html">Trends in Portland Metro Homeownership Affordability</h2>
       </div>
-    </nav>
-    -->
-
-    <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div id="logos" class="col-md-4">
+      <a href="http://portlandhousingcenter.org/" target="_blank"><img  id="phc-logo" src="images/PHC_logo.png"  alt="link to portland housing center website" ></img></a>
+        <a href="http://econw.com/" target="_blank"><img  id="eco-logo" src="images/ECO_logo.png" href="http://econw.com/" alt="link to econorthwest website" ></img></a>
+      </div>
+    </div>  
+  <nav class="navbar navbar-default navbar-static-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="index.html">Home <span class="sr-only"></span></a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Maps <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="affordability.html">Home Ownership Affordability</a></li>
+              <li><a href="vulnerability.html">Displacement Vulnerability</a></li>
+              <li><a href="tenure.html">Housing Tenure</a></li> 
+            </ul>
+          </li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="data/housing_methodology_phc_econw.pdf" target="_blank">Methodology</a></li>        
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+    <!-- Main text, general info about map -->
     <div class="jumbotron">
       <div class="container">
-        <h4>Housing Tenure</h4>
-        <p>Homeownership is the single largest asset most households own and a key strategy for household wealth building. In addition to the economic benefits of homeownership, homeowners also experience greater housing stability, increased civic participation, and improved educational outcomes for children. The map below shows the percentage of households who own their own home, with the darkest areas having the highest homeownership rates. Homeownership rates are projected to decrease across much of the region by 2020, especially in neighborhoods closer to Portland’s city center.</p>
-        <a class="btn btn-primary " href="http://portlandhousingcenter.org/" target="_blank" role="button">TAKE ACTION &raquo;</a>
+        <h4 id="map-header">Homeownership Rates</h4>
+        <p>Homeownership is the single largest asset most households have and a key strategy for household wealth building. This map shows the percentage of households that own their homes over time—from 1990 to a trend-line projection through 2020. Unless trends change, homeownership rates will decrease across much of the region, especially in neighborhoods closer to the city center.</p>
+        <p>The darkest areas have the highest homeownership rates. </p>
       </div>
     </div>
 
-
     <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="col-md-8">
-          <div id='map'></div>
+    	<p id='legend'></p>
+      	<!-- map elements, functionality buttons -->
+    	<div class="row">
 
-          <div class= "btn-group" id="vcr-controls" style="display: none;">
+      		<div id='map'></div>
 
-            <button type="button" id="vcr-play" class="btn btn-default btn-sm" aria-label="Play button">
-              <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-            </button>
+    			<div id="vcr-controls" class= "btn-group" style="display: none;">
 
-            <button type="button" id="vcr-pause" class="btn btn-default btn-sm" aria-label="Pause button">
-              <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
-            </button>
+    				<button id="vcr-play" type="button" class="btn btn-default btn-sm" aria-label="Play button">
+    					<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+    				</button>
 
-            <button type="button" id="vcr-refresh" class="btn btn-default btn-sm" aria-label="Refresh map button">
-              <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-            </button>
+    				<button type="button" id="vcr-pause" class="btn btn-default btn-sm" aria-label="Pause button">
+    					<span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+    				</button>
 
-          </div>
+    				<button type="button" id="vcr-refresh" class="btn btn-default btn-sm" aria-label="Refresh map button">
+    					<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+    				</button>
 
-          <div id="slider" style="display: none;"></div>
-          <div id="year-label" class="leaflet-top leaflet-right" style="display: none;"></div>
-          <div id='homeButton' style="display: none;">
-             <button id='homeButton-icon' class='btn btn-primary btn-sm' role='button'>
-               <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
-             </button>
-           </div>
-      
-          <div class="dropdown" id="map-menu" style="display: none;">
-              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
-                Maps
-                <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                <li> <a id='afford20-button' href="affordability20.html">Home Ownership Affordability<em> 20% Down Payment</em></a></li>
-                <li> <a id='afford5-button' href="affordability5.html">Home Ownership Affordability<em> 5% Down Payment</em></a></li>
-                <li><a id='vIndex-button' href="vulnerability.html">Displacement Vulnerability</a></li>
-                <li><a id='ownership-button' href="tenure.html">Housing Tenure</a></li> 
-                <li><a id='nonwhite-button' href="nonwhite.html">Nonwhite Population</a></li>         
-              </ul>
+    			</div>
+
+			   <div id="slider" style="display: none;"></div>
+			   <div id="year-label" class="leaflet-top leaflet-right" style="display: none;"></div>
+      	 <div id='homeButton' style="display: none;">
+           	<button id='homeButton-icon' class='btn btn-primary btn-sm' role='button'>
+             <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+           	</button>
           </div> 
-          <!--
-          <div id="affdButton" class="intrst20"><a class='btn btn-primary btn-sm' role='button'>Interest toggle</a></div>
-          -->
+       	
+  
+  			<div id="map-info" style="display: none;">
+          <button id='infoButton-icon' class='btn btn-primary btn-sm' role='button' data-toggle="modal" data-target="#mapInfoModal">
+             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            </button>
+  			</div>
+        <!-- Modal -->
+          <div class="modal fade" id="mapInfoModal" tabindex="-1" role="dialog" aria-labelledby="mapInfoModal">
+            <div class="modal-dialog modal-sm" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="mapInfoModal">How to use the maps</h4>
+                </div>
+                <div class="modal-body">
+                  These maps illustrate housing trends in Portland from 1990–2020. Click on individual parcels for detailed information, or view changes over time by pressing the play button.
+                </div>
+                
+              </div>
             </div>
-            <div id="info-window" class="col-md-4">
-             <p></p>
-             
-           <p id='legend'></p> 
-          <h4> Assumptions: </h4>
-            <p>Data on tenure was gathered from the 1990 and 2000 Decennial Census and 2009-2014 5-year American Community Survey for the Three-County Area.</p>
-          
-        </div>
+          </div><!-- end modal -->
+
+
       </div>
+
+
+    	<div class="row">
+      <button class= "btn btn-default" data-toggle="collapse" data-target="#assumptions">Read more +</button>
+        <div id="assumptions" class="collapse">
+          <h4> Assumptions: </h4>
+              <p>Data on tenure was gathered from the 1990 and 2000 Decennial Census and 2009-2015 5-year American Community Survey for the Three-County Area.</p>
+              
+        </div>
+	    </div> 
       
       <hr>
-
     </div> <!-- /container -->
 
 
@@ -158,7 +184,7 @@
 
 
 <script type='text/javascript'>
-   	
+        
    	loadOwnership();
    
 </script>
