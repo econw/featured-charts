@@ -3,13 +3,15 @@ body {
 	padding:0;
 	font-family: 'Nunito', sans-serif;
 	font-weight: 400;
-
-
 }
 
 h1, h2, h3, h4, h5, h6{
 	font-weight: 500;
 	font-family: 'Lato', "sans-serif"; 
+}
+
+.row{
+	padding: 10px;
 }
 
 #map {
@@ -21,35 +23,85 @@ h1, h2, h3, h4, h5, h6{
 	height:750px;
 }
 
-
-
 #header-bar{
 	font-family: "Lato", "sans-serif";	
-	background-color: rgba(161, 165, 175, 0.6);
-	color: #003056;
-	padding: 5px 0 5px 0;
+	background-color: #fff;
+	color: #000;
+	padding: 25px 0 25px 0;
+
 }
 
 #header-bar h2{
 	margin-left: 25px;
+	font-size: 35px;
 }
 
 #phc-logo{
 
 	width: auto;
 	height: 70px;
-	margin-left: 5px;
+	margin-left: 40px;
 }
 
 #eco-logo{
 
 	width: auto;
 	height: 40px;
-	margin-left: 20px;
+	margin-left: 30px;
+	margin-top: 10px;
 }
+
+.dropdown:hover .dropdown-menu {
+display: block;
+}
+
+/* navbar */
+.navbar-default {
+    background-color: #20397e;
+    border-color: #E7E7E7;
+}
+/* title */
+.navbar-default .navbar-brand {
+    color: #fff;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: #fff;
+
+}
+/* link */
+.navbar-default .navbar-nav > li > a {
+    color: #fff;
+
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus{
+	color: #fff;
+}
+
+.navbar-default .navbar-nav > li:hover{
+	background-color: #24408e;
+
+}
+
+/* caret */
+.navbar-default .navbar-nav > .dropdown > a .caret {
+    border-top-color: #fff;
+    border-bottom-color: #fff;
+}
+
 
 .dropdown-menu{
 	cursor: pointer;
+}
+
+
+
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active
+{
+  opacity: 0.5;
 }
 
 
@@ -121,16 +173,7 @@ h1, h2, h3, h4, h5, h6{
 	margin-left:-2px;
 }
 
-#dropdownMenu1{
-	color: #fff;
-	background-color: #9b1828;
-	border-color: #9b1828;
-}
 
-#dropdownMenu1:hover{
-	background-color: #ccc;
-	border-color: #ccc;
-}
 
 
 /*show scroll bar for OSX
@@ -169,39 +212,16 @@ h1, h2, h3, h4, h5, h6{
 }
 
 #legend {
-	margin: auto;
-	width: 750px;
-	height: 120px;
+	margin-left: -25px;
+	padding: 20px 0 20px 0;
+}
+#legend img{
+	
+	width: 100%;
+	
 }
 
-#vIndexLegend {
-	margin-left: 5px;
-	width: auto;
-	height: 120px;
 
-}
-
-#affordLegend {
-
-
-	width: 750px;
-	height: auto;
-
-}
-
-#ownLegend {
-	margin-left: 5px;
-	width: auto;
-	height: 100px;
-
-}
-
-#nonwhiteLegend {
-	margin-left: 5px;
-	width: auto;
-	height: 100px;
-
-}
 
 #year-label {
 	top: 80px;

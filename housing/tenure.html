@@ -11,22 +11,22 @@
 
     <title>Trends in Portland Metro Homeownership Affordability</title>
 
-  	<!-- mapbox library -->
-  	<script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
-  	<link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
-  	
-  	<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
-  	
-  	<!-- jquery library 
-  	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <!-- mapbox library -->
+    <script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
+    
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+    
+    <!-- jquery library 
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     -->
 
-  	<!-- nouislider library -->
-  	<script type='text/javascript' src="js/libs/nouislider.js"></script>
-  	<link href='css/libs/nouislider.css' rel='stylesheet' />
+    <!-- nouislider library -->
+    <script type='text/javascript' src="js/libs/nouislider.js"></script>
+    <link href='css/libs/nouislider.css' rel='stylesheet' />
 
-  	<!-- wNumb library (for nouislider functionality) -->
-  	<script type='text/javascript' src="js/libs/wNumb.js"></script>
+    <!-- wNumb library (for nouislider functionality) -->
+    <script type='text/javascript' src="js/libs/wNumb.js"></script>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/libs/bootstrap.min.css" rel="stylesheet">
@@ -38,7 +38,7 @@
     <link href="css/libs/jumbotron.css" rel="stylesheet">
     <!-- Additional styles -->
     <link href="css/screen.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Lato|Nunito" rel="stylesheet" type=text/css>
+  <link href="https://fonts.googleapis.com/css?family=Lato|Nunito" rel="stylesheet" type=text/css>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -50,16 +50,18 @@
   <body>
 
     <!-- Title header with logos -->
+ 
     <div id="header-bar" class="row">
       <div class="col-md-8">
         <h2 href="index.html">Trends in Portland Metro Homeownership Affordability</h2>
       </div>
       <div id="logos" class="col-md-4">
-      <a href="http://portlandhousingcenter.org/" target="_blank"><img  id="phc-logo" src="images/PHC_logo.png"  alt="link to portland housing center website" ></img></a>
+        <a href="http://portlandhousingcenter.org/" target="_blank"><img  id="phc-logo" src="images/PHC_logo.png"  alt="link to portland housing center website" ></img></a>
         <a href="http://econw.com/" target="_blank"><img  id="eco-logo" src="images/ECO_logo.png" href="http://econw.com/" alt="link to econorthwest website" ></img></a>
       </div>
     </div>  
-  <nav class="navbar navbar-default navbar-static-top">
+
+  <nav id="navbar" class="navbar navbar-default navbar-static-top">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -72,11 +74,10 @@
         
       </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li><a href="index.html">Home <span class="sr-only"></span></a></li>
+      <div  class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul id="nav-items" class="nav navbar-nav">
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Maps <span class="caret"></span></a>
+            <a href="index.html" class="dropdown-toggle disabled"" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Maps <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="affordability.html">Home Ownership Affordability</a></li>
               <li><a href="vulnerability.html">Displacement Vulnerability</a></li>
@@ -84,22 +85,27 @@
             </ul>
           </li>
           <li><a href="about.html">About</a></li>
-          <li><a href="data/housing_methodology_phc_econw.pdf" target="_blank">Methodology</a></li>        
+          <li><a href="data/housing_methodology_phc_econw.pdf" target="_blank">Methodology</a></li>
+
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
     <!-- Main text, general info about map -->
-    <div class="jumbotron">
-      <div class="container">
+    <div class="container">
+      <div class="row">
         <h4 id="map-header">Homeownership Rates</h4>
         <p>Homeownership is the single largest asset most households have and a key strategy for household wealth building. This map shows the percentage of households that own their homes over time—from 1990 to a trend-line projection through 2020. Unless trends change, homeownership rates will decrease across much of the region, especially in neighborhoods closer to the city center.</p>
         <p>The darkest areas have the highest homeownership rates. </p>
       </div>
-    </div>
+  
 
-    <div class="container">
-    	<p id='legend'></p>
+  
+    	<div class="row">
+        <div class="col-md-6">
+          <div id='legend'></div>
+        </div>
+      </div>
       	<!-- map elements, functionality buttons -->
     	<div class="row">
 
@@ -156,7 +162,7 @@
 
 
     	<div class="row">
-      <button class= "btn btn-default" data-toggle="collapse" data-target="#assumptions">Read more +</button>
+      <button class= "btn btn-default" data-toggle="collapse" data-target="#assumptions">Assumptions +</button>
         <div id="assumptions" class="collapse">
           <h4> Assumptions: </h4>
               <p>Data on tenure was gathered from the 1990 and 2000 Decennial Census and 2009-2015 5-year American Community Survey for the Three-County Area.</p>

@@ -11,22 +11,22 @@
 
     <title>Trends in Portland Metro Homeownership Affordability</title>
 
-  	<!-- mapbox library -->
-  	<script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
-  	<link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
-  	
-  	<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
-  	
-  	<!-- jquery library 
-  	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <!-- mapbox library -->
+    <script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
+    
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+    
+    <!-- jquery library 
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     -->
 
-  	<!-- nouislider library -->
-  	<script type='text/javascript' src="js/libs/nouislider.js"></script>
-  	<link href='css/libs/nouislider.css' rel='stylesheet' />
+    <!-- nouislider library -->
+    <script type='text/javascript' src="js/libs/nouislider.js"></script>
+    <link href='css/libs/nouislider.css' rel='stylesheet' />
 
-  	<!-- wNumb library (for nouislider functionality) -->
-  	<script type='text/javascript' src="js/libs/wNumb.js"></script>
+    <!-- wNumb library (for nouislider functionality) -->
+    <script type='text/javascript' src="js/libs/wNumb.js"></script>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/libs/bootstrap.min.css" rel="stylesheet">
@@ -38,7 +38,7 @@
     <link href="css/libs/jumbotron.css" rel="stylesheet">
     <!-- Additional styles -->
     <link href="css/screen.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Lato|Nunito" rel="stylesheet" type=text/css>
+  <link href="https://fonts.googleapis.com/css?family=Lato|Nunito" rel="stylesheet" type=text/css>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -50,16 +50,18 @@
   <body>
 
     <!-- Title header with logos -->
+ 
     <div id="header-bar" class="row">
       <div class="col-md-8">
         <h2 href="index.html">Trends in Portland Metro Homeownership Affordability</h2>
       </div>
       <div id="logos" class="col-md-4">
-      <a href="http://portlandhousingcenter.org/" target="_blank"><img  id="phc-logo" src="images/PHC_logo.png"  alt="link to portland housing center website" ></img></a>
+        <a href="http://portlandhousingcenter.org/" target="_blank"><img  id="phc-logo" src="images/PHC_logo.png"  alt="link to portland housing center website" ></img></a>
         <a href="http://econw.com/" target="_blank"><img  id="eco-logo" src="images/ECO_logo.png" href="http://econw.com/" alt="link to econorthwest website" ></img></a>
       </div>
     </div>  
-  <nav class="navbar navbar-default navbar-static-top">
+
+  <nav id="navbar" class="navbar navbar-default navbar-static-top">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -72,18 +74,17 @@
         
       </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li><a href="index.html">Home </a></li>
+      <div  class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul id="nav-items" class="nav navbar-nav">
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Maps <span class="caret"></span></a>
+            <a href="index.html" class="dropdown-toggle disabled"" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Maps <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="affordability.html">Home Ownership Affordability</a></li>
               <li><a href="vulnerability.html">Displacement Vulnerability</a></li>
               <li><a href="tenure.html">Housing Tenure</a></li> 
             </ul>
           </li>
-          <li class="active"><a href="about.html">About <span class="sr-only">(current)</span></a></li>
+          <li><a href="about.html">About</a></li>
           <li><a href="data/housing_methodology_phc_econw.pdf" target="_blank">Methodology</a></li>
 
         </ul>
@@ -97,15 +98,16 @@
     	<div class="row">
 
       		<h3> About ECONorthwest: </h3>
-          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eget viverra odio, vel condimentum sem. Nulla cursus, dui ut pellentesque egestas, diam est placerat elit, ut suscipit ex sem sed arcu. Proin viverra finibus lacus sed tristique. Vestibulum ac mollis mauris. Sed laoreet vestibulum neque, at eleifend nibh interdum eu. Suspendisse a aliquam augue. Curabitur venenatis, tortor et faucibus aliquet, lorem erat laoreet nisl, vitae iaculis mauris ipsum sed leo. Cras porta molestie porta. Quisque pellentesque lobortis fermentum.
-          </p>
+          <p> ECONorthwest created these maps in partnership with the Portland Housing Center.</p>
+          <p>ECONorthwest is a consulting firm based in the Pacific Northwest that specializes in economics, finance, and planning.  We help our clients make thoughtful, data-driven decisions using tools and methods that meet the highest standards of best practice. Our consultants have advanced degrees in a variety of fields, including economics, planning, and public policy and work on projects ranging from strategy to implementation. Our staff have completed more than a dozen studies related to affordable housing over the last year for clients in Oregon, Washington, and beyond.</p>
+          <p>For more information, please contact Allison Tivnon at <a href="tel:503-222-6060">503-222-6060</a>.</p>
           <a class="btn btn-primary " href="http://econw.com/" target="_blank" role="button">Learn more &raquo;</a>
       </div>
 
       <div class="row">
 
           <h3> About Portland Housing Center: </h3>
-          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eget viverra odio, vel condimentum sem. Nulla cursus, dui ut pellentesque egestas, diam est placerat elit, ut suscipit ex sem sed arcu. Proin viverra finibus lacus sed tristique. Vestibulum ac mollis mauris. Sed laoreet vestibulum neque, at eleifend nibh interdum eu. Suspendisse a aliquam augue. Curabitur venenatis, tortor et faucibus aliquet, lorem erat laoreet nisl, vitae iaculis mauris ipsum sed leo. Cras porta molestie porta. Quisque pellentesque lobortis fermentum.
+          <p> Portland Housing Center is a nonprofit organization founded in 1991 with support from the City of Portland, some local banks, and concerned citizens. They were founded to ensure all Portland residents had equal access to information and resources to achieve homeownership. They specialize in providing each of our home buyers with education, counseling, financial resources, and other home-buying support.
           </p>
           <a class="btn btn-primary " href="http://portlandhousingcenter.org/" target="_blank" role="button">Learn more &raquo;</a>
       </div>
