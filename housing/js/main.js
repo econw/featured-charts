@@ -26,7 +26,9 @@
 		minZoom: 10
 
 	}).setView([45.467021, -122.675738], 11);
-
+	
+	L.control.attribution(map);
+	 
 	//add map controls
 	var uiControl = L.Control.extend({
 	initialize: function (foo, options) {
