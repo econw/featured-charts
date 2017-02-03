@@ -384,7 +384,7 @@ function loadAffordability5() {
 	activeLayers.clearLayers();
 
     //grab legend element from html and update the image to the affordability legend
-    document.getElementById('legend').innerHTML = "<img id='affordLegend' class='afford5 img-responsive' src='images/legend_affordability.png' alt='affordability legend'></img>";
+    document.getElementById('legend').innerHTML = "<img id='affordLegend' class='afford5 img-responsive' src='images/legend_affordability.svg' alt='affordability legend'></img>";
 
     //define the affordability layer and grab data from the geojson, then add this layer to the layer group
 	var affordLayer = L.mapbox.featureLayer(SFaffordHex);
